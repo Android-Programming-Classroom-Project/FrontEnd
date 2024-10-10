@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="edittext_login">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">55dp</item>
+        <item name="android:background">@drawable/rounded_edittext_background</item>
+        <item name="android:inputType">textEmailAddress</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:textColorHint">#8A6B61</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingLeft">5dp</item>
+    </style>
+</resources>

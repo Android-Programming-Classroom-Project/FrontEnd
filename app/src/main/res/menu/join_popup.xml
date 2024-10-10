@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menu_hanshin"
+        android:title="한신대학교"/>
+    <item android:id="@+id/menu_seoul"
+        android:title="서울대학교"/>
+    <item android:id="@+id/menu_ys"
+        android:title="연세대학교"/>
+    <item android:id="@+id/menu_other"
+        android:title="기타"/>
+</menu>

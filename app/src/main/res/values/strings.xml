@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">BridgeTalk</string>
+    <string-array name="school_names">
+        <item>한신대학교</item>
+        <item>서울대학교</item>
+        <item>연세대학교</item>
+        <item>고려대학교</item>
+        <item>고려대학교</item>
+        <item>고려대학교</item>
+        <item>고려대학교</item>
+        <item>고려대학교</item>
+        <item>고려대학교</item>
+        <item>고려대학교</item>
+        <item>고려대학교</item>
+        <item>고려대학교</item>
+        <item>고려대학교</item>
+        <item>고려대학교</item>
+        <item>고려대학교</item>
+        <item>고려대학교</item>
+        <item>고려대학교</item>
+
+    </string-array>
+
+</resources>
+
