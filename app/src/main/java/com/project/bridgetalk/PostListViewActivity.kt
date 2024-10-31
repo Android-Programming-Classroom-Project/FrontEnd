@@ -40,7 +40,6 @@ class PostListViewActivity: AppCompatActivity() {
             )
         )
 
-
         binding.postView.layoutManager = LinearLayoutManager(this)
         binding.postView.adapter = PostViewAdapter(data)
         binding.postView.addItemDecoration(DividerItemDecoration(this,LinearLayoutManager.VERTICAL))
