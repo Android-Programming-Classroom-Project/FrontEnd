@@ -1,5 +1,6 @@
 package com.project.bridgetalk
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.ImageButton
@@ -25,7 +26,8 @@ class ChatActivity : AppCompatActivity() {
 
         // 뒤로가기 버튼 클릭 시 동작
         toolbar.setNavigationOnClickListener {
-            finish() // 현재 액티비티 종료
+            val intent = Intent(this, ChatListActivity::class.java)
+            startActivity(intent)
         }
 
         val chatRecyclerView = findViewById<RecyclerView>(R.id.chatRecyclerView)

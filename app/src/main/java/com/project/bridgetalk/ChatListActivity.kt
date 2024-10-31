@@ -23,11 +23,11 @@ class ChatListActivity : AppCompatActivity() {
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    // 홈 화면으로 이동
+                    
                     true
                 }
                 R.id.navigation_chat -> {
-                    // 채팅 화면으로 이동
+                    // 채팅 화면으로 이동(현재화면)
                     true
                 }
                 R.id.navigation_my -> {
