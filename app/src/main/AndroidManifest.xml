@@ -32,6 +32,24 @@
         <activity
             android:name=".PostListViewActivity"
             android:exported="true" />
+
+        <!-- 새로 추가할 ChatListActivity -->
+        <activity android:name=".ChatListActivity"
+            android:exported="true" />
+        <activity android:name=".Adapter.ChatAdapter"
+            android:exported="true" />
+        <activity android:name=".model.vo.ChatItem"
+            android:exported="true" />
+        <!-- 채팅상세 -->
+        <activity
+            android:name=".ChatActivity"
+            android:label="채팅"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
