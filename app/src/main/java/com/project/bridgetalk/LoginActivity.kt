@@ -2,11 +2,13 @@ package com.project.bridgetalk
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.project.bridgetalk.Utill.SharedPreferencesUtil
 import com.project.bridgetalk.databinding.LoginPageBinding
 import com.project.bridgetalk.model.vo.dto.LoginDTO
 import com.project.bridgetalk.model.vo.dto.request.LoginRequest
@@ -82,8 +84,13 @@ class LoginActivity : AppCompatActivity() {
         call.enqueue(object : Callback<LoginDTO> {
             override fun onResponse(call: Call<LoginDTO>, response: Response<LoginDTO>) {
                 if (response.isSuccessful) {
-
                     val loginResponse = response.body()
+                    val token = response.headers()["Authorization"].toString().trim()
+                    Log.v("로그인 성공시 응답 정보", loginResponse.toString().trim())
+                    Log.v("로그인 성공시 응답 정보", token)
+                    //access토큰저장
+                    SharedPreferencesUtil.saveToken(this@LoginActivity,token)
+
                    val intent = Intent(this@LoginActivity, PostListViewActivity::class.java)
                         startActivity(intent)
                         finish()

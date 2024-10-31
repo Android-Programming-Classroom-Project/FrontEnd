@@ -14,4 +14,10 @@ interface INetworkService {
 
     @POST("/join")
     fun join(@Body joinRequest: JoinRequest ): Call<ResponseBody>
+
+//    @Post("/post/postMake")
+//
+//    @Get("/post/{id}")
+//    fun postSelect(@Path("id") id : Int) : Call<List<Call>>
+
 }

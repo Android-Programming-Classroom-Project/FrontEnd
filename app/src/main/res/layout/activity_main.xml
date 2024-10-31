@@ -8,6 +8,7 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
+
     <Button
         android:id="@+id/main_login"
         android:layout_width="match_parent"
@@ -17,14 +18,14 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="#F55424"
         android:elevation="12dp"
-        android:text="로그인"
+        android:text="Login"
         app:cornerRadius="12dp"
         app:icon="@drawable/baseline_login_24"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_text4"
         app:strokeColor="?attr/colorErrorContainer" />
-
 
     <Button
         android:id="@+id/main_join"
@@ -35,7 +36,7 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="#F55424"
         android:elevation="12dp"
-        android:text="회원가입"
+        android:text="Join"
         app:cornerRadius="12dp"
         app:icon="@drawable/baseline_join_full_24"
         app:layout_constraintEnd_toEndOf="parent"
@@ -71,7 +72,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
-        android:text="유학생을 위한 커뮤니케이션"
+        android:text="Communication for International Students"
+        android:textStyle="bold"
         android:textColor="#696868"
         android:textSize="14dp"
         app:layout_constraintStart_toStartOf="@+id/main_text2"
@@ -81,10 +83,11 @@
         android:id="@+id/main_text1"
         android:layout_width="100dp"
         android:layout_height="24dp"
-        android:layout_marginTop="40dp"
-        android:text="환영합니다!"
+        android:layout_marginTop="60dp"
+        android:text="Welcome!"
         android:textColor="#414040"
         android:textSize="16dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@id/main_text2"
         app:layout_constraintStart_toStartOf="@id/main_text2"
         app:layout_constraintTop_toBottomOf="@id/imageView"
@@ -94,7 +97,7 @@
         android:id="@+id/main_text3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="와 함께하는"
+        android:text="with"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/main_text2"

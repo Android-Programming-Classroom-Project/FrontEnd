@@ -30,13 +30,13 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="78dp"
-        android:layout_height="45dp"
+        android:layout_width="85dp"
+        android:layout_height="48dp"
         android:backgroundTint="#FA835B"
         android:text="완료"
         android:textColor="@color/black"
-        tools:layout_editor_absoluteX="299dp"
-        tools:layout_editor_absoluteY="6dp" />
+        tools:layout_editor_absoluteX="292dp"
+        tools:layout_editor_absoluteY="11dp" />
 
     <EditText
         android:id="@+id/editTextText2"
@@ -65,7 +65,7 @@
         android:id="@+id/textView8"
         android:layout_width="333dp"
         android:layout_height="163dp"
-        android:text="제작자: 김서원\n이메일: ksw1912@hs.ac.kr\nGithub:ksw1912\n연락처:010-8406-1918"
+        android:text="제작자: 김서원\n이메일: ksw1912@hs.ac.kr\n\n제작자:고은석\n이메일:koeunsuk12@gmail.com\n\n제작자:박진수\n이메일:gary7345@hs.ac.kr "
         android:textColor="#696058"
         tools:layout_editor_absoluteX="34dp"
         tools:layout_editor_absoluteY="558dp" />
