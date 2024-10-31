@@ -1,11 +1,14 @@
 package com.project.bridgetalk.model.vo
 
+import java.time.LocalDateTime
+
 data class User(
     val userId: String,
-    val username: String,
-    val email: String,
+    var username: String,
+    var email: String,
+    var password: String,
     val schools: Schools,
-    val role: String,
-    val createdAt: String,
-    val updatedAt: String
+    var role: String,
+    var createdAt: LocalDateTime,
+    var updatedAt: LocalDateTime
 )
