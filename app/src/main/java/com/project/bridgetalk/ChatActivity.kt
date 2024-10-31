@@ -28,6 +28,7 @@ class ChatActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             val intent = Intent(this, ChatListActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         val chatRecyclerView = findViewById<RecyclerView>(R.id.chatRecyclerView)

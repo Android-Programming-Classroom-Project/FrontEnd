@@ -10,4 +10,11 @@
         <item name="android:textStyle">bold</item>
         <item name="android:paddingLeft">5dp</item>
     </style>
+
+    <!-- 툴바 -->
+    <style name="CustomToolbarTitle" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

@@ -1,5 +1,6 @@
 package com.project.bridgetalk
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -41,7 +42,9 @@ class ChatListActivity : AppCompatActivity() {
         // FloatingActionButton 이벤트 설정
         val fab = findViewById<FloatingActionButton>(R.id.fab)
         fab.setOnClickListener {
-            // 새 채팅 시작 (액티비티 이동 등)
+            // 새 채팅 시작 (액티비티 이동)
+            val intent = Intent(this, MatchingActivity::class.java)
+            startActivity(intent)
         }
 
 
