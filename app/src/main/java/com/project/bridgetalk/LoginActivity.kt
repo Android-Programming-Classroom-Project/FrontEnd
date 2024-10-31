@@ -91,9 +91,9 @@ class LoginActivity : AppCompatActivity() {
                     //access토큰저장
                     SharedPreferencesUtil.saveToken(this@LoginActivity,token)
 
-                   val intent = Intent(this@LoginActivity, PostListViewActivity::class.java)
-                        startActivity(intent)
-                        finish()
+                    val intent = Intent(this@LoginActivity, PostListViewActivity::class.java)
+                    startActivity(intent)
+                    finish()
                 } else {
                     val errorMessage = response.errorBody()?.string() ?: "Unknown error"
                     Toast.makeText(this@LoginActivity, errorMessage, Toast.LENGTH_SHORT).show()

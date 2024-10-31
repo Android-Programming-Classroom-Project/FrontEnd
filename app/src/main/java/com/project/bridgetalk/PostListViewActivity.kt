@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.bridgetalk.Adapter.PostViewAdapter
 import com.project.bridgetalk.databinding.PostRecyclerviewBinding
 import com.project.bridgetalk.model.vo.Post
+import java.time.LocalDateTime
+import java.util.UUID
 
 class PostListViewActivity: AppCompatActivity() {
 
@@ -18,25 +20,28 @@ class PostListViewActivity: AppCompatActivity() {
         val data = mutableListOf<Post>()
         data.add(
             Post(
-                postId = "1",
+                postId = UUID.fromString("faf2435f-969f-460f-ba7e-471f97570b54"),
                 user = null,
                 schools = null,
                 title = "게시물 제목",
                 content = "Content for post 1",
                 like_count = 10,
-                createdAt = "2023-10-01",
-                updatedAt = "2023-10-05"))
+                createdAt = LocalDateTime.parse("2023-10-01T00:00:00"),
+                updatedAt = LocalDateTime.parse("2023-10-05T00:00:00"),
+                type = "general"
+            ))
 
         data.add(
             Post(
-                postId = "2",
+                postId = UUID.fromString("faf2435f-969f-460f-ba7e-471f97570b54"),
                 user = null,
-                schools =null,
-                title = "Title 2",
-                content = "Content for post 2",
-                like_count = 20,
-                createdAt = "2023-10-02",
-                updatedAt = "2023-10-06"
+                schools = null,
+                title = "게시물 제목",
+                content = "Content for post 1",
+                like_count = 10,
+                createdAt = LocalDateTime.parse("2023-10-01T00:00:00"),
+                updatedAt = LocalDateTime.parse("2023-10-05T00:00:00"),
+                type = "general"
             )
         )
 

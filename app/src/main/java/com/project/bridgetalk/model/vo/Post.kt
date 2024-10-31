@@ -5,8 +5,8 @@ import java.util.UUID
 
 data class Post(
     val postId: UUID,
-    var user: User,
-    var schools: Schools,
+    var user: User?,
+    var schools: Schools?,
     var title: String,
     var content: String,
     var like_count: Int,
