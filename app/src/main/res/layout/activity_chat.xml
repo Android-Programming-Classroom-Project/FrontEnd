@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:background="#F55424"
         app:title="Chat"
+        app:titleTextAppearance="@style/CustomToolbarTitle"
         app:titleTextColor="@color/white"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
         app:navigationIcon="@drawable/rounded_chevron_backward_24"

@@ -13,7 +13,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title=""
+        app:title="게시물 생성"
+        app:titleTextAppearance="@style/CustomToolbarTitle"
         app:titleTextColor="@color/white"
         />
 
@@ -48,18 +49,6 @@
         android:padding="10dp"
         tools:layout_editor_absoluteX="28dp"
         tools:layout_editor_absoluteY="99dp" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="게시물 생성"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="24dp"
-        android:textStyle="bold"
-        tools:layout_editor_absoluteX="138dp"
-        tools:layout_editor_absoluteY="16dp" />
 
     <TextView
         android:id="@+id/textView8"

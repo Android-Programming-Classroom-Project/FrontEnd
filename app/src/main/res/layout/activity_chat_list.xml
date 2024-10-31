@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:background="#F55424"
         app:title="채팅 목록"
+        app:titleTextAppearance="@style/CustomToolbarTitle"
         app:titleTextColor="@color/white"
         app:layout_constraintTop_toTopOf="parent"/>
 
