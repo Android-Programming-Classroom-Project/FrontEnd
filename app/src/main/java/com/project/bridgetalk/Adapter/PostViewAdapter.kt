@@ -23,8 +23,7 @@ class PostViewAdapter(val datas: MutableList<Post>):
         binding.title.text = post.title
         binding.content.text = post.content
         binding.likeCount.text = post.like_count.toString()
-        binding.createdAt.text = post.createdAt
-
+        binding.createdAt.text = post.createdAt.toString()
     }
 
 }
