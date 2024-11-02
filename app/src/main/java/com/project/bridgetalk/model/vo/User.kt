@@ -1,7 +1,5 @@
 package com.project.bridgetalk.model.vo
 
-import java.time.LocalDateTime
-
 data class User(
     val userId: String,
     var username: String,
@@ -9,6 +7,6 @@ data class User(
     var password: String,
     val schools: Schools,
     var role: String,
-    var createdAt: LocalDateTime,
-    var updatedAt: LocalDateTime
+    var createdAt: String,
+    var updatedAt: String
 )
