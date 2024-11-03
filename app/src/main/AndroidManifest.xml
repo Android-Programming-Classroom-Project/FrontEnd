@@ -33,6 +33,16 @@
         <activity
             android:name=".PostListViewActivity"
             android:exported="true" />
+
+        <!-- 마이페이지 -->
+        <activity
+            android:name=".MyPageActivity"
+            android:exported="true" />
+
+        <!-- 상세게시물 -->
+        <activity
+            android:name=".PostDetailActivity"
+            android:exported="true" />
         <!-- 새로 추가할 ChatListActivity -->
         <activity android:name=".ChatListActivity"
             android:exported="true" />
