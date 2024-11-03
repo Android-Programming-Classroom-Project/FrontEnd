@@ -15,6 +15,7 @@ class MessageAdapter(private val messages: List<ChatMessage>) : RecyclerView.Ada
         private const val VIEW_TYPE_RECEIVED = 2
     }
 
+    //viewType 결정  VIEW_TYPE_SENT or VIEW_TYPE_RECEIVED
     override fun getItemViewType(position: Int): Int {
         return if (messages[position].isSent) VIEW_TYPE_SENT else VIEW_TYPE_RECEIVED
     }
@@ -44,7 +45,7 @@ class MessageAdapter(private val messages: List<ChatMessage>) : RecyclerView.Ada
         private val messageTextView: TextView = itemView.findViewById(R.id.sentMessageText)
 
         fun bind(message: ChatMessage) {
-            messageTextView.text = message.message
+            messageTextView.text = message.content
         }
     }
 
@@ -52,7 +53,7 @@ class MessageAdapter(private val messages: List<ChatMessage>) : RecyclerView.Ada
         private val messageTextView: TextView = itemView.findViewById(R.id.receivedMessageText)
 
         fun bind(message: ChatMessage) {
-            messageTextView.text = message.message
+            messageTextView.text = message.content
         }
     }
 }

@@ -32,21 +32,18 @@ class LoginActivity : AppCompatActivity() {
         //로그인 요청 버튼
         val loginButton = findViewById<Button>(R.id.login)
         loginButton.setOnClickListener {
-            val email = binding.editTextEmail.text.toString().trim()
-            val password = binding.editTextPassword.text.toString().trim()
+            val intent = Intent(this@LoginActivity, PostListViewActivity::class.java)
+            startActivity(intent)
+            finish()
+//            val email = binding.editTextEmail.text.toString().trim()
+//            val password = binding.editTextPassword.text.toString().trim()
+//
+//            if (email.isNotEmpty() && password.isNotEmpty()) {
+//                loginUser(email, password)
+//            } else {
+//                Toast.makeText(this, "아이디와 비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show()
+//            }
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                loginUser(email, password)
-            } else {
-                Toast.makeText(this, "아이디와 비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show()
-            }
-
-            //회원가입 버튼
-            val joinButton = findViewById<Button>(R.id.join)
-            joinButton.setOnClickListener {
-                val intent = Intent(this, JoinActivity::class.java)
-                startActivity(intent)
-            }
         }
 
         //회원가입 버튼

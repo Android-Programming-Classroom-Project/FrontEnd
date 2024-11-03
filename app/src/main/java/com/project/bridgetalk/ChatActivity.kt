@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.project.bridgetalk.Adapter.MessageAdapter
 import com.project.bridgetalk.model.vo.ChatMessage
+import com.project.bridgetalk.model.vo.User
 
 
 class ChatActivity : AppCompatActivity() {
@@ -49,9 +50,15 @@ class ChatActivity : AppCompatActivity() {
 
                 chatMessages.add(ChatMessage("응답: $messageText", isSent = false))
                 messageAdapter.notifyItemInserted(chatMessages.size - 1)
-                chatRecyclerView.scrollToPosition(chatMessages.size - 1)
+                chatRecyclerView.scrollToPosition(chatMessages.size - 1) // (마지막 리스트로 아래로 출력)
             }
         }
     }
+
+    // 서버 요청 채팅 메세지 과거내역 조회
+    fun getMessageList(user: User){
+
+    }
+
 }
 
