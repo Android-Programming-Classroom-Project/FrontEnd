@@ -50,10 +50,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity android:name=".MatchingActivity"
             android:exported="true" />
-
+        <!--변역 설정-->
+        <activity android:name=".SettingTranslateActivity"
+            android:exported="true"/>
     </application>
 
 </manifest>
