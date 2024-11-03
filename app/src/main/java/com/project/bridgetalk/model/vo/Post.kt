@@ -1,12 +1,15 @@
 package com.project.bridgetalk.model.vo
 
+import java.util.UUID
+
 data class Post(
-    val postId: String,
-    val user: User?,
-    val schools: Schools?,
-    val title: String,
-    val content: String,
-    val like_count: Int,
-    val createdAt: String,
-    val updatedAt: String
+    val postId: UUID,
+    var user: User?,
+    var schools: Schools?,
+    var title: String,
+    var content: String,
+    var like_count: Int,
+    var type: String,
+    var createdAt: String,
+    var updatedAt: String,
 )

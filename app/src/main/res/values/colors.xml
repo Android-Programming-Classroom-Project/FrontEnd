@@ -2,4 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="orange">#F45424</color>
+    <color name="sentMessageColor">#F55424</color> <!-- 보낸 메시지 색상 -->
+    <color name="receivedMessageColor">#E0E0E0</color> <!-- 받은 메시지 색상 -->
 </resources>
