@@ -17,6 +17,8 @@ class MessageAdapter(private val messages: List<ChatMessage>) : RecyclerView.Ada
 
     //viewType 결정  VIEW_TYPE_SENT or VIEW_TYPE_RECEIVED
     override fun getItemViewType(position: Int): Int {
+//        if(messages[position].user?.userId.equals(UserManager.user?.userId)) VIEW_TYPE_SENT else VIEW_TYPE_RECEIVED
+
         return if (messages[position].isSent) VIEW_TYPE_SENT else VIEW_TYPE_RECEIVED
     }
 

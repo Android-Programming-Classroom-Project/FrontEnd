@@ -8,7 +8,7 @@ data class ChatMessage(
     val chatRoom: ChatItem?,
     val user: User?,
     val createdAt: String? = null,
-    val isSent: Boolean// true: 보낸 메시지, false: 받은 메시지
+    var isSent: Boolean// true: 보낸 메시지, false: 받은 메시지
 ) {
     constructor(content: String, isSent: Boolean) : this(
         messageId = null,

@@ -7,6 +7,6 @@ data class User(
     var password: String?,
     val schools: Schools,
     var role: String,
-    var createdAt: String,
-    var updatedAt: String
+    var createdAt: String?,
+    var updatedAt: String?
 )
