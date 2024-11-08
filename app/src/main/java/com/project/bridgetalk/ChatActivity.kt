@@ -41,7 +41,7 @@ class ChatActivity : AppCompatActivity() {
 
     //Websocket 연결
     //변수명 수정하면안되요 url로 할 시 인식을 못해요... 이유 모르겠습니다..
-    val url1 = "ws://10.0.2.2:8888/bridgeTalkMessaging"  // ws://로 WebSocket 연결
+    val url1 = "ws://129.154.54.25:8888/bridgeTalkMessaging"  // ws://로 WebSocket 연결
 
     // WebSocket 재연결 간격 설정
     val intervalMillis = 5000L
