@@ -22,11 +22,13 @@ import com.project.bridgetalk.databinding.PostRecyclerviewBinding
 import com.project.bridgetalk.model.vo.Post
 import java.util.UUID
 
-class PostListViewActivity: AppCompatActivity() {
+class PostListViewActivity : AppCompatActivity() {
     private lateinit var translateViewModel: TranslateViewModel
-    var translateState :Boolean = false // 번역 아이콘 활성화 위한 변수
-    private val originalContentMap = mutableMapOf<UUID, String>() //원본 저장
-    
+    var translateState: Boolean = false // 번역 아이콘 활성화 위한 변수
+    var copyPost: Boolean = false
+    var originalData = mutableListOf<Post>()//원본 데이터로 만들기 위한 list
+    var data = mutableListOf<Post>() // 게시물 list
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = PostRecyclerviewBinding.inflate(layoutInflater)
@@ -43,13 +45,13 @@ class PostListViewActivity: AppCompatActivity() {
 //         스피너에 어댑터 연결
         binding.categorySpinner.adapter = adapter
 
-        val data = mutableListOf<Post>()
+
         data.add(
             Post(
                 postId = UUID.fromString("faf2435f-969f-460f-ba7e-471f97570b54"),
                 user = null,
                 schools = null,
-                title = "게시물 제목",
+                title = "title for test1",
                 content = "Content for post 1",
                 like_count = 10,
                 createdAt = "2023-10-01T00:00:00",
@@ -63,7 +65,7 @@ class PostListViewActivity: AppCompatActivity() {
                 postId = UUID.fromString("faf2435f-969f-460f-ba7e-471f97570b54"),
                 user = null,
                 schools = null,
-                title = "게시물 제목",
+                title = "title for test2",
                 content = "Content for post 1",
                 like_count = 10,
                 createdAt = "2023-10-01",
@@ -71,6 +73,8 @@ class PostListViewActivity: AppCompatActivity() {
                 type = "general"
             )
         )
+        //번역 원본 list 추후 게시물 접속시 서버에서 받은 게시물을 동일저장 만약 추가,삭제시에 동일하게 해줘야합니다
+        originalData = data.map { it.copy() }.toMutableList()
 
         binding.postView.layoutManager = LinearLayoutManager(this)
         binding.postView.adapter = PostViewAdapter(data)
@@ -80,9 +84,10 @@ class PostListViewActivity: AppCompatActivity() {
                 LinearLayoutManager.VERTICAL
             )
         )
+
         // 번역 설정 이벤트 처리
         val settingTranslateButton = binding.settingTranslate
-        settingTranslateButton.setOnClickListener{
+        settingTranslateButton.setOnClickListener {
             val intent = Intent(this, SettingTranslateActivity::class.java)
             startActivity(intent)
         }
@@ -107,11 +112,10 @@ class PostListViewActivity: AppCompatActivity() {
             }
         }
     }
-    // 번역 수행 함수
-    private fun performTranslation(binding:PostRecyclerviewBinding) {
-        val posts = (binding.postView.adapter as PostViewAdapter).datas
-        val (sourceLanguage, targetLanguage) = SharedPreferencesUtil.loadTranslate(this)
 
+    // 번역 수행 함수
+    private fun performTranslation(binding: PostRecyclerviewBinding) {
+        val (sourceLanguage, targetLanguage) = SharedPreferencesUtil.loadTranslate(this)
         //세팅이 안되어있을 때 세팅페이지로 이동
         if (sourceLanguage.isNullOrEmpty() || targetLanguage.isNullOrEmpty()) {
             // 번역 설정으로 이동
@@ -119,76 +123,66 @@ class PostListViewActivity: AppCompatActivity() {
             startActivity(intent)
             return
         }
+        //필요한 번역 모델이 기기에 다운로드되었는지 확인
+        val options = TranslatorOptions.Builder()
+            .setSourceLanguage(sourceLanguage)
+            .setTargetLanguage(targetLanguage)
+            .build()
+        val translator = Translation.getClient(options)
 
-        posts.forEachIndexed { index, post ->
-            val sourceText = post.content
-
-            if (sourceText.isNotEmpty()) {
-                val options = TranslatorOptions.Builder()
-                    .setSourceLanguage(sourceLanguage)
-                    .setTargetLanguage(targetLanguage)
-                    .build()
-                val translator = Translation.getClient(options)
-                //필요한 번역 모델이 기기에 다운로드되었는지 확인
-                val conditions = DownloadConditions.Builder().build()
-                translator.downloadModelIfNeeded(conditions)
-                    .addOnSuccessListener {
+        val conditions = DownloadConditions.Builder().build()
+        translator.downloadModelIfNeeded(conditions)
+            .addOnSuccessListener {
+                data.forEachIndexed { index, post ->
+                    val sourceText = post.content
+                    val titleText = post.title
+                    if (sourceText.isNotEmpty() && titleText.isNotEmpty()) {
+                        // 내용 번역
                         translator.translate(sourceText)
                             .addOnSuccessListener { translatedText ->
-                                posts[index] = post.copy(content = translatedText)
-                                binding.postView.adapter?.notifyItemChanged(index)
-                                Log.v("test",posts[0].content)
+                                Log.v("test", translatedText)
+                                post.content = translatedText
+                                data[index] = post
+                                // 제목 번역
+                                translator.translate(titleText)
+                                    .addOnSuccessListener { translatedText1 ->
+                                        post.title = translatedText1
+                                        data[index] = post
+                                        binding.postView.adapter?.notifyItemChanged(index)
+                                    }
+                                    .addOnFailureListener {
+                                        Toast.makeText(this, "제목 번역 실패", Toast.LENGTH_SHORT).show()
+                                    }
                             }
                             .addOnFailureListener {
-                                Toast.makeText(this,"번역에러", Toast.LENGTH_SHORT).show()
+                                Toast.makeText(this, "내용 번역 실패", Toast.LENGTH_SHORT).show()
                             }
+
+//                        // 제목 번역
+//                        translator.translate(titleText)
+//                            .addOnSuccessListener { translatedText ->
+//                                data[index] = post.copy(title = translatedText)
+//                                binding.postView.adapter?.notifyItemChanged(index)
+//                            }
+//                            .addOnFailureListener {
+//                                Toast.makeText(this, "제목 번역 실패", Toast.LENGTH_SHORT).show()
+//                            }
                     }
-                    .addOnFailureListener {
-                        Toast.makeText(this, "번역에러", Toast.LENGTH_SHORT).show()
-                    }
+                }
             }
-        }
+            .addOnFailureListener {
+                Toast.makeText(this, "번역에러", Toast.LENGTH_SHORT).show()
+            }
     }
+
+
     // 번역 비활성화 시 원본 콘텐츠로 되돌리기
     private fun revertTranslation(binding: PostRecyclerviewBinding) {
-        val posts = (binding.postView.adapter as PostViewAdapter).datas
-        val (sourceLanguage, targetLanguage) = SharedPreferencesUtil.loadTranslate(this)
-
-        //세팅이 안되어있을 때 세팅페이지로 이동
-        if (sourceLanguage.isNullOrEmpty() || targetLanguage.isNullOrEmpty()) {
-            // 번역 설정으로 이동
-            val intent = Intent(this, SettingTranslateActivity::class.java)
-            startActivity(intent)
-            return
-        }
-
-        posts.forEachIndexed { index, post ->
-            val sourceText = post.content
-
-            if (sourceText.isNotEmpty()) {
-                val options = TranslatorOptions.Builder()
-                    .setSourceLanguage(targetLanguage)
-                    .setTargetLanguage(sourceLanguage)
-                    .build()
-                val translator = Translation.getClient(options)
-                //필요한 번역 모델이 기기에 다운로드되었는지 확인
-                val conditions = DownloadConditions.Builder().build()
-                translator.downloadModelIfNeeded(conditions)
-                    .addOnSuccessListener {
-                        translator.translate(sourceText)
-                            .addOnSuccessListener { translatedText ->
-                                posts[index] = post.copy(content = translatedText)
-                                binding.postView.adapter?.notifyItemChanged(index)
-                                Log.v("test",posts[0].content)
-                            }
-                            .addOnFailureListener {
-                                Toast.makeText(this,"번역에러", Toast.LENGTH_SHORT).show()
-                            }
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(this, "번역에러", Toast.LENGTH_SHORT).show()
-                    }
-            }
+        data.clear()
+        data.addAll(originalData.map { it.copy() })
+        data.forEachIndexed { index, post ->
+            Log.v("test",data[index].content)
+            binding.postView.adapter?.notifyItemChanged(index)
         }
     }
 }
