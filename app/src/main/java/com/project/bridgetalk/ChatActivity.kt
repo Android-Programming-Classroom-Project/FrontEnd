@@ -27,9 +27,9 @@ class ChatActivity : AppCompatActivity() {
     //User 정보 불러오기
     //실제에서는 주석 풀어주기
 //    val user = UserManager.user
-    val schools1 = Schools("9790779a-3a29-4b4a-9e66-9974411e662e", schoolName = "한신대학교")
+    val schools1 = Schools("ac391ffd-4990-47e3-a868-ae57a45d291d", schoolName = "한신대학교")
     val user = User(
-        userId = "cc3abbc7-8471-475b-b553-7c01fac23578",
+        userId = "d7719014-e86f-4585-8682-df60018ea562",
         username = "josdf",
         email = "admin",
         password = "password123",
@@ -82,8 +82,8 @@ class ChatActivity : AppCompatActivity() {
         val messageEditText = findViewById<EditText>(R.id.messageEditText)
         val sendButton = findViewById<ImageButton>(R.id.sendButton)
         //특정 채팅방 정보 불러오기
-        val roomId = UUID.fromString(intent.getStringExtra("roomId"))
-//        val roomId = UUID.fromString("a0021efa-9b7f-4db4-9d4f-394471a04da5")
+//        val roomId = UUID.fromString(intent.getStringExtra("roomId"))
+        val roomId = UUID.fromString("69732532-0d1a-4454-92fe-9d1f60c63cb0")
 
         sendButton.setOnClickListener {
             val messageText = messageEditText.text.toString()
