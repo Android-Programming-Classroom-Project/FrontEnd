@@ -29,9 +29,9 @@ class ChatActivity : AppCompatActivity() {
 //    val user = UserManager.user
     val schools1 = Schools("ac391ffd-4990-47e3-a868-ae57a45d291d", schoolName = "한신대학교")
     val user = User(
-        userId = "d7719014-e86f-4585-8682-df60018ea562",
+        userId = "18b4bf0e-f275-4797-8ccc-f47eb1fb3ca0",
         username = "josdf",
-        email = "admin",
+        email = "admi",
         password = "password123",
         schools = schools1,
         role = "student",
@@ -88,9 +88,9 @@ class ChatActivity : AppCompatActivity() {
         sendButton.setOnClickListener {
             val messageText = messageEditText.text.toString()
             if (messageText.isNotBlank()) {
-                val chatMessage: ChatMessage = ChatMessage(messageText, isSent = true)
+                val chatMessage = ChatMessage(user = user,messageText, isSent = true)
                 // 서버로 메시지 전송 및 성공 시 list에 저장
-                if(sendMessage(chatMessage,roomId)){
+                if (sendMessage(chatMessage, roomId)) {
                     chatMessages.add(chatMessage)
                     messageAdapter.notifyItemInserted(chatMessages.size - 1)
                     chatRecyclerView.scrollToPosition(chatMessages.size - 1)
@@ -109,16 +109,17 @@ class ChatActivity : AppCompatActivity() {
                             println("WebSocket 연결이 성공적으로 열렸습니다.")
                             topicSubscription = stomp.join("/sub/$roomId")
                                 .subscribe { message ->
-                                    Log.v("test", Gson().fromJson(message,ChatMessage::class.java).content.toString())
-                                    chatMessages.add(
-                                        Gson().fromJson(
-                                            message,
-                                            ChatMessage::class.java
-                                        )
+                                    var result = Gson().fromJson(
+                                        message,
+                                        ChatMessage::class.java
                                     )
-                                    messageAdapter.notifyItemInserted(chatMessages.size - 1)
-                                    chatRecyclerView.scrollToPosition(chatMessages.size - 1)
-                                    println("수신된 메시지: $message")
+                                    if(!result.user?.userId.equals(user.userId)) {
+                                        chatMessages.add(result)
+                                        runOnUiThread {
+                                            messageAdapter.notifyItemInserted(chatMessages.size - 1)
+                                            chatRecyclerView.scrollToPosition(chatMessages.size - 1)
+                                        }
+                                    }
                                 }
                         }
 

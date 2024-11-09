@@ -10,11 +10,11 @@ data class ChatMessage(
     val createdAt: String? = null,
     var isSent: Boolean// true: 보낸 메시지, false: 받은 메시지
 ) {
-    constructor(content: String, isSent: Boolean) : this(
+    constructor(user: User,content: String, isSent: Boolean) : this(
         messageId = null,
         content = content,
         chatRoom = null,
-        user = null,
+        user = user,
         createdAt = null,
         isSent = isSent
     )
