@@ -109,15 +109,23 @@ class ChatActivity : AppCompatActivity() {
                             println("WebSocket 연결이 성공적으로 열렸습니다.")
                             topicSubscription = stomp.join("/sub/$roomId")
                                 .subscribe { message ->
-                                    Log.v("test", Gson().fromJson(message,ChatMessage::class.java).content.toString())
+                                    Log.v(
+                                        "test",
+                                        Gson().fromJson(
+                                            message,
+                                            ChatMessage::class.java
+                                        ).content.toString()
+                                    )
                                     chatMessages.add(
                                         Gson().fromJson(
                                             message,
                                             ChatMessage::class.java
                                         )
                                     )
+
                                     messageAdapter.notifyItemInserted(chatMessages.size - 1)
                                     chatRecyclerView.scrollToPosition(chatMessages.size - 1)
+
                                     println("수신된 메시지: $message")
                                 }
                         }
