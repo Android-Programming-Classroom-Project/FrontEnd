@@ -13,10 +13,10 @@ class CommentAdapter(
 
     inner class CommentViewHolder(private val binding: CommentItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(comment: Comment) {
-            binding.commentUserName.text = comment.userName
-            binding.commentDate.text = comment.date
+            binding.commentUserName.text = comment.user
+            binding.commentDate.text = comment.createdAt
             binding.commentContent.text = comment.content
-            binding.commentLikeCount.text = comment.likeCount.toString()
+//            binding.commentLikeCount.text = comment.likeCount.toString()
 
             // 대댓글 버튼 클릭 이벤트 설정
             binding.replyButton.setOnClickListener {
