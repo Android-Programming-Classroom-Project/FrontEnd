@@ -9,6 +9,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.project.bridgetalk.Adapter.ChatAdapter
 import com.project.bridgetalk.model.vo.ChatItem
+import com.project.bridgetalk.model.vo.Schools
+import com.project.bridgetalk.model.vo.User
+import java.util.UUID
 
 class ChatListActivity : AppCompatActivity() {
 
@@ -19,12 +22,12 @@ class ChatListActivity : AppCompatActivity() {
         val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+
         // BottomNavigationView 이벤트 설정
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navigation_home -> {
-                    
                     true
                 }
                 R.id.navigation_chat -> {
@@ -45,32 +48,48 @@ class ChatListActivity : AppCompatActivity() {
             // 새 채팅 시작 (액티비티 이동)
             val intent = Intent(this, MatchingActivity::class.java)
             startActivity(intent)
-        }
 
+        }
+        val schools1 = Schools(UUID.randomUUID().toString(), schoolName = "test")
+        val user1 = User(
+            userId = "user1",
+            username = "Alice",
+            email = "alice@example.com",
+            password = "password123",
+            schools = schools1,
+            role = "Student",
+            createdAt = "2024-10-01 10:00:00",
+            updatedAt = "2024-11-05 09:00:00"
+        )
 
         // 샘플 데이터 추가
         val chatList = listOf(
-            ChatItem("User1", "Hello!", R.drawable.logo, "12:00 PM"),
-            ChatItem("User2", "How are you?", R.drawable.logo, "12:05 PM"),
-            ChatItem("User3", "What's up?What's up?What's up?What's up?What's up?What's up?What's up?What's up?What's up?What's up?What's up?What's up?What's up?What's up?What's up?What's up?What's up?What's up?What's up?", R.drawable.logo, "12:10 PM"),
-            ChatItem("User4", "See you later!", R.drawable.logo, "12:15 PM"),
-            ChatItem("User5", "Good morning!", R.drawable.logo, "12:20 PM"),
-            ChatItem("User1", "Hello!", R.drawable.logo, "12:00 PM"),
-            ChatItem("User2", "How are you?", R.drawable.logo, "12:05 PM"),
-            ChatItem("User3", "What's up?", R.drawable.logo, "12:10 PM"),
-            ChatItem("User4", "See you later!", R.drawable.logo, "12:15 PM"),
-            ChatItem("User1", "Hello!", R.drawable.logo, "12:00 PM"),
-            ChatItem("User2", "How are you?", R.drawable.logo, "12:05 PM"),
-            ChatItem("User3", "What's up?", R.drawable.logo, "12:10 PM"),
-            ChatItem("User4", "See you later!", R.drawable.logo, "12:15 PM"),
-            ChatItem("User1", "Hello!", R.drawable.logo, "12:00 PM"),
-            ChatItem("User2", "How are you?", R.drawable.logo, "12:05 PM"),
-            ChatItem("User3", "What's up?", R.drawable.logo, "12:10 PM"),
-            ChatItem("User4", "See you later!", R.drawable.logo, "12:15 PM"),
-            ChatItem("User1", "Hello!", R.drawable.logo, "12:00 PM"),
-            ChatItem("User2", "How are you?", R.drawable.logo, "12:05 PM"),
-            ChatItem("User3", "What's up?", R.drawable.logo, "12:10 PM"),
-            ChatItem("User4", "See you later!", R.drawable.logo, "12:15 PM")
+            ChatItem(
+                roomId = UUID.fromString("a0021efa-9b7f-4db4-9d4f-394471a04da5"),
+                user = user1,
+                school = schools1,
+                created_at = "2024-11-05 10:00:00"
+            ),ChatItem(
+                roomId = UUID.randomUUID(),
+                user = user1,
+                school = schools1,
+                created_at = "2024-11-05 10:00:00"
+            ),ChatItem(
+                roomId = UUID.randomUUID(),
+                user = user1,
+                school = schools1,
+                created_at = "2024-11-05 10:00:00"
+            ),ChatItem(
+                roomId = UUID.randomUUID(),
+                user = user1,
+                school = schools1,
+                created_at = "2024-11-05 10:00:00"
+            ),ChatItem(
+                roomId = UUID.randomUUID(),
+                user = user1,
+                school = schools1,
+                created_at = "2024-11-05 10:00:00"
+            )
         )
         recyclerView.adapter = ChatAdapter(chatList)
     }

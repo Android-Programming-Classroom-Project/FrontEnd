@@ -8,8 +8,11 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
 import com.project.bridgetalk.Utill.SharedPreferencesUtil
 import com.project.bridgetalk.databinding.LoginPageBinding
+import com.project.bridgetalk.manage.UserManager
+import com.project.bridgetalk.model.vo.User
 import com.project.bridgetalk.model.vo.dto.LoginDTO
 import com.project.bridgetalk.model.vo.dto.request.LoginRequest
 import retrofit2.Call
@@ -17,6 +20,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 class LoginActivity : AppCompatActivity() {
+    val gson = Gson()
     override fun onCreate(savedInstanceState: Bundle?) {
         var binding = LoginPageBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -32,21 +36,18 @@ class LoginActivity : AppCompatActivity() {
         //로그인 요청 버튼
         val loginButton = findViewById<Button>(R.id.login)
         loginButton.setOnClickListener {
-            val email = binding.editTextEmail.text.toString().trim()
-            val password = binding.editTextPassword.text.toString().trim()
+            val intent = Intent(this@LoginActivity, PostListViewActivity::class.java)
+            startActivity(intent)
+            finish()
+//            val email = binding.editTextEmail.text.toString().trim()
+//            val password = binding.editTextPassword.text.toString().trim()
+//
+//            if (email.isNotEmpty() && password.isNotEmpty()) {
+//                loginUser(email, password)
+//            } else {
+//                Toast.makeText(this, "아이디와 비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show()
+//            }
 
-            if (email.isNotEmpty() && password.isNotEmpty()) {
-                loginUser(email, password)
-            } else {
-                Toast.makeText(this, "아이디와 비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show()
-            }
-
-            //회원가입 버튼
-            val joinButton = findViewById<Button>(R.id.join)
-            joinButton.setOnClickListener {
-                val intent = Intent(this, JoinActivity::class.java)
-                startActivity(intent)
-            }
         }
 
         //회원가입 버튼
@@ -90,6 +91,9 @@ class LoginActivity : AppCompatActivity() {
                     Log.v("로그인 성공시 응답 정보", token)
                     //access토큰저장
                     SharedPreferencesUtil.saveToken(this@LoginActivity,token)
+
+                    val user = gson.fromJson(loginResponse.toString(),User::class.java)
+                    UserManager.user = user
 
                     val intent = Intent(this@LoginActivity, PostListViewActivity::class.java)
                     startActivity(intent)

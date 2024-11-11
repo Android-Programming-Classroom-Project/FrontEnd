@@ -42,6 +42,7 @@ class MyPageActivity : AppCompatActivity() {
             userId = "1",
             username = "사용자 이름",
             email = "user@example.com",
+            password = null,
             schools = Schools("Sample University", schoolName = "한신대"),
             role = "학생",
             createdAt = "2024-01-01",

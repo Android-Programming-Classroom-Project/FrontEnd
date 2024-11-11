@@ -1,8 +1,11 @@
 package com.project.bridgetalk.model.vo
 
+import java.util.UUID
+
+
 data class ChatItem(
-    val userName: String,
-    val lastMessage: String,
-    val profileImage: Int,
-    val time: String
+    val roomId: UUID,
+    val user: User,
+    val school: Schools,
+    val created_at: String
 )

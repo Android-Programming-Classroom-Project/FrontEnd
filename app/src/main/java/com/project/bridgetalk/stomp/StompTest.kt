@@ -65,8 +65,6 @@ fun main() {
         }
     }
 
-
-
     // 종료를 위한 입력 대기
     val scanner = Scanner(System.`in`)
     println("종료하려면 Enter 키를 누르세요.")

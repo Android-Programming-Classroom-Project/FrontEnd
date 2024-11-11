@@ -18,8 +18,12 @@
         <item>고려대학교</item>
         <item>고려대학교</item>
         <item>고려대학교</item>
-
     </string-array>
-
+    <string name="unknown_error">알 수 없는 오류가 발생했습니다.</string>
+    <!--번역언어 선택 목록(spinner-->
+    <string-array name="language_array">
+        <item>한국어</item>
+        <item>영어</item>
+    </string-array>
 </resources>
 
