@@ -13,7 +13,7 @@ class CommentAdapter(
 
     inner class CommentViewHolder(private val binding: CommentItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(comment: Comment) {
-            binding.commentUserName.text = comment.user
+            binding.commentUserName.text = comment.userName
             binding.commentDate.text = comment.createdAt
             binding.commentContent.text = comment.content
 //            binding.commentLikeCount.text = comment.likeCount.toString()

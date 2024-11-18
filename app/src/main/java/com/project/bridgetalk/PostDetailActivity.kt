@@ -6,10 +6,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.bridgetalk.Adapter.CommentAdapter
 import com.project.bridgetalk.databinding.PostDetailBinding
 import com.project.bridgetalk.model.vo.Comment
+import com.project.bridgetalk.model.vo.Schools
+import com.project.bridgetalk.model.vo.User
 
 class PostDetailActivity : AppCompatActivity() {
     private lateinit var binding: PostDetailBinding
     private lateinit var commentAdapter: CommentAdapter
+    val schools1 = Schools("ac391ffd-4990-47e3-a868-ae57a45d291d", schoolName = "한신대학교")
+    val user = User(
+        userId = "18b4bf0e-f275-4797-8ccc-f47eb1fb3ca0",
+        username = "josdf",
+        email = "admi",
+        password = "password123",
+        schools = schools1,
+        role = "student",
+        createdAt = null,
+        updatedAt = null
+    )
 
     // 예시 데이터, 실제 데이터로 교체해야 함
     private val comments = mutableListOf<Comment>()

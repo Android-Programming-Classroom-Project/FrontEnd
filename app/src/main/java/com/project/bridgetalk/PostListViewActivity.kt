@@ -13,13 +13,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.gson.Gson
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
 import com.project.bridgetalk.Adapter.PostViewAdapter
 import com.project.bridgetalk.Utill.SharedPreferencesUtil
 import com.project.bridgetalk.databinding.PostRecyclerviewBinding
+import com.project.bridgetalk.manage.UserManager.user
 import com.project.bridgetalk.model.vo.Post
+import com.project.bridgetalk.model.vo.User
 import java.util.UUID
 
 class PostListViewActivity : AppCompatActivity() {
