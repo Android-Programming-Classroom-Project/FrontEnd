@@ -7,10 +7,10 @@
       </SelectionState>
       <SelectionState runConfigName="PostListViewActivity">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2024-11-03T14:07:10.772654600Z">
+        <DropdownSelection timestamp="2024-11-12T08:12:20.719294100Z">
           <Target type="DEFAULT_BOOT">
             <handle>
-              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\user\.android\avd\Pixel_3a_API_33_2.avd" />
+              <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\eunsuk\.android\avd\Pixel_3a_API_33.avd" />
             </handle>
           </Target>
         </DropdownSelection>
@@ -48,6 +48,9 @@
           </Target>
         </DropdownSelection>
         <DialogSelection />
+      </SelectionState>
+      <SelectionState runConfigName="PostDetailActivity">
+        <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
     </selectionStates>
   </component>
