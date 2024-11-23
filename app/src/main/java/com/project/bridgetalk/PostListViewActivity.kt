@@ -16,9 +16,10 @@ import com.project.bridgetalk.model.vo.Post
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.UUID
 
 
-class PostListViewActivity : AppCompatActivity() {
+class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickListener {
     private lateinit var translateViewModel: TranslateViewModel
     private lateinit var binding: PostRecyclerviewBinding
     var translateState: Boolean = false // 번역 아이콘 활성화 위한 변수
@@ -220,7 +221,8 @@ class PostListViewActivity : AppCompatActivity() {
         binding.postView.layoutManager = LinearLayoutManager(this)
 
         // 어댑터 설정
-        binding.postView.adapter = PostViewAdapter(data)
+        val postAdapter = PostViewAdapter(data, this) // 클릭 리스너 추가
+        binding.postView.adapter = postAdapter
 
         // 아이템 데코레이션 추가 (구분선)
         binding.postView.addItemDecoration(
@@ -229,6 +231,19 @@ class PostListViewActivity : AppCompatActivity() {
                 LinearLayoutManager.VERTICAL
             )
         )
+    }
+
+    override fun onItemClick(postId: UUID) {
+        // 클릭된 게시물의 ID를 사용하여 다음 작업을 수행
+        Toast.makeText(this, "Clicked post ID: $postId", Toast.LENGTH_SHORT).show()
+        // 예를 들어, 상세 페이지로 이동할 수 있습니다.
+        // Intent로 상세 페이지로 이동하는 코드 추가 가능
+    }
+
+    // 버튼 클릭 리스너 구현
+    override fun onButtonClick(postId: UUID) {
+        Toast.makeText(this, "Button clicked for post ID: $postId", Toast.LENGTH_SHORT).show()
+        // 여기서 버튼 클릭에 대한 추가 작업을 수행할 수 있습니다.
     }
 
 
