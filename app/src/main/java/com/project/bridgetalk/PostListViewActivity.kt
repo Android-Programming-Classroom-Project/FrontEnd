@@ -258,17 +258,17 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     }
 
     private fun addLikedPost(post: Post, user: User) {
-        // null 설정
-        post.createdAt = null
-        post.updatedAt = null
-        user.createdAt = null
-        user.updatedAt = null
-
         // LikeRequest 객체 생성
         val likeRequest = LikeRequest(
             post,
             user
         )
+
+        likeRequest.post.createdAt = null
+        likeRequest.post.user = null
+        likeRequest.post.updatedAt = null
+        likeRequest.user.createdAt = null
+        likeRequest.user.updatedAt = null
 
         val call = MyApplication.networkService.addLikedPost(likeRequest) // POST API 호출
         call.enqueue(object : Callback<Void> {
