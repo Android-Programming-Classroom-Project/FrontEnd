@@ -3,16 +3,18 @@ package com.project.bridgetalk
 import TranslateViewModel
 import android.R
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.bridgetalk.Adapter.PostViewAdapter
 import com.project.bridgetalk.databinding.PostRecyclerviewBinding
 import com.project.bridgetalk.manage.UserManager
+import com.project.bridgetalk.model.vo.LikeRequest
 import com.project.bridgetalk.model.vo.Post
+import com.project.bridgetalk.model.vo.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -223,14 +225,6 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
         // 어댑터 설정
         val postAdapter = PostViewAdapter(data, this) // 클릭 리스너 추가
         binding.postView.adapter = postAdapter
-
-        // 아이템 데코레이션 추가 (구분선)
-        binding.postView.addItemDecoration(
-            DividerItemDecoration(
-                this,
-                LinearLayoutManager.VERTICAL
-            )
-        )
     }
 
     override fun onItemClick(postId: UUID) {
@@ -241,10 +235,44 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     }
 
     // 버튼 클릭 리스너 구현
-    override fun onButtonClick(postId: UUID) {
-        Toast.makeText(this, "Button clicked for post ID: $postId", Toast.LENGTH_SHORT).show()
-        // 여기서 버튼 클릭에 대한 추가 작업을 수행할 수 있습니다.
+    override fun onButtonClick(post: Post) {
+        // UserManager.user에서 schoolId를 안전하게 가져오기
+        val user = UserManager.user
+
+        if (user != null) {
+            addLikedPost(post, user) // userId가 null이 아닐 때만 호출
+        } else {
+            // userId가 null인 경우에 대한 처리
+            Toast.makeText(this, "사용자 정보가 없습니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 
+    private fun addLikedPost(post: Post, user: User) {
+        // LikeRequest 객체 생성
+        val likeRequest = LikeRequest(
+            post,
+            user
+        )
 
+        val call = MyApplication.networkService.addLikedPost(likeRequest) // POST API 호출
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    // 성공적으로 좋아요가 추가된 경우 처리
+                    fetchData()
+                    Toast.makeText(this@PostListViewActivity, "좋아요가 추가되었습니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // 오류 처리
+                    val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                    Toast.makeText(this@PostListViewActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                // 요청 실패 처리
+                Toast.makeText(this@PostListViewActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("Error", "Exception: ${t.message}", t)
+            }
+        })
+    }
 }

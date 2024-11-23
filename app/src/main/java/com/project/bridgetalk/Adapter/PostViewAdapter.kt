@@ -16,7 +16,7 @@ class PostViewAdapter(
 
     interface OnItemClickListener {
         fun onItemClick(postId: UUID)
-        fun onButtonClick(postId: UUID) // 버튼 클릭 리스너 추가
+        fun onButtonClick(post: Post) // 버튼 클릭 리스너 추가
     }
 
     override fun getItemCount(): Int = datas.size
@@ -42,7 +42,7 @@ class PostViewAdapter(
 
         // 버튼 클릭 리스너 설정
         holder.binding.likeButton.setOnClickListener {
-            itemClickListener.onButtonClick(post.postId) // 버튼 클릭 시 게시물 ID 전달
+            itemClickListener.onButtonClick(post) // 버튼 클릭 시 게시물 ID 전달
         }
     }
 
