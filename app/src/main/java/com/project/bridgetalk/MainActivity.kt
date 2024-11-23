@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
         //로그인 버튼클릭 시
         val loginButton = findViewById<Button>(R.id.main_login)
         loginButton.setOnClickListener {
+
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         }
@@ -30,5 +31,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, JoinActivity::class.java)
             startActivity(intent)
         }
+
     }
 }
