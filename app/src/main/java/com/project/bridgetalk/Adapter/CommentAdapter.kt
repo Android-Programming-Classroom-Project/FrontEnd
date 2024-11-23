@@ -7,24 +7,15 @@ import com.project.bridgetalk.databinding.CommentItemBinding
 import com.project.bridgetalk.model.vo.Comment
 
 class CommentAdapter(
-    private val comments: List<Comment>,
-    private val onReplyClick: (Comment) -> Unit // 대댓글 버튼 클릭 시 처리할 함수
+    private val comments: List<Comment>
 ) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
     inner class CommentViewHolder(private val binding: CommentItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(comment: Comment) {
-            binding.commentUserName.text = comment.userName
+            // User 객체에서 username 가져오기
+            binding.commentUserName.text = comment.user.username
             binding.commentDate.text = comment.createdAt
             binding.commentContent.text = comment.content
-//            binding.commentLikeCount.text = comment.likeCount.toString()
-
-            // 대댓글 버튼 클릭 이벤트 설정
-            binding.replyButton.setOnClickListener {
-                onReplyClick(comment)
-            }
-
-            // 대댓글 RecyclerView 설정
-            binding.replyRecyclerView.adapter = ReplyAdapter(comment.replies)
         }
     }
 

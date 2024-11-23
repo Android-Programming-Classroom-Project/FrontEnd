@@ -1,5 +1,6 @@
 package com.project.bridgetalk
 
+import NavActivity
 import TranslateViewModel
 import android.R
 import android.content.Intent
@@ -9,23 +10,19 @@ import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.TranslatorOptions
 import com.project.bridgetalk.Adapter.PostViewAdapter
 import com.project.bridgetalk.Utill.SharedPreferencesUtil
 import com.project.bridgetalk.databinding.PostRecyclerviewBinding
-import com.project.bridgetalk.manage.UserManager.user
 import com.project.bridgetalk.model.vo.Post
-import com.project.bridgetalk.model.vo.User
 import java.util.UUID
 
-class PostListViewActivity : AppCompatActivity() {
+class PostListViewActivity : NavActivity() {
     private lateinit var translateViewModel: TranslateViewModel
     var translateState: Boolean = false // 번역 아이콘 활성화 위한 변수
     var copyPost: Boolean = false

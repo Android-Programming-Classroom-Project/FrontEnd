@@ -1,14 +1,13 @@
 package com.project.bridgetalk
 
+import NavActivity
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import com.project.bridgetalk.databinding.MyPageBinding
 import com.project.bridgetalk.model.vo.Schools
 import com.project.bridgetalk.model.vo.User
 
 
-
-class MyPageActivity : AppCompatActivity() {
+class MyPageActivity : NavActivity() {
 
     // ViewBinding 생성
     private lateinit var binding: MyPageBinding
