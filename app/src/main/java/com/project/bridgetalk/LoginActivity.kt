@@ -13,7 +13,6 @@ import com.project.bridgetalk.Utill.SharedPreferencesUtil
 import com.project.bridgetalk.databinding.LoginPageBinding
 import com.project.bridgetalk.manage.UserManager
 import com.project.bridgetalk.model.vo.User
-import com.project.bridgetalk.model.vo.dto.LoginDTO
 import com.project.bridgetalk.model.vo.dto.request.LoginRequest
 import retrofit2.Call
 import retrofit2.Callback
@@ -37,17 +36,16 @@ class LoginActivity : AppCompatActivity() {
         val loginButton = findViewById<Button>(R.id.login)
         loginButton.setOnClickListener {
             val intent = Intent(this@LoginActivity, PostListViewActivity::class.java)
-            startActivity(intent)
-            finish()
-//            val email = binding.editTextEmail.text.toString().trim()
-//            val password = binding.editTextPassword.text.toString().trim()
-//
-//            if (email.isNotEmpty() && password.isNotEmpty()) {
-//                loginUser(email, password)
-//            } else {
-//                Toast.makeText(this, "아이디와 비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show()
-//            }
+            val email = binding.editTextEmail.text.toString().trim()
+            val password = binding.editTextPassword.text.toString().trim()
 
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                loginUser(email, password)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "아이디와 비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show()
+            }
         }
 
         //회원가입 버튼
@@ -82,8 +80,8 @@ class LoginActivity : AppCompatActivity() {
         // 네트워크 요청 보내기
         val call = MyApplication.networkService.login(request)
         // 비동기 요청 처리x
-        call.enqueue(object : Callback<LoginDTO> {
-            override fun onResponse(call: Call<LoginDTO>, response: Response<LoginDTO>) {
+        call.enqueue(object : Callback<User> {
+            override fun onResponse(call: Call<User>, response: Response<User>) {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     val token = response.headers()["Authorization"].toString().trim()
@@ -92,8 +90,10 @@ class LoginActivity : AppCompatActivity() {
                     //access토큰저장
                     SharedPreferencesUtil.saveToken(this@LoginActivity,token)
 
-                    val user = gson.fromJson(loginResponse.toString(),User::class.java)
-                    UserManager.user = user
+//                    val user = gson.fromJson(loginResponse.toString().trim(),User::class.java)
+
+                    Log.v("test",loginResponse.toString().trim())
+                    UserManager.user = loginResponse
 
                     val intent = Intent(this@LoginActivity, PostListViewActivity::class.java)
                     startActivity(intent)
@@ -104,7 +104,7 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onFailure(call: Call<LoginDTO>, t: Throwable) {
+            override fun onFailure(call: Call<User>, t: Throwable) {
                 Toast.makeText(this@LoginActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT)
                     .show()
             }
