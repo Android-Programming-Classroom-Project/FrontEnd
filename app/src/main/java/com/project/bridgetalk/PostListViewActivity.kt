@@ -258,6 +258,12 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     }
 
     private fun addLikedPost(post: Post, user: User) {
+        // null 설정
+        post.createdAt = null
+        post.updatedAt = null
+        user.createdAt = null
+        user.updatedAt = null
+
         // LikeRequest 객체 생성
         val likeRequest = LikeRequest(
             post,
