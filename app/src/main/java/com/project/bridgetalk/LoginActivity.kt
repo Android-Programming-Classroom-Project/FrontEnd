@@ -39,14 +39,14 @@ class LoginActivity : AppCompatActivity() {
             val intent = Intent(this@LoginActivity, PostListViewActivity::class.java)
             startActivity(intent)
             finish()
-//            val email = binding.editTextEmail.text.toString().trim()
-//            val password = binding.editTextPassword.text.toString().trim()
-//
-//            if (email.isNotEmpty() && password.isNotEmpty()) {
-//                loginUser(email, password)
-//            } else {
-//                Toast.makeText(this, "아이디와 비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show()
-//            }
+            val email = binding.editTextEmail.text.toString().trim()
+            val password = binding.editTextPassword.text.toString().trim()
+
+            if (email.isNotEmpty() && password.isNotEmpty()) {
+                loginUser(email, password)
+            } else {
+                Toast.makeText(this, "아이디와 비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show()
+            }
 
         }
 
@@ -110,5 +110,6 @@ class LoginActivity : AppCompatActivity() {
             }
         })
     }
+
 
 }
