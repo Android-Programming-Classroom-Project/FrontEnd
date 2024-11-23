@@ -46,4 +46,10 @@ class PostViewAdapter(
         }
     }
 
+    // 데이터 업데이트 메서드
+    fun updateData(newDatas: MutableList<Post>) {
+        datas.clear() // 기존 데이터 비우기
+        datas.addAll(newDatas) // 새로운 데이터 추가
+        notifyDataSetChanged() // RecyclerView에 변경 사항 알림
+    }
 }

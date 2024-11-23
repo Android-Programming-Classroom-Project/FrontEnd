@@ -35,6 +35,9 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
         binding = PostRecyclerviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // 데이터를 가져오는 비동기 작업
+        fetchData()
+
         // ViewModel 설정
         translateViewModel = ViewModelProvider(this).get(TranslateViewModel::class.java)
 
@@ -43,8 +46,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
         val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        // 데이터를 가져오는 비동기 작업
-        fetchData()
+
 
 //         스피너에 어댑터 연결
         binding.categorySpinner.adapter = adapter
@@ -218,14 +220,22 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
         }
     }
 
-    private fun updateUI(data: MutableList<Post>) {
-        // 레이아웃 매니저 설정
-        binding.postView.layoutManager = LinearLayoutManager(this)
+    private fun updateUI(posts: MutableList<Post>) {
+        // 레이아웃 매니저 설정 (한 번만 설정할 수 있습니다)
+        if (binding.postView.layoutManager == null) {
+            binding.postView.layoutManager = LinearLayoutManager(this)
+        }
 
-        // 어댑터 설정
-        val postAdapter = PostViewAdapter(data, this) // 클릭 리스너 추가
-        binding.postView.adapter = postAdapter
+        // 어댑터가 이미 설정되어 있는 경우 데이터 업데이트
+        val postAdapter = binding.postView.adapter as? PostViewAdapter
+        if (postAdapter != null) {
+            postAdapter.updateData(posts) // 기존 어댑터의 데이터 업데이트 메서드 호출
+        } else {
+            // 어댑터 설정 (처음 설정하는 경우)
+            binding.postView.adapter = PostViewAdapter(posts, this)
+        }
     }
+
 
     override fun onItemClick(postId: UUID) {
         // 클릭된 게시물의 ID를 사용하여 다음 작업을 수행
