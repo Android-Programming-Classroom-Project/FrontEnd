@@ -4,6 +4,8 @@ import TranslateViewModel
 import android.R
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -28,15 +30,13 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     var copyPost: Boolean = false
     var originalData = mutableListOf<Post>()//원본 데이터로 만들기 위한 list
     var data = mutableListOf<Post>() // 게시물 list
+    private var selectedCategory: String? = null // 스피너의 선택된 카테고리 값을 저장할 변수
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = PostRecyclerviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // 데이터를 가져오는 비동기 작업
-        fetchData()
 
         // ViewModel 설정
         translateViewModel = ViewModelProvider(this).get(TranslateViewModel::class.java)
@@ -50,6 +50,18 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
 
 //         스피너에 어댑터 연결
         binding.categorySpinner.adapter = adapter
+
+        // 스피너의 항목 선택 리스너 설정
+        binding.categorySpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                selectedCategory = categories[position]
+                fetchData() // 카테고리 변경 시 데이터 새로 가져오기
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // 아무것도 선택되지 않았을 때의 처리
+            }
+        })
 
 
 //        data.add(
@@ -203,8 +215,16 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
         call.enqueue(object : Callback<List<Post>> {
             override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
                 if (response.isSuccessful) {
-                    val posts = response.body()?.toMutableList() ?: mutableListOf() // MutableList로 변환
-                    updateUI(posts) // UI 업데이트 메서드 호출
+                    val posts = response.body()?.asSequence() ?: emptySequence() // Lazy Sequence
+
+                    // 선택된 카테고리에 따라 필터링
+                    val filteredPosts = when (selectedCategory) {
+                        "홍보" -> posts.filter { it.type == "홍보" }.toList().toMutableList()
+                        "자유" -> posts.filter { it.type == "자유" }.toList().toMutableList()
+                        else -> posts.toList().toMutableList() // "전체"인 경우 모든 게시물
+                    }
+
+                    updateUI(filteredPosts) // UI에 필터링된 게시물 전달
                 } else {
                     // 오류 처리
                     val errorMessage = response.errorBody()?.string() ?: "Unknown error"
