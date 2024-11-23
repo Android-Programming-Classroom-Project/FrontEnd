@@ -17,9 +17,10 @@ class PostViewAdapter(val datas: MutableList<Post>):
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val binding = (holder as PostViewHolder).binding
+        // 데이터를 역순으로 매핑
+        val reversedDatas = datas.reversed()
+        val post = reversedDatas[position]
 
-        // 각 데이터 매핑해주기
-        var post = datas[position]
         binding.title.text = post.title
         binding.content.text = post.content
         binding.likeCount.text = post.like_count.toString()

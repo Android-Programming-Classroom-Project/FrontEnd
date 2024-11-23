@@ -1,7 +1,6 @@
 package com.project.bridgetalk
 
 import com.project.bridgetalk.model.vo.Post
-import com.project.bridgetalk.model.vo.dto.LoginDTO
 import com.project.bridgetalk.model.vo.User
 import com.project.bridgetalk.model.vo.dto.request.JoinRequest
 import com.project.bridgetalk.model.vo.dto.request.LoginRequest
