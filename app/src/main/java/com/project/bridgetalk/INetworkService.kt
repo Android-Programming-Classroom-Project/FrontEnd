@@ -9,6 +9,7 @@ import com.project.bridgetalk.model.vo.dto.request.LoginRequest
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
@@ -39,6 +40,9 @@ interface INetworkService {
 
     @GET("post/{id}")
     fun getPost(@Path("id") postId: UUID): Call<PostCommentDTO>
+
+    @DELETE("/post/delete/{id}")
+    fun deletePost(@Path("id") postId: UUID): Call<Void> // 성공적으로 삭제되면 Void를 반환
 
 //    @Post("/post/postMake")
 //

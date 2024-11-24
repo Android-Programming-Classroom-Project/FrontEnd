@@ -14,7 +14,9 @@
         app:titleTextColor="@color/white"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
         app:navigationIcon="@drawable/rounded_chevron_backward_24"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.project.bridgetalk.Adapter.PostViewAdapter
 import com.project.bridgetalk.databinding.PostRecyclerviewBinding
 import com.project.bridgetalk.manage.UserManager
@@ -64,13 +65,13 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
             }
         }
 
-//        // FloatingActionButton 이벤트 설정
-//        val fab2 = findViewById<FloatingActionButton>(com.project.bridgetalk.R.id.fab2)  // fab2는 XML에서 정의한 ID
-//        fab2.setOnClickListener {
-//            // 새 게시물 작성 (PostDetailActivity로 이동)
-//            val intent = Intent(this, PostDetailActivity::class.java)
-//            startActivity(intent)
-//        }
+        // FloatingActionButton 이벤트 설정
+        val fab2 = findViewById<FloatingActionButton>(com.project.bridgetalk.R.id.fab2)  // fab2는 XML에서 정의한 ID
+        fab2.setOnClickListener {
+            // 새 게시물 작성 (PostDetailActivity로 이동)
+            val intent = Intent(this, PostMakeActivity::class.java)
+            startActivity(intent)
+        }
 
 
 

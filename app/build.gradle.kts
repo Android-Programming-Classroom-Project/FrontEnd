@@ -54,6 +54,7 @@ dependencies {
     implementation("com.github.FaithDeveloper:stomp-kotlin:2.0.5")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation ("com.google.mlkit:translate:17.0.3")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

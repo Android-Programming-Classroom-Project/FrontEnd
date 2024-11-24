@@ -11,10 +11,9 @@
         android:layout_height="wrap_content"
         android:background="#F55424"
         app:title="마이페이지"
+        app:titleTextAppearance="@style/CustomToolbarTitle"
         app:titleTextColor="@color/white"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:navigationIcon="@drawable/rounded_chevron_backward_24"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <!-- 사용자 이미지 및 정보 영역 -->
     <LinearLayout
@@ -113,13 +112,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- 구분선 추가 -->
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#A9A9A9"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintTop_toBottomOf="@id/updatedAtTextView"/>
+        app:layout_constraintTop_toBottomOf="@id/updatedAtTextView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/postRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/updatedAtTextView" />
 
     <!-- Bottom Navigation View -->
     <com.google.android.material.bottomnavigation.BottomNavigationView
