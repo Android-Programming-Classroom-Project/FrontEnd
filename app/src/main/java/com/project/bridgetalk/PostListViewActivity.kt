@@ -1,14 +1,17 @@
 package com.project.bridgetalk
 
-import NavActivity
+
 import TranslateViewModel
 import android.R
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.project.bridgetalk.Adapter.PostViewAdapter
 import com.project.bridgetalk.databinding.PostRecyclerviewBinding
 import com.project.bridgetalk.manage.UserManager
@@ -18,7 +21,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 
-class PostListViewActivity : NavActivity() {
+class PostListViewActivity : AppCompatActivity() {
     private lateinit var translateViewModel: TranslateViewModel
     private lateinit var binding: PostRecyclerviewBinding
     var translateState: Boolean = false // 번역 아이콘 활성화 위한 변수
@@ -31,6 +34,38 @@ class PostListViewActivity : NavActivity() {
         super.onCreate(savedInstanceState)
         binding = PostRecyclerviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // BottomNavigationView 설정
+        val bottomNavigationView = findViewById<BottomNavigationView>(com.project.bridgetalk.R.id.bottom_navigation)
+        bottomNavigationView.selectedItemId = com.project.bridgetalk.R.id.navigation_home
+
+        bottomNavigationView.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                com.project.bridgetalk.R.id.navigation_home -> {
+                    // 현재 페이지이므로 아무 작업도 하지 않음
+                    true
+                }
+                com.project.bridgetalk.R.id.navigation_chat -> {
+                    val intent = Intent(this, ChatListActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                com.project.bridgetalk.R.id.navigation_my -> {
+                    val intent = Intent(this, MyPageActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
+
+//        // FloatingActionButton 이벤트 설정
+//        val fab2 = findViewById<FloatingActionButton>(com.project.bridgetalk.R.id.fab2)  // fab2는 XML에서 정의한 ID
+//        fab2.setOnClickListener {
+//            // 새 게시물 작성 (PostDetailActivity로 이동)
+//            val intent = Intent(this, PostDetailActivity::class.java)
+//            startActivity(intent)
+//        }
 
         // ViewModel 설정
         translateViewModel = ViewModelProvider(this).get(TranslateViewModel::class.java)
@@ -230,6 +265,4 @@ class PostListViewActivity : NavActivity() {
             )
         )
     }
-
-
 }

@@ -126,6 +126,7 @@
     <!-- 댓글 RecyclerView -->
 
     <!-- 댓글 입력 레이아웃 -->
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/commentRecyclerView"
         android:layout_width="0dp"
@@ -164,5 +165,6 @@
             android:text="등록"
             android:backgroundTint="#FA835B" />
     </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
