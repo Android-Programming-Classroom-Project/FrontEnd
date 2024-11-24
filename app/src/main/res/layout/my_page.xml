@@ -11,10 +11,9 @@
         android:layout_height="wrap_content"
         android:background="#F55424"
         app:title="마이페이지"
+        app:titleTextAppearance="@style/CustomToolbarTitle"
         app:titleTextColor="@color/white"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
-        app:navigationIcon="@drawable/rounded_chevron_backward_24"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <!-- 사용자 이미지 및 정보 영역 -->
     <LinearLayout

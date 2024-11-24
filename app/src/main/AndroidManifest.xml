@@ -41,6 +41,14 @@
         <activity
             android:name=".MyPageActivity"
             android:exported="true" />
+        <!-- 게시물작성페이지 -->
+        <activity
+            android:name=".PostMakeActivity"
+            android:exported="true" />
+        <!-- 게시물수정페이지 -->
+        <activity
+            android:name=".PostEditActivity"
+            android:exported="true" />
         <!-- 상세게시물 -->
         <activity
             android:name=".PostDetailActivity"

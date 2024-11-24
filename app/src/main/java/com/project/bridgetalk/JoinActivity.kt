@@ -7,6 +7,7 @@ import android.view.MenuItem
 import android.widget.ArrayAdapter
 import android.widget.RadioButton
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.project.bridgetalk.databinding.JoinPageBinding
 import com.project.bridgetalk.model.vo.dto.request.JoinRequest
@@ -21,12 +22,21 @@ class JoinActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolBarJoin)
-        supportActionBar?.title = ""
-        // 업 버튼 활성화
+        // 툴바 설정
+        setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.rounded_chevron_backward_24)
 
+        // 뒤로가기 버튼 클릭 시 동작
+        binding.toolbar.setNavigationOnClickListener {
+            showAlertDialogWithCancel(
+                "회원가입을 취소하시겠습니까?",
+                onConfirm = {
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            )
+        }
 
         //스타일 적용
         val adapter = ArrayAdapter.createFromResource(
@@ -114,5 +124,20 @@ class JoinActivity : AppCompatActivity() {
                     }
                 })
         }
+    }
+
+    // 확인 및 취소 버튼이 있는 알림창
+    private fun showAlertDialogWithCancel(message: String, onConfirm: (() -> Unit)? = null) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage(message)
+            .setPositiveButton("확인") { dialog, _ ->
+                onConfirm?.invoke()
+                dialog.dismiss()
+            }
+            .setNegativeButton("취소") { dialog, _ ->
+                dialog.dismiss()  // 취소 버튼 클릭 시 알림창 닫기
+            }
+            .setCancelable(false)
+            .show()
     }
 }

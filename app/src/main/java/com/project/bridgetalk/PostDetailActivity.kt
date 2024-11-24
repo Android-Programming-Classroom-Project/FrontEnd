@@ -1,5 +1,6 @@
 package com.project.bridgetalk
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +27,13 @@ class PostDetailActivity : AppCompatActivity() {
         // 툴바 설정
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        // 뒤로가기 버튼 클릭 시 동작
+        binding.toolbar.setNavigationOnClickListener {
+            val intent = Intent(this, PostListViewActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
 
         // RecyclerView 설정
         binding.commentRecyclerView.layoutManager = LinearLayoutManager(this)
