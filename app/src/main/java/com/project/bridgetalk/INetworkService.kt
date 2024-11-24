@@ -28,7 +28,12 @@ interface INetworkService {
     @PUT("post/addLiked")
     fun addLikedPost(
         @Body request: LikeRequest // 요청 본문을 담는 데이터 클래스
-    ): Call<Void> // 반환 값이 없으므로 Void 사용
+    ): Call<Post>
+
+    @PUT("/post/deleteLiked")
+    fun deleteLikedPost(
+        @Body request: LikeRequest // 요청 본문을 담는 데이터 클래스
+    ): Call<Post>
 
 //    @Post("/post/postMake")
 //

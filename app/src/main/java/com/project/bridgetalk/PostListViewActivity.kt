@@ -5,6 +5,8 @@ import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -30,6 +32,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     var copyPost: Boolean = false
     var originalData = mutableListOf<Post>()//원본 데이터로 만들기 위한 list
     var data = mutableListOf<Post>() // 게시물 list
+    private var selectedCategory: String? = null // 스피너의 선택된 카테고리 값을 저장할 변수
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,6 +87,18 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
 
 //         스피너에 어댑터 연결
         binding.categorySpinner.adapter = adapter
+
+        // 스피너의 항목 선택 리스너 설정
+        binding.categorySpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
+                selectedCategory = categories[position]
+                fetchData() // 카테고리 변경 시 데이터 새로 가져오기
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // 아무것도 선택되지 않았을 때의 처리
+            }
+        })
 
 
 //        data.add(
@@ -237,8 +252,16 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
         call.enqueue(object : Callback<List<Post>> {
             override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
                 if (response.isSuccessful) {
-                    val posts = response.body()?.toMutableList() ?: mutableListOf() // MutableList로 변환
-                    updateUI(posts) // UI 업데이트 메서드 호출
+                    val posts = response.body()?.asSequence() ?: emptySequence() // Lazy Sequence
+
+                    // 선택된 카테고리에 따라 필터링
+                    val filteredPosts = when (selectedCategory) {
+                        "홍보" -> posts.filter { it.type == "홍보" }.toList().toMutableList()
+                        "자유" -> posts.filter { it.type == "자유" }.toList().toMutableList()
+                        else -> posts.toList().toMutableList() // "전체"인 경우 모든 게시물
+                    }
+
+                    updateUI(filteredPosts) // UI에 필터링된 게시물 전달
                 } else {
                     // 오류 처리
                     val errorMessage = response.errorBody()?.string() ?: "Unknown error"
@@ -298,22 +321,74 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
             post,
             user
         )
+
         likeRequest.post.createdAt = null
         likeRequest.post.user = null
         likeRequest.post.updatedAt = null
         likeRequest.user.createdAt = null
         likeRequest.user.updatedAt = null
 
-        Log.v("test1",likeRequest.post.toString().trim() )
-        Log.v("test1",likeRequest.user.toString().trim())
-
         val call = MyApplication.networkService.addLikedPost(likeRequest) // POST API 호출
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+        call.enqueue(object : Callback<Post> {
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 if (response.isSuccessful) {
                     // 성공적으로 좋아요가 추가된 경우 처리
-                    fetchData()
+                    val updatedPost = response.body() // 서버로부터 변경된 Post 객체 받기
+                    updatedPost?.let {
+                        // 어댑터에서 현재 데이터를 가져옴
+                        val postAdapter = binding.postView.adapter as? PostViewAdapter
+                        val currentPosts = postAdapter?.getPosts() ?: return
+                        // 원본 데이터 리스트에서 해당 포지션 찾기
+                        val position = currentPosts.indexOfFirst { it.postId == post.postId }
+                        if (position != -1) {
+                            // 어댑터를 통해 특정 게시물 업데이트
+                            postAdapter.updatePost(it, position)
+                        }
+                    }
                     Toast.makeText(this@PostListViewActivity, "좋아요가 추가되었습니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // 오류 처리
+                    val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                    if (errorMessage.contains("이미 좋아요 누름")) {
+                        // 이미 좋아요가 눌려있는 경우 좋아요 취소 API 호출
+                        deleteLikedPost(post, user)
+                    } else {
+                        Toast.makeText(this@PostListViewActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+                // 요청 실패 처리
+                Toast.makeText(this@PostListViewActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("Error", "Exception: ${t.message}", t)
+            }
+        })
+    }
+
+    private fun deleteLikedPost(post: Post, user: User) {
+        // LikeRequest 객체 생성
+        val likeRequest = LikeRequest(post, user)
+
+        // 좋아요 취소 API 호출
+        val deleteCall = MyApplication.networkService.deleteLikedPost(likeRequest) // DELETE API 호출
+        deleteCall.enqueue(object : Callback<Post> {
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+                if (response.isSuccessful) {
+                    // 좋아요가 성공적으로 취소된 경우
+                    val updatedPost = response.body()
+                    updatedPost?.let {
+                        // 어댑터에서 현재 데이터를 가져옴
+                        val postAdapter = binding.postView.adapter as? PostViewAdapter
+                        val currentPosts = postAdapter?.getPosts() ?: return
+                        // 원본 데이터 리스트에서 해당 포지션 찾기
+                        val position = currentPosts.indexOfFirst { it.postId == post.postId }
+                        if (position != -1) {
+                            // 어댑터를 통해 특정 게시물 업데이트
+                            postAdapter.updatePost(it, position)
+                        }
+                    }
+                    Toast.makeText(this@PostListViewActivity, "좋아요가 취소되었습니다.", Toast.LENGTH_SHORT).show()
                 } else {
                     // 오류 처리
                     val errorMessage = response.errorBody()?.string() ?: "Unknown error"
@@ -321,10 +396,9 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
                 }
             }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
+            override fun onFailure(call: Call<Post>, t: Throwable) {
                 // 요청 실패 처리
                 Toast.makeText(this@PostListViewActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
-                Log.e("Error", "Exception: ${t.message}", t)
             }
         })
     }
