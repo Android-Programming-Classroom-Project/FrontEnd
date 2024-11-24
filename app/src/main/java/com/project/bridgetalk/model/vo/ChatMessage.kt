@@ -4,7 +4,7 @@ import java.util.UUID
 
 data class ChatMessage(
     val messageId: UUID? = null,
-    val content: String,
+    var content: String,
     val chatRoom: ChatItem?,
     val user: User?,
     val createdAt: String? = null,

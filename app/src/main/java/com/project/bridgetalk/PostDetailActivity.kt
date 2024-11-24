@@ -69,6 +69,13 @@ class PostDetailActivity : AppCompatActivity() {
         // 게시물 상세 정보 로드
         loadPostDetails(postId)
 
+        // 번역 설정 이벤트 처리
+        val settingTranslateButton = binding.settingTranslate
+        settingTranslateButton.setOnClickListener {
+            val intent = Intent(this, SettingTranslateActivity::class.java)
+            startActivity(intent)
+        }
+
         // translate button
         val translateButton: ImageButton = binding.translate
         // 번역 클릭 이벤트처리

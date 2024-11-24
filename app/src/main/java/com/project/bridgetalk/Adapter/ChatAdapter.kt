@@ -23,7 +23,7 @@ class ChatAdapter(private val chatList: List<ChatItem>) : RecyclerView.Adapter<C
             view.setOnClickListener {
                 val context = view.context
                 val intent = Intent(context, ChatActivity::class.java)
-                intent.putExtra("chat", chatList[adapterPosition].roomId)
+                intent.putExtra("roomId", chatList[adapterPosition].roomId.toString())
                 context.startActivity(intent)
             }
         }
@@ -36,8 +36,8 @@ class ChatAdapter(private val chatList: List<ChatItem>) : RecyclerView.Adapter<C
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chatItem = chatList[position]
-        holder.userName.text = chatItem.user.username
-//        holder.lastMessage.text = chatItem.lastMessage
+//        holder.userName.text = chatItem.user.username
+        holder.lastMessage.text = chatItem.lastMessage
 //        holder.profileImage.setImageResource(chatItem.profileImage)
     }
 
