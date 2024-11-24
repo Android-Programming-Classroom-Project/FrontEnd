@@ -17,7 +17,7 @@ class CommentAdapter(
         private val commentTextView: TextView = itemView.findViewById(R.id.commentContent)
         private val createdAtTextView: TextView = itemView.findViewById(R.id.commentDate)
         fun bind(comment: Comment) {
-            usernameTextView.text = comment.user?.username ?: "익명"
+            usernameTextView.text = "익명" // 댓글 무조건 익명 표시
             commentTextView.text = comment.content
             createdAtTextView.text = comment.createdAt
         }

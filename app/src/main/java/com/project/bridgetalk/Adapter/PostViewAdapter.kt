@@ -35,7 +35,7 @@ class PostViewAdapter(
         binding.title.text = post.title
         binding.content.text = post.content
         binding.likeCount.text = post.like_count.toString()
-        binding.createdAt.text = post.createdAt.toString()
+        binding.createdAt.text = post.updatedAt.toString()
 
         // 아이템 클릭 리스너 설정
         binding.root.setOnClickListener {
