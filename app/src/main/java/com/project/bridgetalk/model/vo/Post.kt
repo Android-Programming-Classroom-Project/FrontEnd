@@ -9,7 +9,7 @@ data class Post(
     var title: String,
     var content: String,
     var like_count: Int,
-    var type: String,
+    var type: String?,
     var createdAt: String?,
     var updatedAt: String?,
 )
