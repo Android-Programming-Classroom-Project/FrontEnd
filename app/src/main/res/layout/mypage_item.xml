@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/postItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="10dp">
+
+    <!-- 구분선 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#A9A9A9" />
+
+    <!-- 게시물 제목 -->
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="게시물 제목"
+        android:textColor="#8A6B61"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="2dp" />
+
+    <!-- 게시물 내용 -->
+    <TextView
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="게시물 내용"
+        android:textColor="@color/black"
+        android:maxLines="2"
+        android:ellipsize="end" />
+
+    <!-- 좋아요 버튼, 생성일, 수정 및 삭제 버튼 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <!-- 좋아요 버튼 -->
+        <ImageButton
+            android:id="@+id/likeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00000000"
+            android:src="@drawable/outline_favorite_24" />
+
+        <TextView
+            android:id="@+id/likeCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#8A6B61"
+            android:textStyle="bold"
+            android:layout_marginStart="4dp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:id="@+id/createdAt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="생성날짜"
+            android:textColor="#696868"
+            android:textSize="10sp" />
+
+        <!-- 수정 및 삭제 버튼 -->
+        <Button
+            android:id="@+id/editButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="수정"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#F55424"
+            android:textColor="#FFFFFF" />
+
+        <Button
+            android:id="@+id/deleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="삭제"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="#F55424"
+            android:textColor="#FFFFFF" />
+    </LinearLayout>
+</LinearLayout>

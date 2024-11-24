@@ -1,27 +1,31 @@
 package com.project.bridgetalk.Adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.project.bridgetalk.databinding.CommentItemBinding
+import com.project.bridgetalk.R
 import com.project.bridgetalk.model.vo.Comment
 
 class CommentAdapter(
-    private val comments: List<Comment>
+    private val comments: MutableList<Comment>
 ) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
-    inner class CommentViewHolder(private val binding: CommentItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val usernameTextView: TextView = itemView.findViewById(R.id.commentUserName)
+        private val commentTextView: TextView = itemView.findViewById(R.id.commentContent)
+        private val createdAtTextView: TextView = itemView.findViewById(R.id.commentDate)
         fun bind(comment: Comment) {
-            // User 객체에서 username 가져오기
-            binding.commentUserName.text = comment.user.username
-            binding.commentDate.text = comment.createdAt
-            binding.commentContent.text = comment.content
+            usernameTextView.text = comment.user?.username ?: "익명"
+            commentTextView.text = comment.content
+            createdAtTextView.text = comment.createdAt
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommentViewHolder {
-        val binding = CommentItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CommentViewHolder(binding)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.comment_item, parent, false)
+        return CommentViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {

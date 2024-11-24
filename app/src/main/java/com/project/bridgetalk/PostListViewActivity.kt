@@ -73,8 +73,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
             startActivity(intent)
         }
 
-        // 데이터를 가져오는 비동기 작업
-        fetchData()
+
 
         // ViewModel 설정
         translateViewModel = ViewModelProvider(this).get(TranslateViewModel::class.java)
@@ -84,23 +83,34 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
         val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-
-
-//         스피너에 어댑터 연결
+        // 스피너에 어댑터 연결
         binding.categorySpinner.adapter = adapter
+
+        // 기본값으로 첫 번째 항목 선택
+        binding.categorySpinner.setSelection(0)
 
         // 스피너의 항목 선택 리스너 설정
         binding.categorySpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View, position: Int, id: Long) {
-                selectedCategory = categories[position]
-                fetchData() // 카테고리 변경 시 데이터 새로 가져오기
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (view != null) {
+                    selectedCategory = categories[position]
+                    fetchData() // 카테고리 변경 시 데이터 새로 가져오기
+                } else {
+                    // view가 null일 경우 기본값으로 처리
+                    selectedCategory = categories[0] // 기본값으로 설정
+                    fetchData()
+                }
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // 아무것도 선택되지 않았을 때의 처리
+                selectedCategory = categories[0] // 기본값으로 설정
+                fetchData()
             }
         })
 
+        // 데이터를 가져오는 비동기 작업
+        fetchData()
 
 //        data.add(
 //            Post(
@@ -296,10 +306,12 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
 
 
     override fun onItemClick(postId: UUID) {
-        // 클릭된 게시물의 ID를 사용하여 다음 작업을 수행
-        Toast.makeText(this, "Clicked post ID: $postId", Toast.LENGTH_SHORT).show()
-        // 예를 들어, 상세 페이지로 이동할 수 있습니다.
-        // Intent로 상세 페이지로 이동하는 코드 추가 가능
+//        // 클릭된 게시물의 ID를 사용하여 다음 작업을 수행
+//        Toast.makeText(this, "Clicked post ID: $postId", Toast.LENGTH_SHORT).show()
+        // 상세 페이지로 이동하는 코드 추가
+        val intent = Intent(this, PostDetailActivity::class.java)
+        intent.putExtra("POST_ID", postId.toString()) // 게시물 ID를 Intent에 추가
+        startActivity(intent) // 새로운 액티비티 시작
     }
 
     // 버튼 클릭 리스너 구현
