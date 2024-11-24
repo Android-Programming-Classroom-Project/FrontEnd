@@ -41,7 +41,6 @@
         <activity
             android:name=".MyPageActivity"
             android:exported="true" />
-
         <!-- 상세게시물 -->
         <activity
             android:name=".PostDetailActivity"

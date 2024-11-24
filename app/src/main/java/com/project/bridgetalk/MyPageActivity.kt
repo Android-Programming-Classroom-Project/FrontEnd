@@ -1,12 +1,11 @@
 package com.project.bridgetalk
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.project.bridgetalk.databinding.MyPageBinding
 import com.project.bridgetalk.model.vo.Schools
 import com.project.bridgetalk.model.vo.User
-
-
 
 class MyPageActivity : AppCompatActivity() {
 
@@ -18,9 +17,15 @@ class MyPageActivity : AppCompatActivity() {
         binding = MyPageBinding.inflate(layoutInflater) // ViewBinding 초기화
         setContentView(binding.root) // ViewBinding의 루트를 사용하여 세팅
 
+        // 현재 페이지를 BottomNavigationView에서 선택 상태로 설정
+        binding.bottomNavigation.selectedItemId = R.id.navigation_my
+
         // 사용자 데이터 설정
         val user = getUserData()
         setUserData(user)
+
+        // 네비게이션 바 클릭 리스너 설정
+        setupBottomNavigation()
     }
 
     private fun setUserData(user: User) {
@@ -48,5 +53,29 @@ class MyPageActivity : AppCompatActivity() {
             createdAt = "2024-01-01",
             updatedAt = "2024-01-31"
         )
+    }
+
+    private fun setupBottomNavigation() {
+        binding.bottomNavigation.setOnNavigationItemSelectedListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.navigation_home -> {
+                    // 게시물 리스트 페이지로 이동
+                    val intent = Intent(this, PostListViewActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.navigation_chat -> {
+                    // 채팅 리스트 페이지로 이동
+                    val intent = Intent(this, ChatListActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                R.id.navigation_my -> {
+                    // 현재 페이지이므로 아무 작업도 하지 않음
+                    true
+                }
+                else -> false
+            }
+        }
     }
 }
