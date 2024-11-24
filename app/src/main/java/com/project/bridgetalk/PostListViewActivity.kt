@@ -111,33 +111,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
         // 데이터를 가져오는 비동기 작업
         fetchData()
 
-//        data.add(
-//            Post(
-//                postId = UUID.fromString("faf2435f-969f-460f-ba7e-471f97570b54"),
-//                user = null,
-//                schools = null,
-//                title = "title for test1",
-//                content = "Content for post 1",
-//                like_count = 10,
-//                createdAt = "2023-10-01T00:00:00",
-//                updatedAt = "2023-10-05",
-//                type = "general"
-//            )
-//        )
-//
-//        data.add(
-//            Post(
-//                postId = UUID.fromString("faf2435f-969f-460f-ba7e-471f97570b54"),
-//                user = null,
-//                schools = null,
-//                title = "title for test2",
-//                content = "Content for post 1",
-//                like_count = 10,
-//                createdAt = "2023-10-01",
-//                updatedAt = "2023-10-05",
-//                type = "general"
-//            )
-//        )
+
 //        //번역 원본 list 추후 게시물 접속시 서버에서 받은 게시물을 동일저장 만약 추가,삭제시에 동일하게 해줘야합니다
 //        originalData = data.map { it.copy() }.toMutableList()
 //

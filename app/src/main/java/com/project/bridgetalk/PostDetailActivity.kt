@@ -1,11 +1,18 @@
 package com.project.bridgetalk
 
+import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.TranslatorOptions
 import com.project.bridgetalk.Adapter.CommentAdapter
+import com.project.bridgetalk.Utill.SharedPreferencesUtil
 import com.project.bridgetalk.databinding.PostDetailBinding
 import com.project.bridgetalk.model.vo.Comment
 import com.project.bridgetalk.model.vo.Post
@@ -19,11 +26,12 @@ import java.util.UUID
 class PostDetailActivity : AppCompatActivity() {
     private lateinit var binding: PostDetailBinding
     private lateinit var commentAdapter: CommentAdapter
-
+    var translateState: Boolean = false // 번역 아이콘 활성화 위한 변수
     private val comments = mutableListOf<Comment>() // 예시 데이터, 실제 데이터로 교체해야 함
     private lateinit var postId: UUID // 게시물 ID를 저장할 변수
     private lateinit var postComment: PostCommentDTO // 전역 변수로 게시물 객체 선언
-
+    // 번역 위한 배열
+    var originalData = mutableListOf<Comment>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +47,42 @@ class PostDetailActivity : AppCompatActivity() {
         commentAdapter = CommentAdapter(comments)
         binding.commentRecyclerView.adapter = commentAdapter
 
+        // Intent로부터 게시물 ID를 받기
+        postId = UUID.fromString(intent.getStringExtra("POST_ID"))
+
+        // 게시물 상세 정보 로드
+        loadPostDetails(postId)
+
+        originalData = comments.map { it.copy() }.toMutableList()
+//        Log.v("test", originalData[0].content)
+        // 번역 설정 이벤트 처리
+
+        val settingTranslateButton = binding.settingTranslate
+        settingTranslateButton.setOnClickListener {
+            val intent = Intent(this, SettingTranslateActivity::class.java)
+            startActivity(intent)
+        }
+
+//        translate button
+        val translateButton: ImageButton = binding.translate
+        // 번역 버튼 클릭 리스너
+        translateButton.setOnClickListener {
+            translateState = !translateState
+            if (translateState) {
+                // 번역 활성화 : 활성화 아이콘 변경
+                translateButton.setBackgroundColor(Color.TRANSPARENT)
+                translateButton.setImageResource(R.drawable.outline_g_translate_24_blue)
+                performTranslation(binding)
+                Toast.makeText(this, "번역 활성화", Toast.LENGTH_SHORT).show()
+            } else {
+                revertTranslation(binding)
+                // 번역 비활성화 상태: 기본 아이콘 변경
+                translateButton.setBackgroundColor(Color.TRANSPARENT)
+                translateButton.setImageResource(R.drawable.outline_g_translate_24)
+                Toast.makeText(this, "번역 비활성화", Toast.LENGTH_SHORT).show()
+            }
+        }
+
 //        // 댓글 등록 버튼 클릭 리스너
 //        binding.commentButton.setOnClickListener {
 //            val commentText = binding.commentEditText.text.toString()
@@ -48,21 +92,16 @@ class PostDetailActivity : AppCompatActivity() {
 //                binding.commentEditText.text.clear()
 //            }
 //        }
-
-        // Intent로부터 게시물 ID를 받기
-        postId = UUID.fromString(intent.getStringExtra("POST_ID"))
-
-        // 게시물 상세 정보 로드
-        loadPostDetails(postId)
-//        // 예시 데이터 추가
-//        loadSampleData()
     }
 
     private fun loadPostDetails(postId: UUID) {
         // API 호출을 통해 해당 게시물의 상세 정보를 가져오는 로직을 추가
         val call = MyApplication.networkService.getPost(postId)
         call.enqueue(object : Callback<PostCommentDTO> {
-            override fun onResponse(call: Call<PostCommentDTO>, response: Response<PostCommentDTO>) {
+            override fun onResponse(
+                call: Call<PostCommentDTO>,
+                response: Response<PostCommentDTO>
+            ) {
                 if (response.isSuccessful) {
                     response.body()?.let { postCommentDTO ->
                         // 게시물 정보 업데이트
@@ -70,22 +109,31 @@ class PostDetailActivity : AppCompatActivity() {
                         updatePostDetails(postComment.post)
                         // 댓글 리스트 업데이트 (null 체크 추가)
                         comments.clear()
+                        originalData.clear()
+
                         postCommentDTO.commentList?.let {
                             comments.addAll(it) // 댓글 리스트가 null이 아닐 경우 추가
                         } ?: run {
                             Log.w("PostDetailActivity", "Comment list is null, using empty list.")
                         }
-
+                        originalData = comments.map { it.copy()}.toMutableList()
                         commentAdapter.notifyDataSetChanged() // 어댑터 갱신
-
                     }
-                }  else {
-                    Toast.makeText(this@PostDetailActivity, "게시물 정보를 가져오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(
+                        this@PostDetailActivity,
+                        "게시물 정보를 가져오는데 실패했습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
             override fun onFailure(call: Call<PostCommentDTO>, t: Throwable) {
-                Toast.makeText(this@PostDetailActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this@PostDetailActivity,
+                    "서버 요청 실패: ${t.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
                 Log.e("Error", "Exception: ${t.message}", t)
             }
         })
@@ -106,111 +154,77 @@ class PostDetailActivity : AppCompatActivity() {
         }
     }
 
-//    private fun loadSampleData() {
-//        // 예시 Schools 객체
-//        val schools = Schools(schoolId = "1", schoolName = "한신대") // Schools 예시 객체
-//        val post = Post(
-//            postId = UUID.randomUUID(),
-//            user = User(
-//                userId = "1",
-//                username = "사용자1",
-//                email = "user1@example.com",
-//                password = "password123",
-//                schools = schools,
-//                role = "학생",
-//                createdAt = "2023-01-01",
-//                updatedAt = "2023-01-01"
-//            ),
-//            schools = schools,
-//            title = "게시물 제목",
-//            content = "게시물 내용",
-//            like_count = 5,
-//            createdAt = "2023-10-01T00:00:00",
-//            updatedAt = "2023-10-05",
-//            type = "general"
-//        )
-//
-//        val user1 = User(
-//            userId = "1",
-//            username = "사용자1",
-//            email = "user1@example.com",
-//            password = "password123",
-//            schools = schools,
-//            role = "학생",
-//            createdAt = "2023-01-01",
-//            updatedAt = "2023-01-01"
-//        )
-//        val user2 = User(
-//            userId = "2",
-//            username = "사용자2",
-//            email = "user2@example.com",
-//            password = "password123",
-//            schools = schools,
-//            role = "학생",
-//            createdAt = "2023-02-01",
-//            updatedAt = "2023-02-01"
-//        )
-//
-//        // 예시 댓글 추가
-//        comments.add(
-//            Comment(
-//                commentId = UUID.randomUUID(),
-//                post = post,
-//                user = user1,
-//                content = "첫 번째 댓글입니다.",
-//                updatedAt = "2023.10.31",
-//                createdAt = "2023.10.31"
-//            )
-//        )
-//        comments.add(
-//            Comment(
-//                commentId = UUID.randomUUID(),
-//                post = post,
-//                user = user2,
-//                content = "두 번째 댓글입니다.",
-//                updatedAt = "2023.10.31",
-//                createdAt = "2023.10.31"
-//            )
-//        )
-//        commentAdapter.notifyDataSetChanged() // 데이터 갱신
-//    }
-//
-//    private fun addComment(content: String) {
-//        // 예시로 현재 사용자와 날짜 설정
-//        val schools = Schools(schoolId = "2", schoolName = "경기대")
-//        val currentUser = User(
-//            userId = "3",
-//            username = "현재 사용자",
-//            email = "currentuser@example.com",
-//            password = "password123",
-//            schools = schools,
-//            role = "학생",
-//            createdAt = "2024-01-01",
-//            updatedAt = "2024-01-01"
-//        )
-//        val post = Post(
-//            postId = UUID.randomUUID(),
-//            user = currentUser,
-//            schools = schools,
-//            title = "새 게시물",
-//            content = content,
-//            like_count = 0,
-//            createdAt = "2023-10-01T00:00:00",
-//            updatedAt = "2023-10-05",
-//            type = "general"
-//        )
-//
-//        // 새 댓글 추가
-//        val newComment = Comment(
-//            commentId = UUID.randomUUID(),
-//            post = post,
-//            user = currentUser,
-//            content = content,
-//            updatedAt = "2023.10.31",
-//            createdAt = "2023.10.31"
-//        )
-//        comments.add(newComment)
-//        commentAdapter.notifyItemInserted(comments.size - 1)
-//        binding.commentRecyclerView.scrollToPosition(comments.size - 1) // 새 댓글로 스크롤
-//    }
+    // 번역 수행 함수
+    private fun performTranslation(binding: PostDetailBinding) {
+        val (sourceLanguage, targetLanguage) = SharedPreferencesUtil.loadTranslate(this)
+        //세팅이 안되어있을 때 세팅페이지로 이동
+        if (sourceLanguage.isNullOrEmpty() || targetLanguage.isNullOrEmpty()) {
+            // 번역 설정으로 이동
+            val intent = Intent(this, SettingTranslateActivity::class.java)
+            startActivity(intent)
+            return
+        }
+        //필요한 번역 모델이 기기에 다운로드되었는지 확인
+        val options = TranslatorOptions.Builder()
+            .setSourceLanguage(sourceLanguage)
+            .setTargetLanguage(targetLanguage)
+            .build()
+        val translator = Translation.getClient(options)
+
+        val conditions = DownloadConditions.Builder().build()
+        translator.downloadModelIfNeeded(conditions)
+            .addOnSuccessListener {
+                comments.forEachIndexed { index, comment ->
+                    val sourceText = comment.content
+//                    val titleText = post.title
+                    if (sourceText.isNotEmpty()) {
+                        // 내용 번역
+                        translator.translate(sourceText)
+                            .addOnSuccessListener { translatedText ->
+                                Log.v("번역기", translatedText)
+                                comment.content = translatedText
+                                comments[index] = comment
+//                                binding.commentRecyclerView.adapter?.notifyItemChanged(index)
+                                // 제목 번역
+//                                translator.translate(titleText)
+//                                    .addOnSuccessListener { translatedText1 ->
+//                                        post.title = translatedText1
+//                                        data[index] = post
+//                                        binding.commentRecyclerView.adapter?.notifyItemChanged(index)
+//                                    }
+//                                    .addOnFailureListener {
+//                                        Toast.makeText(this, "제목 번역 실패", Toast.LENGTH_SHORT).show()
+//                                    }
+                            }
+                            .addOnFailureListener {
+                                Toast.makeText(this, "내용 번역 실패", Toast.LENGTH_SHORT).show()
+                            }
+
+//                        // 제목 번역
+//                        translator.translate(titleText)
+//                            .addOnSuccessListener { translatedText ->
+//                                data[index] = post.copy(title = translatedText)
+//                                binding.postView.adapter?.notifyItemChanged(index)
+//                            }
+//                            .addOnFailureListener {
+//                                Toast.makeText(this, "제목 번역 실패", Toast.LENGTH_SHORT).show()
+//                            }
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "번역에러", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+
+    // 번역 비활성화 시 원본 콘텐츠로 되돌리기
+    private fun revertTranslation(binding: PostDetailBinding) {
+        comments.clear()
+        comments.addAll(originalData.map { it.copy() })
+        comments.forEachIndexed { index, comment ->
+            Log.v("test", comments[index].content)
+            binding.commentRecyclerView.adapter?.notifyItemChanged(index)
+        }
+    }
 }
