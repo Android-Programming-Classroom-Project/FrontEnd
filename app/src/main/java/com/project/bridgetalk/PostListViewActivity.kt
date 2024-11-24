@@ -292,12 +292,66 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
         likeRequest.user.updatedAt = null
 
         val call = MyApplication.networkService.addLikedPost(likeRequest) // POST API 호출
-        call.enqueue(object : Callback<Void> {
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+        call.enqueue(object : Callback<Post> {
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 if (response.isSuccessful) {
                     // 성공적으로 좋아요가 추가된 경우 처리
-                    fetchData()
+                    val updatedPost = response.body() // 서버로부터 변경된 Post 객체 받기
+                    updatedPost?.let {
+                        // 어댑터에서 현재 데이터를 가져옴
+                        val postAdapter = binding.postView.adapter as? PostViewAdapter
+                        val currentPosts = postAdapter?.getPosts() ?: return
+                        // 원본 데이터 리스트에서 해당 포지션 찾기
+                        val position = currentPosts.indexOfFirst { it.postId == post.postId }
+                        if (position != -1) {
+                            // 어댑터를 통해 특정 게시물 업데이트
+                            postAdapter.updatePost(it, position)
+                        }
+                    }
                     Toast.makeText(this@PostListViewActivity, "좋아요가 추가되었습니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // 오류 처리
+                    val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                    if (errorMessage.contains("이미 좋아요 누름")) {
+                        // 이미 좋아요가 눌려있는 경우 좋아요 취소 API 호출
+                        deleteLikedPost(post, user)
+                    } else {
+                        Toast.makeText(this@PostListViewActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<Post>, t: Throwable) {
+                // 요청 실패 처리
+                Toast.makeText(this@PostListViewActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("Error", "Exception: ${t.message}", t)
+            }
+        })
+    }
+
+    private fun deleteLikedPost(post: Post, user: User) {
+        // LikeRequest 객체 생성
+        val likeRequest = LikeRequest(post, user)
+
+        // 좋아요 취소 API 호출
+        val deleteCall = MyApplication.networkService.deleteLikedPost(likeRequest) // DELETE API 호출
+        deleteCall.enqueue(object : Callback<Post> {
+            override fun onResponse(call: Call<Post>, response: Response<Post>) {
+                if (response.isSuccessful) {
+                    // 좋아요가 성공적으로 취소된 경우
+                    val updatedPost = response.body()
+                    updatedPost?.let {
+                        // 어댑터에서 현재 데이터를 가져옴
+                        val postAdapter = binding.postView.adapter as? PostViewAdapter
+                        val currentPosts = postAdapter?.getPosts() ?: return
+                        // 원본 데이터 리스트에서 해당 포지션 찾기
+                        val position = currentPosts.indexOfFirst { it.postId == post.postId }
+                        if (position != -1) {
+                            // 어댑터를 통해 특정 게시물 업데이트
+                            postAdapter.updatePost(it, position)
+                        }
+                    }
+                    Toast.makeText(this@PostListViewActivity, "좋아요가 취소되었습니다.", Toast.LENGTH_SHORT).show()
                 } else {
                     // 오류 처리
                     val errorMessage = response.errorBody()?.string() ?: "Unknown error"
@@ -305,10 +359,9 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
                 }
             }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
+            override fun onFailure(call: Call<Post>, t: Throwable) {
                 // 요청 실패 처리
                 Toast.makeText(this@PostListViewActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
-                Log.e("Error", "Exception: ${t.message}", t)
             }
         })
     }
