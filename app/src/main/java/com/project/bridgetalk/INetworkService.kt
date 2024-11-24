@@ -1,5 +1,6 @@
 package com.project.bridgetalk
 
+import com.project.bridgetalk.model.vo.LikeRequest
 import com.project.bridgetalk.model.vo.Post
 import com.project.bridgetalk.model.vo.User
 import com.project.bridgetalk.model.vo.dto.request.JoinRequest
@@ -9,6 +10,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface INetworkService {
@@ -23,6 +25,10 @@ interface INetworkService {
         @Path("schoolId") schoolId: String
     ): Call<List<Post>>
 
+    @PUT("post/addLiked")
+    fun addLikedPost(
+        @Body request: LikeRequest // 요청 본문을 담는 데이터 클래스
+    ): Call<Void> // 반환 값이 없으므로 Void 사용
 
 //    @Post("/post/postMake")
 //

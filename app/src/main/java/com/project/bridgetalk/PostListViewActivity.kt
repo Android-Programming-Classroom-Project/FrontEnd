@@ -1,27 +1,29 @@
 package com.project.bridgetalk
 
-
 import TranslateViewModel
 import android.R
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.project.bridgetalk.Adapter.PostViewAdapter
 import com.project.bridgetalk.databinding.PostRecyclerviewBinding
 import com.project.bridgetalk.manage.UserManager
+import com.project.bridgetalk.model.vo.LikeRequest
 import com.project.bridgetalk.model.vo.Post
+import com.project.bridgetalk.model.vo.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.UUID
 
 
-class PostListViewActivity : AppCompatActivity() {
+class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickListener {
     private lateinit var translateViewModel: TranslateViewModel
     private lateinit var binding: PostRecyclerviewBinding
     var translateState: Boolean = false // 번역 아이콘 활성화 위한 변수
@@ -67,6 +69,9 @@ class PostListViewActivity : AppCompatActivity() {
 //            startActivity(intent)
 //        }
 
+        // 데이터를 가져오는 비동기 작업
+        fetchData()
+
         // ViewModel 설정
         translateViewModel = ViewModelProvider(this).get(TranslateViewModel::class.java)
 
@@ -75,8 +80,7 @@ class PostListViewActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        // 데이터를 가져오는 비동기 작업
-        fetchData()
+
 
 //         스피너에 어댑터 연결
         binding.categorySpinner.adapter = adapter
@@ -250,19 +254,78 @@ class PostListViewActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateUI(data: MutableList<Post>) {
-        // 레이아웃 매니저 설정
-        binding.postView.layoutManager = LinearLayoutManager(this)
+    private fun updateUI(posts: MutableList<Post>) {
+        // 레이아웃 매니저 설정 (한 번만 설정할 수 있습니다)
+        if (binding.postView.layoutManager == null) {
+            binding.postView.layoutManager = LinearLayoutManager(this)
+        }
 
-        // 어댑터 설정
-        binding.postView.adapter = PostViewAdapter(data)
+        // 어댑터가 이미 설정되어 있는 경우 데이터 업데이트
+        val postAdapter = binding.postView.adapter as? PostViewAdapter
+        if (postAdapter != null) {
+            postAdapter.updateData(posts) // 기존 어댑터의 데이터 업데이트 메서드 호출
+        } else {
+            // 어댑터 설정 (처음 설정하는 경우)
+            binding.postView.adapter = PostViewAdapter(posts, this)
+        }
+    }
 
-        // 아이템 데코레이션 추가 (구분선)
-        binding.postView.addItemDecoration(
-            DividerItemDecoration(
-                this,
-                LinearLayoutManager.VERTICAL
-            )
+
+    override fun onItemClick(postId: UUID) {
+        // 클릭된 게시물의 ID를 사용하여 다음 작업을 수행
+        Toast.makeText(this, "Clicked post ID: $postId", Toast.LENGTH_SHORT).show()
+        // 예를 들어, 상세 페이지로 이동할 수 있습니다.
+        // Intent로 상세 페이지로 이동하는 코드 추가 가능
+    }
+
+    // 버튼 클릭 리스너 구현
+    override fun onButtonClick(post: Post) {
+        // UserManager.user에서 schoolId를 안전하게 가져오기
+        val user = UserManager.user
+
+        if (user != null) {
+            addLikedPost(post, user) // userId가 null이 아닐 때만 호출
+        } else {
+            // userId가 null인 경우에 대한 처리
+            Toast.makeText(this, "사용자 정보가 없습니다.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun addLikedPost(post: Post, user: User) {
+
+        // LikeRequest 객체 생성
+        val likeRequest = LikeRequest(
+            post,
+            user
         )
+        likeRequest.post.createdAt = null
+        likeRequest.post.user = null
+        likeRequest.post.updatedAt = null
+        likeRequest.user.createdAt = null
+        likeRequest.user.updatedAt = null
+
+        Log.v("test1",likeRequest.post.toString().trim() )
+        Log.v("test1",likeRequest.user.toString().trim())
+
+        val call = MyApplication.networkService.addLikedPost(likeRequest) // POST API 호출
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    // 성공적으로 좋아요가 추가된 경우 처리
+                    fetchData()
+                    Toast.makeText(this@PostListViewActivity, "좋아요가 추가되었습니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    // 오류 처리
+                    val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                    Toast.makeText(this@PostListViewActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                // 요청 실패 처리
+                Toast.makeText(this@PostListViewActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("Error", "Exception: ${t.message}", t)
+            }
+        })
     }
 }

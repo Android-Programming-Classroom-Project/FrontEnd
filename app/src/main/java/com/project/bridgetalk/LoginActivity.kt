@@ -90,8 +90,6 @@ class LoginActivity : AppCompatActivity() {
                     //access토큰저장
                     SharedPreferencesUtil.saveToken(this@LoginActivity,token)
 
-//                    val user = gson.fromJson(loginResponse.toString().trim(),User::class.java)
-
                     Log.v("test",loginResponse.toString().trim())
                     UserManager.user = loginResponse
 
