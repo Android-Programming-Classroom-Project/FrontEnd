@@ -248,8 +248,16 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
                         "자유" -> posts.filter { it.type == "자유" }.toList().toMutableList()
                         else -> posts.toList().toMutableList() // "전체"인 경우 모든 게시물
                     }
-
-                    updateUI(filteredPosts) // UI에 필터링된 게시물 전달
+                    // 검색어가 있다면 추가적으로 필터링
+                    val finalFilteredPosts = if (searchQuery.isNotBlank()) {
+                        filteredPosts.filter { post ->
+                            post.title.contains(searchQuery, ignoreCase = true) ||
+                                    post.content.contains(searchQuery, ignoreCase = true)
+                        }.toMutableList()
+                    } else {
+                        filteredPosts // 검색어가 없으면 필터링된 게시물 그대로 사용
+                    }
+                    updateUI(finalFilteredPosts.toMutableList()) // UI에 필터링된 게시물 전달
 
                     originalData = posts.map { it.copy() }.toMutableList()
                 } else {
