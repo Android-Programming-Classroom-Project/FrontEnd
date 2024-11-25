@@ -49,6 +49,9 @@ interface INetworkService {
     @POST("/chat/message")
     fun getChatMessage(@Body request: UserChatroomRequest): Call<List<ChatMessage>>
 
+    @POST("/post/postMake")
+    fun makePost(@Body request: LikeRequest): Call<Post>
+
 //    @Post("/post/postMake")
 //
 //    @Get("/post/{id}")
