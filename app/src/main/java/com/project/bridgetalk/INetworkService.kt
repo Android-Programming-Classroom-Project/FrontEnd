@@ -1,11 +1,13 @@
 package com.project.bridgetalk
 
+import com.project.bridgetalk.model.vo.ChatMessage
 import com.project.bridgetalk.model.vo.LikeRequest
 import com.project.bridgetalk.model.vo.Post
 import com.project.bridgetalk.model.vo.User
 import com.project.bridgetalk.model.vo.dto.PostCommentDTO
 import com.project.bridgetalk.model.vo.dto.request.JoinRequest
 import com.project.bridgetalk.model.vo.dto.request.LoginRequest
+import com.project.bridgetalk.model.vo.dto.request.UserChatroomRequest
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.Body
@@ -43,6 +45,9 @@ interface INetworkService {
 
     @DELETE("/post/delete/{id}")
     fun deletePost(@Path("id") postId: UUID): Call<Void> // 성공적으로 삭제되면 Void를 반환
+
+    @POST("/chat/message")
+    fun getChatMessage(@Body request: UserChatroomRequest): Call<List<ChatMessage>>
 
 //    @Post("/post/postMake")
 //
