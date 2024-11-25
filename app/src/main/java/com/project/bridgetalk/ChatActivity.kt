@@ -143,8 +143,11 @@ class ChatActivity : AppCompatActivity() {
         // 뒤로가기 버튼 클릭 시 동작
         toolbar.setNavigationOnClickListener {
             val intent = Intent(this, ChatListActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-            finish()
+//            val intent = Intent(this, ChatListActivity::class.java)
+//            startActivity(intent)
+//            finish()
         }
         // 번역 설정 이벤트 처리
         val settingTranslateButton = binding.settingTranslate
