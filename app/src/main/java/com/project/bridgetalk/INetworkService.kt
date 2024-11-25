@@ -1,10 +1,12 @@
 package com.project.bridgetalk
 
 import com.project.bridgetalk.model.vo.ChatMessage
+import com.project.bridgetalk.model.vo.Comment
 import com.project.bridgetalk.model.vo.LikeRequest
 import com.project.bridgetalk.model.vo.Post
 import com.project.bridgetalk.model.vo.User
 import com.project.bridgetalk.model.vo.dto.PostCommentDTO
+import com.project.bridgetalk.model.vo.dto.request.CommentRequest
 import com.project.bridgetalk.model.vo.dto.request.JoinRequest
 import com.project.bridgetalk.model.vo.dto.request.LoginRequest
 import com.project.bridgetalk.model.vo.dto.request.UserChatroomRequest
@@ -51,6 +53,9 @@ interface INetworkService {
 
     @POST("/post/postMake")
     fun makePost(@Body request: LikeRequest): Call<Post>
+
+    @POST("/post/addComment")
+    fun addComment(@Body request: CommentRequest): Call<Comment>
 
 //    @Post("/post/postMake")
 //

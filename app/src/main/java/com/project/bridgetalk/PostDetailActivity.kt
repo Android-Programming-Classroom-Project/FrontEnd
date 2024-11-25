@@ -14,9 +14,12 @@ import com.google.mlkit.nl.translate.TranslatorOptions
 import com.project.bridgetalk.Adapter.CommentAdapter
 import com.project.bridgetalk.Utill.SharedPreferencesUtil
 import com.project.bridgetalk.databinding.PostDetailBinding
+import com.project.bridgetalk.manage.UserManager
 import com.project.bridgetalk.model.vo.Comment
 import com.project.bridgetalk.model.vo.Post
+import com.project.bridgetalk.model.vo.User
 import com.project.bridgetalk.model.vo.dto.PostCommentDTO
+import com.project.bridgetalk.model.vo.dto.request.CommentRequest
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,10 +31,13 @@ class PostDetailActivity : AppCompatActivity() {
     private lateinit var commentAdapter: CommentAdapter
     private val comments = mutableListOf<Comment>() // 예시 데이터, 실제 데이터로 교체해야 함
     private lateinit var postId: UUID // 게시물 ID를 저장할 변수
-    private lateinit var postComment: PostCommentDTO // 전역 변수로 게시물 객체 선언
+    private lateinit var postComment: PostCommentDTO // 전역 변수로 게시물_댓글 객체 선언
+    private lateinit var recentPost: Post // 전역 변수로 게시물 객체 선언
+
     var translateState: Boolean = false // 번역 아이콘 활성화 위한 변수
     var originalData = mutableListOf<Comment>()//원본 데이터로 만들기 위한 list
     var originalPostData: Post? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = PostDetailBinding.inflate(layoutInflater)
@@ -53,15 +59,24 @@ class PostDetailActivity : AppCompatActivity() {
         commentAdapter = CommentAdapter(comments)
         binding.commentRecyclerView.adapter = commentAdapter
 
-//        // 댓글 등록 버튼 클릭 리스너
-//        binding.commentButton.setOnClickListener {
-//            val commentText = binding.commentEditText.text.toString()
-//            if (commentText.isNotBlank()) {
-//                // 댓글 추가 및 RecyclerView 갱신
-//                addComment(commentText)
-//                binding.commentEditText.text.clear()
-//            }
-//        }
+        // 댓글 등록 버튼 클릭 리스너
+        binding.commentButton.setOnClickListener {
+            val commentText = binding.commentEditText.text.toString()
+            if (commentText.isNotBlank()) {
+                val user = UserManager.user
+                val post = recentPost
+                if (user != null) {
+                    // originalPostData가 null이 아닐 경우에만 addComment 호출
+                    addComment(post, user, commentText)
+                } else {
+                    // 사용자정보가 없을 때 처리
+                    val errorMessage = "사용자 정보가 없습니다."
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            } else {
+                Toast.makeText(this, "댓글 내용을 입력하세요.", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         // Intent로부터 게시물 ID를 받기
         postId = UUID.fromString(intent.getStringExtra("POST_ID"))
@@ -111,6 +126,7 @@ class PostDetailActivity : AppCompatActivity() {
                         postComment = postCommentDTO
                         updatePostDetails(postComment.post)
                         originalPostData = postComment.post
+                        recentPost = postComment.post
                         // 댓글 리스트 업데이트 (null 체크 추가)
                         comments.clear()
                         postCommentDTO.commentList?.let {
@@ -155,6 +171,64 @@ class PostDetailActivity : AppCompatActivity() {
             Log.w("PostDetailActivity", "Comment list is null")
         }
     }
+
+    // 댓글 추가 함수
+    private fun addComment(post: Post, user: User, commentContent: String) {
+        // 요청 객체 생성
+        val request = CommentRequest(
+            post = post,
+            user = user,
+            content = commentContent
+        )
+
+        request.post.createdAt = null
+        request.post.user = null
+        request.post.updatedAt = null
+        request.user.createdAt = null
+        request.user.updatedAt = null
+
+        // API 호출
+        val call = MyApplication.networkService.addComment(request)
+        call.enqueue(object : Callback<Comment> {
+            override fun onResponse(call: Call<Comment>, response: Response<Comment>) {
+                if (response.isSuccessful) {
+                    // 댓글 추가 성공 시 RecyclerView 업데이트
+                    val newComment = response.body()
+                    updateRecyclerViewWithNewComment(newComment)
+                    // 입력란 비우기
+                    binding.commentEditText.text.clear()
+                } else {
+                    // 오류 처리
+                    val errorMessage = response.errorBody()?.string() ?: "댓글 추가 실패"
+                    Toast.makeText(this@PostDetailActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Comment>, t: Throwable) {
+                // 요청 실패 처리
+                Toast.makeText(this@PostDetailActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun updateRecyclerViewWithNewComment(newComment: Comment?) {
+        newComment?.let {
+            // 새 댓글을 목록에 추가
+            comments.add(it)
+
+            // RecyclerView 어댑터에 데이터 변경 알림
+            commentAdapter.notifyItemInserted(comments.size - 1) // 새로 추가된 댓글의 위치
+            binding.commentRecyclerView.scrollToPosition(comments.size - 1) // 새 댓글 추가 후 스크롤
+
+            // 댓글 수 업데이트
+            binding.commentCount.text = comments.size.toString() // 현재 comments 리스트의 크기로 업데이트
+
+        } ?: run {
+            // 새 댓글이 null인 경우 처리 (예: 로그 출력)
+            Log.w("PostDetailActivity", "새 댓글이 null입니다.")
+        }
+    }
+
 
     // 번역 수행 함수
     private fun performTranslation(binding: PostDetailBinding) {
