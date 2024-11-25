@@ -71,7 +71,7 @@ class ChatListActivity : AppCompatActivity() {
 
         chatList =  mutableListOf(
             ChatItem(
-                roomId = UUID.randomUUID(),
+                roomId = UUID.fromString("97b91e56-1e01-4fd0-9113-87d137cd907f"),
                 user = user!!,
                 lastMessage = "테스트",
                 school = user!!.schools,

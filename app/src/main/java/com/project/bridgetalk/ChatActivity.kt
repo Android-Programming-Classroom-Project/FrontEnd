@@ -24,8 +24,12 @@ import com.project.bridgetalk.manage.UserManager
 import com.project.bridgetalk.model.vo.ChatItem
 import com.project.bridgetalk.model.vo.ChatMessage
 import com.project.bridgetalk.model.vo.User
+import com.project.bridgetalk.model.vo.dto.request.UserChatroomRequest
 import io.reactivex.disposables.Disposable
 import okhttp3.OkHttpClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.UUID
 import java.util.concurrent.TimeUnit
 
@@ -52,7 +56,7 @@ class ChatActivity : AppCompatActivity() {
     var topicSubscription: Disposable? = null
 
     private lateinit var messageAdapter: MessageAdapter
-    private val chatMessages = mutableListOf<ChatMessage>()
+    private var chatMessages = mutableListOf<ChatMessage>()
     var originalData = mutableListOf<ChatMessage>()//원본 데이터로 만들기 위한 list
 
     lateinit var chatItem: ChatItem
@@ -63,7 +67,7 @@ class ChatActivity : AppCompatActivity() {
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val user = UserManager.user
+        val user = UserManager.user?.copy()
         //특정 채팅방 정보 불러오기
         val roomId = UUID.fromString(intent.getStringExtra("roomId"))
 
@@ -90,7 +94,6 @@ class ChatActivity : AppCompatActivity() {
                 }
             }
         }
-
 
         //웹소켓 연결
         if (roomId != null) {
@@ -131,6 +134,12 @@ class ChatActivity : AppCompatActivity() {
                     }
                 }
         }
+        //채팅목록 과거 내역 불러오기
+        if (user != null) {
+            getPastMessage(user, roomId)
+            chatRecyclerView.scrollToPosition(chatMessages.size - 1)
+        }
+
         // 뒤로가기 버튼 클릭 시 동작
         toolbar.setNavigationOnClickListener {
             val intent = Intent(this, ChatListActivity::class.java)
@@ -165,12 +174,6 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-
-    // 서버 요청 채팅 메세지 과거내역 조회
-    fun getMessageList(user: User) {
-
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         topicSubscription?.dispose()
@@ -178,8 +181,15 @@ class ChatActivity : AppCompatActivity() {
     }
 
     // 메세지 전송 성공 시 true 아니면 false
-    fun sendMessage(message: ChatMessage, roomId: UUID): Boolean {
+    fun sendMessage(messageData: ChatMessage, roomId: UUID): Boolean {
         val gson = Gson()
+        var message = messageData
+
+        if (message.chatRoom == null) {
+            message.chatRoom = ChatItem()
+        }
+
+        message.chatRoom!!.roomId  = roomId
         val messageJson = gson.toJson(message) // Mes 객체를 JSON 문자열로 변환
         var check = false
         stomp.send("/pub/$roomId", messageJson).subscribe { success ->
@@ -245,5 +255,48 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
+    private fun getPastMessage(user: User, roomId: UUID){
+        var u = user
+        if(user == null){
+            return
+        }
+        u.updatedAt = null
+        u.createdAt = null
+        val chatRoom = ChatItem(roomId = roomId)
+
+        val call = MyApplication.networkService.getChatMessage(UserChatroomRequest(u, chatRoom))
+
+        call.enqueue(object : Callback<List<ChatMessage>> {
+            override fun onResponse(call: Call<List<ChatMessage>>, response: Response<List<ChatMessage>>) {
+                if (response.isSuccessful) {
+                    val data = response.body()
+                    if (data != null) {
+                        chatMessages.addAll(data)
+                    }
+                    for(index in chatMessages.indices){
+                        if(chatMessages[index].user!!.userId == user.userId){
+                            chatMessages[index].isSent= true
+                        }
+                    }
+
+                    originalData.clear()
+                    originalData = chatMessages.map { it.copy() }.toMutableList()
+                    Log.v("test", data.toString())
+                    messageAdapter.notifyDataSetChanged()
+                } else {
+                    // 오류 처리
+                    val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                    Toast.makeText(this@ChatActivity, "서버 요청 실패: ${errorMessage}", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<ChatMessage>>, t: Throwable) {
+                // 요청 실패 처리
+                Toast.makeText(this@ChatActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+                Log.e("Error", "Exception: ${t.message}", t)
+            }
+        })
+
+    }
 }
 
