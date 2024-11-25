@@ -125,7 +125,14 @@
                 android:layout_marginStart="4dp" />
         </LinearLayout>
     </LinearLayout>
-
+    <!-- 구분선 추가 -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#A9A9A9"
+        app:layout_constraintTop_toBottomOf="@id/postItem"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
     <!-- 댓글 RecyclerView -->
 
     <!-- 댓글 입력 레이아웃 -->

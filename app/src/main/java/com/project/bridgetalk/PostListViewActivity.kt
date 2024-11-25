@@ -34,7 +34,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     var originalData = mutableListOf<Post>()//원본 데이터로 만들기 위한 list
     var data = mutableListOf<Post>() // 게시물 list
     private var selectedCategory: String? = null // 스피너의 선택된 카테고리 값을 저장할 변수
-
+    private var searchQuery: String = "" // 검색어를 저장할 변수
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,7 +107,14 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
                 selectedCategory = categories[0] // 기본값으로 설정
                 fetchData()
             }
+
         })
+        // 검색 아이콘 클릭 리스너 설정
+        binding.searchIcon.setOnClickListener {
+            // 입력된 검색어로 데이터 필터링
+            searchQuery = binding.searchEditText.text.toString().trim()
+            fetchData() // 검색어로 데이터 새로 가져오기
+        }
 
         // 데이터를 가져오는 비동기 작업
         fetchData()
@@ -255,36 +262,41 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     private fun fetchData() {
         // UserManager.user에서 schoolId를 안전하게 가져오기
         val schoolId = UserManager.user?.schools?.schoolId // nullable 타입
+        if (schoolId != null) { // schoolId가 null인지 확인
+            val call = MyApplication.networkService.getAllPosts(schoolId) // API 호출
+            call.enqueue(object : Callback<List<Post>> {
+                override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
+                    if (response.isSuccessful) {
+                        val posts = response.body()?.asSequence() ?: emptySequence()
 
-        // schoolId가 null인지 확인
-        if (schoolId != null) {
-        // API 호출
-        val call = MyApplication.networkService.getAllPosts(schoolId) // API 호출
-        call.enqueue(object : Callback<List<Post>> {
-            override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
-                if (response.isSuccessful) {
-                    val posts = response.body()?.asSequence() ?: emptySequence() // Lazy Sequence
+                        // 카테고리와 검색어를 반영하여 게시물 필터링
+                        val filteredPosts = posts.filter { post ->
+                            val matchesCategory = when (selectedCategory) {
+                                "홍보" -> post.type == "홍보"
+                                "자유" -> post.type == "자유"
+                                else -> true // "전체"인 경우 모든 게시물
+                            }
 
-                    // 선택된 카테고리에 따라 필터링
-                    val filteredPosts = when (selectedCategory) {
-                        "홍보" -> posts.filter { it.type == "홍보" }.toList().toMutableList()
-                        "자유" -> posts.filter { it.type == "자유" }.toList().toMutableList()
-                        else -> posts.toList().toMutableList() // "전체"인 경우 모든 게시물
+                            val matchesSearchQuery = if (searchQuery.isBlank()) {
+                                true // 검색어가 없으면 모든 게시물
+                            } else {
+                                post.title.contains(searchQuery, ignoreCase = true)
+                            }
+
+                            matchesCategory && matchesSearchQuery
+                        }.toList().toMutableList()
+
+                        updateUI(filteredPosts) // UI에 필터링된 게시물 전달
+                    } else {
+                        val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                        Toast.makeText(this@PostListViewActivity, errorMessage, Toast.LENGTH_SHORT).show()
                     }
-
-                    updateUI(filteredPosts) // UI에 필터링된 게시물 전달
-                } else {
-                    // 오류 처리
-                    val errorMessage = response.errorBody()?.string() ?: "Unknown error"
-                    Toast.makeText(this@PostListViewActivity, errorMessage, Toast.LENGTH_SHORT).show()
                 }
-            }
 
-            override fun onFailure(call: Call<List<Post>>, t: Throwable) {
-                // 요청 실패 처리
-                Toast.makeText(this@PostListViewActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
+                override fun onFailure(call: Call<List<Post>>, t: Throwable) {
+                    Toast.makeText(this@PostListViewActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
         }
     }
 

@@ -3,6 +3,7 @@ package com.project.bridgetalk
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.bridgetalk.Adapter.PostAdapter
@@ -86,8 +87,25 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
     }
 
     override fun onDeleteClick(post: Post) {
+        val context = this // Replace with the appropriate context if used inside a fragment or adapter
+        AlertDialog.Builder(context)
+            .setMessage("해당 게시물을 삭제하시겠습니까?")
+            .setPositiveButton("확인") { dialog, _ ->
+                deletePost(post.postId) // 삭제 로직 호출
+                dialog.dismiss() // 다이얼로그 닫기
+            }
+            .setNegativeButton("취소") { dialog, _ ->
+                dialog.dismiss() // 다이얼로그 닫기
+            }
+            .create()
+            .show()
+    }
+
+    // 게시물 삭제 함수 (예시)
+    private fun deletePost(postId: String) {
         // 삭제 로직 구현
-        deletePost(post.postId) // post.id가 String이라면 UUID로 변환
+        // 예: 서버 요청 또는 로컬 데이터베이스 삭제 처리
+        println("게시물 $postId 삭제 완료")
     }
 
     private fun setUserData(user: User) {
