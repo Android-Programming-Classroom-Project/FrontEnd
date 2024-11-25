@@ -31,7 +31,7 @@ class PostDetailActivity : AppCompatActivity() {
     private lateinit var commentAdapter: CommentAdapter
     private val comments = mutableListOf<Comment>() // 예시 데이터, 실제 데이터로 교체해야 함
     private lateinit var postId: UUID // 게시물 ID를 저장할 변수
-    private lateinit var postComment: PostCommentDTO // 전역 변수로 게시물 객체 선언
+    private lateinit var postComment: PostCommentDTO // 전역 변수로 게시물_댓글 객체 선언
     private lateinit var recentPost: Post // 전역 변수로 게시물 객체 선언
 
     var translateState: Boolean = false // 번역 아이콘 활성화 위한 변수
@@ -219,6 +219,10 @@ class PostDetailActivity : AppCompatActivity() {
             // RecyclerView 어댑터에 데이터 변경 알림
             commentAdapter.notifyItemInserted(comments.size - 1) // 새로 추가된 댓글의 위치
             binding.commentRecyclerView.scrollToPosition(comments.size - 1) // 새 댓글 추가 후 스크롤
+
+            // 댓글 수 업데이트
+            binding.commentCount.text = comments.size.toString() // 현재 comments 리스트의 크기로 업데이트
+
         } ?: run {
             // 새 댓글이 null인 경우 처리 (예: 로그 출력)
             Log.w("PostDetailActivity", "새 댓글이 null입니다.")
