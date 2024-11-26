@@ -95,6 +95,16 @@
                     android:text="답글 달기"
                     android:textSize="12sp"
                     android:textColor="#3F51B5" />
+
+                <!-- 삭제 버튼 -->
+                <ImageView
+                    android:id="@+id/deleteButton"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:src="@drawable/ic_delete"
+                    android:contentDescription="Delete"
+                    android:visibility="visible" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

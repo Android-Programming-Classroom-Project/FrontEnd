@@ -78,6 +78,11 @@ class PostDetailActivity : AppCompatActivity() {
             }
         }
 
+        // 채팅시작 버튼 클릭 리스너
+        binding.sendButton.setOnClickListener {
+            
+        }
+
         // Intent로부터 게시물 ID를 받기
         postId = UUID.fromString(intent.getStringExtra("POST_ID"))
 

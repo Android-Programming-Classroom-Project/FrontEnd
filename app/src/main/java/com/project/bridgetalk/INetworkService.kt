@@ -57,6 +57,12 @@ interface INetworkService {
     @POST("/post/addComment")
     fun addComment(@Body request: CommentRequest): Call<Comment>
 
+    @DELETE("/post/deleteComment/{id}")
+    fun deleteComment(
+        @Path("id") commentId: UUID,
+        @Body request : User
+    ): Call<Void>
+
 //    @Post("/post/postMake")
 //
 //    @Get("/post/{id}")
