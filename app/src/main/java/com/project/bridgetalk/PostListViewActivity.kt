@@ -155,6 +155,8 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
 
     // 번역 수행 함수
     private fun performTranslation(binding: PostRecyclerviewBinding) {
+        originalData.clear()
+        originalData.addAll(posts.map { it.copy() })
         val (sourceLanguage, targetLanguage) = SharedPreferencesUtil.loadTranslate(this)
         //세팅이 안되어있을 때 세팅페이지로 이동
         if (sourceLanguage.isNullOrEmpty() || targetLanguage.isNullOrEmpty()) {
