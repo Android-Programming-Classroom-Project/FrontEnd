@@ -62,40 +62,40 @@
                 android:textSize="14sp"
                 android:paddingTop="4dp" />
 
-            <!-- 좋아요 버튼 및 대댓글 버튼 -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingTop="4dp">
+<!--            &lt;!&ndash; 좋아요 버튼 및 대댓글 버튼 &ndash;&gt;-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:paddingTop="4dp">-->
 
-                <!-- 좋아요 아이콘 및 개수 -->
-                <ImageView
-                    android:id="@+id/commentLikeIcon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:src="@drawable/outline_favorite_24"
-                    android:contentDescription="Like" />
+<!--                &lt;!&ndash; 좋아요 아이콘 및 개수 &ndash;&gt;-->
+<!--                <ImageView-->
+<!--                    android:id="@+id/commentLikeIcon"-->
+<!--                    android:layout_width="20dp"-->
+<!--                    android:layout_height="20dp"-->
+<!--                    android:src="@drawable/outline_favorite_24"-->
+<!--                    android:contentDescription="Like" />-->
 
-                <TextView
-                    android:id="@+id/commentLikeCount"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="0"
-                    android:textSize="12sp"
-                    android:textColor="#8A6B61" />
+<!--                <TextView-->
+<!--                    android:id="@+id/commentLikeCount"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="4dp"-->
+<!--                    android:text="0"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="#8A6B61" />-->
 
-                <!-- 대댓글 버튼 -->
-                <TextView
-                    android:id="@+id/replyButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:text="답글 달기"
-                    android:textSize="12sp"
-                    android:textColor="#3F51B5" />
-
+<!--                &lt;!&ndash; 대댓글 버튼 &ndash;&gt;-->
+<!--                <TextView-->
+<!--                    android:id="@+id/replyButton"-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="16dp"-->
+<!--                    android:text="답글 달기"-->
+<!--                    android:textSize="12sp"-->
+<!--                    android:textColor="#3F51B5" />-->
+<!--            </LinearLayout>-->
                 <!-- 삭제 버튼 -->
                 <ImageView
                     android:id="@+id/deleteButton"
@@ -108,38 +108,45 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <!-- 대댓글 RecyclerView -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/replyRecyclerView"
+<!--    &lt;!&ndash; 대댓글 RecyclerView &ndash;&gt;-->
+
+<!--    &lt;!&ndash; 대댓글 입력 레이아웃 (초기에는 숨김) &ndash;&gt;-->
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/replyRecyclerView"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        android:nestedScrollingEnabled="false"-->
+<!--        tools:listitem="@layout/reply_item" />-->
+
+<!--    <LinearLayout-->
+<!--        android:id="@+id/replyInputLayout"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:padding="8dp"-->
+<!--        android:visibility="gone">  &lt;!&ndash; 초기에는 숨김 &ndash;&gt;-->
+
+<!--        <EditText-->
+<!--            android:id="@+id/replyEditText"-->
+<!--            android:layout_width="0dp"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_weight="1"-->
+<!--            android:hint="대댓글을 입력하세요."-->
+<!--            android:background="@drawable/edit_box"-->
+<!--            android:padding="10dp" />-->
+
+<!--        <Button-->
+<!--            android:id="@+id/registerReplyButten"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="등록"-->
+<!--            android:backgroundTint="#FA835B" />-->
+<!--    </LinearLayout>-->
+    <!-- 구분선 -->
+    <View
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        tools:listitem="@layout/reply_item"
-        android:nestedScrollingEnabled="false" />
+        android:layout_height="1dp"
+        android:background="#A9A9A9" />
 
-    <!-- 대댓글 입력 레이아웃 (초기에는 숨김) -->
-    <LinearLayout
-        android:id="@+id/replyInputLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:visibility="gone">  <!-- 초기에는 숨김 -->
-
-        <EditText
-            android:id="@+id/replyEditText"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="대댓글을 입력하세요."
-            android:background="@drawable/edit_box"
-            android:padding="10dp" />
-
-        <Button
-            android:id="@+id/registerReplyButten"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="등록"
-            android:backgroundTint="#FA835B" />
-    </LinearLayout>
 </LinearLayout>

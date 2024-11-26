@@ -71,7 +71,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_send"
             android:contentDescription="메시지 전송"/>
-
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

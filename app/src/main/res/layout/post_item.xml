@@ -9,11 +9,6 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#A9A9A9" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -104,4 +99,8 @@
         android:textColor="#696868"
         android:textSize="10sp" />
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#A9A9A9" />
 </LinearLayout>

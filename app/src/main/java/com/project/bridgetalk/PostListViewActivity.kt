@@ -40,7 +40,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     var originalData = mutableListOf<Post>()//원본 데이터로 만들기 위한 list
     var posts = mutableListOf<Post>() // 게시물 list
     private var selectedCategory: String? = null // 스피너의 선택된 카테고리 값을 저장할 변수
-
+    private var searchQuery: String = "" // 검색어를 저장할 변수
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -113,7 +113,14 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
                 selectedCategory = categories[0] // 기본값으로 설정
                 fetchData()
             }
+
         })
+        // 검색 아이콘 클릭 리스너 설정
+        binding.searchIcon.setOnClickListener {
+            // 입력된 검색어로 데이터 필터링
+            searchQuery = binding.searchEditText.text.toString().trim()
+            fetchData() // 검색어로 데이터 새로 가져오기
+        }
 
         // 데이터를 가져오는 비동기 작업
         fetchData()
@@ -241,8 +248,16 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
                         "자유" -> posts.filter { it.type == "자유" }.toList().toMutableList()
                         else -> posts.toList().toMutableList() // "전체"인 경우 모든 게시물
                     }
-
-                    updateUI(filteredPosts) // UI에 필터링된 게시물 전달
+                    // 검색어가 있다면 추가적으로 필터링
+                    val finalFilteredPosts = if (searchQuery.isNotBlank()) {
+                        filteredPosts.filter { post ->
+                            post.title.contains(searchQuery, ignoreCase = true) ||
+                                    post.content.contains(searchQuery, ignoreCase = true)
+                        }.toMutableList()
+                    } else {
+                        filteredPosts // 검색어가 없으면 필터링된 게시물 그대로 사용
+                    }
+                    updateUI(finalFilteredPosts.toMutableList()) // UI에 필터링된 게시물 전달
 
                     originalData = posts.map { it.copy() }.toMutableList()
                 } else {
@@ -300,6 +315,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     }
 
     private fun addLikedPost(post: Post, user: User) {
+
         // LikeRequest 객체 생성
         val likeRequest = LikeRequest(
             post,
