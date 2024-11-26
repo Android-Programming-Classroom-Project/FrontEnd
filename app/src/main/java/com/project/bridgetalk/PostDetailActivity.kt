@@ -16,8 +16,10 @@ import com.project.bridgetalk.Utill.SharedPreferencesUtil
 import com.project.bridgetalk.databinding.PostDetailBinding
 import com.project.bridgetalk.manage.UserManager
 import com.project.bridgetalk.model.vo.Comment
+import com.project.bridgetalk.model.vo.LikeRequest
 import com.project.bridgetalk.model.vo.Post
 import com.project.bridgetalk.model.vo.User
+import com.project.bridgetalk.model.vo.dto.ChatRoom
 import com.project.bridgetalk.model.vo.dto.PostCommentDTO
 import com.project.bridgetalk.model.vo.dto.request.CommentRequest
 import retrofit2.Call
@@ -80,7 +82,15 @@ class PostDetailActivity : AppCompatActivity() {
 
         // 채팅시작 버튼 클릭 리스너
         binding.sendButton.setOnClickListener {
-            
+            val user = UserManager.user
+            val post = recentPost
+            if (user != null) {
+                makeChat(post, user)
+            } else {
+                // 사용자정보가 없을 때 처리
+                val errorMessage = "사용자 정보가 없습니다."
+                Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+            }
         }
 
         // Intent로부터 게시물 ID를 받기
@@ -210,6 +220,55 @@ class PostDetailActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<Comment>, t: Throwable) {
+                // 요청 실패 처리
+                Toast.makeText(this@PostDetailActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    // 채팅 걸기 함수
+    private fun makeChat(post: Post, user: User) {
+        // 요청 객체 생성
+        val request = LikeRequest(
+            post = post,
+            user = user
+        )
+
+        request.post.createdAt = null
+        request.post.user = null
+        request.post.updatedAt = null
+        request.user.createdAt = null
+        request.user.updatedAt = null
+
+        // API 호출
+        val call = MyApplication.networkService.makeChat(request)
+        call.enqueue(object : Callback<ChatRoom> {
+            override fun onResponse(call: Call<ChatRoom>, response: Response<ChatRoom>) {
+                if (response.isSuccessful) {
+                    val chatRoom = response.body()
+                    if (chatRoom != null) {
+                        chatRoom.user.createdAt = null
+                        chatRoom.user.updatedAt = null
+                        chatRoom.user1.createdAt = null
+                        chatRoom.user1.updatedAt = null
+                        chatRoom.createdAt = null
+                        chatRoom.updatedAt = null
+
+                        // roomId를 채팅 페이지로 전송
+                        val intent = Intent(this@PostDetailActivity, ChatActivity::class.java)
+                        intent.putExtra("roomId", chatRoom.roomId.toString()) // roomId 전달
+                        startActivity(intent) // 채팅 페이지로 이동
+                    } else {
+                        Toast.makeText(this@PostDetailActivity, "채팅방 생성 실패", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    // 오류 처리
+                    val errorMessage = response.errorBody()?.string() ?: "채팅방 생성 실패"
+                    Toast.makeText(this@PostDetailActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<ChatRoom>, t: Throwable) {
                 // 요청 실패 처리
                 Toast.makeText(this@PostDetailActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
             }

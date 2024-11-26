@@ -6,6 +6,7 @@ import com.project.bridgetalk.model.vo.Comment
 import com.project.bridgetalk.model.vo.LikeRequest
 import com.project.bridgetalk.model.vo.Post
 import com.project.bridgetalk.model.vo.User
+import com.project.bridgetalk.model.vo.dto.ChatRoom
 import com.project.bridgetalk.model.vo.dto.PostCommentDTO
 import com.project.bridgetalk.model.vo.dto.request.CommentRequest
 import com.project.bridgetalk.model.vo.dto.request.JoinRequest
@@ -67,6 +68,9 @@ interface INetworkService {
 
     @POST("/chat/")
     fun getChatList(@Body request: User): Call<List<ChatItem>>
+
+    @POST("chat/makeChatroom")
+    fun makeChat(@Body request: LikeRequest): Call<ChatRoom>
 
 //    @Post("/post/postMake")
 //
