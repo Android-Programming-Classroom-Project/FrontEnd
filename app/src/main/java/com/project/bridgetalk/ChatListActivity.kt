@@ -19,7 +19,9 @@ import com.project.bridgetalk.Utill.SharedPreferencesUtil
 import com.project.bridgetalk.databinding.ActivityChatListBinding
 import com.project.bridgetalk.manage.UserManager
 import com.project.bridgetalk.model.vo.ChatItem
-import java.util.UUID
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ChatListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatListBinding
@@ -69,32 +71,32 @@ class ChatListActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        chatList =  mutableListOf(
-            ChatItem(
-                roomId = UUID.fromString("97b91e56-1e01-4fd0-9113-87d137cd907f"),
-                user = user!!,
-                lastMessage = "테스트",
-                school = user!!.schools,
-                created_at ="2024-11-23 10:00"
-            ),
-            ChatItem(
-                roomId = UUID.randomUUID(),
-                lastMessage = "테스트",
-                user = user!!,
-                school = user!!.schools,
-                created_at ="2024-11-23 10:00"
-            ),
-            ChatItem(
-                roomId = UUID.randomUUID(),
-                lastMessage = "테스트",
-                user = user!!,
-                school = user!!.schools,
-                created_at ="2024-11-23 10:00"
-            ),
-        )
+//        chatList =  mutableListOf(
+//            ChatItem(
+//                roomId = UUID.fromString("97b91e56-1e01-4fd0-9113-87d137cd907f"),
+//                user = user!!,
+//                lastMessage = "테스트",
+//                school = user!!.schools,
+//                created_at ="2024-11-23 10:00"
+//            ),
+//            ChatItem(
+//                roomId = UUID.randomUUID(),
+//                lastMessage = "테스트",
+//                user = user!!,
+//                school = user!!.schools,
+//                created_at ="2024-11-23 10:00"
+//            ),
+//            ChatItem(
+//                roomId = UUID.randomUUID(),
+//                lastMessage = "테스트",
+//                user = user!!,
+//                school = user!!.schools,
+//                created_at ="2024-11-23 10:00"
+//            ),
+//        )
+        getChatList()
 
-        recyclerView.adapter = ChatAdapter(chatList)
-        originalData= chatList.map { it.copy() }.toMutableList() // 서버 통신시 삭제 ㅁ
+        originalData= chatList.map { it.copy() }.toMutableList() // 서버 통신시 삭제
         // 번역 설정 이벤트 처리
         val settingTranslateButton = binding.settingTranslate
         settingTranslateButton.setOnClickListener {
@@ -123,6 +125,33 @@ class ChatListActivity : AppCompatActivity() {
         }
     }
 
+    // 채팅목록 가져오기
+    private fun getChatList() {
+        val user = UserManager.user?.copy()
+        if (user != null) {
+            user.createdAt = null
+            user.updatedAt = null
+            // API 호출
+            val call = MyApplication.networkService.getChatList(user) // API 호출
+            call.enqueue(object : Callback<List<ChatItem>> {
+                override fun onResponse(call: Call<List<ChatItem>>, response: Response<List<ChatItem>>) {
+                    if (response.isSuccessful) {
+                        chatList = response.body()?.toMutableList() ?: mutableListOf()
+                        binding.recyclerView.adapter = ChatAdapter(chatList)
+                    } else {
+                        // 오류 처리
+                        val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                        Toast.makeText(this@ChatListActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<List<ChatItem>>, t: Throwable) {
+                    // 요청 실패 처리
+                    Toast.makeText(this@ChatListActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
     // 번역 수행 함수
     private fun performTranslation(binding: ActivityChatListBinding) {
         val (sourceLanguage, targetLanguage) = SharedPreferencesUtil.loadTranslate(this)
