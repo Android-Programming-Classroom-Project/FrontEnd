@@ -1,5 +1,6 @@
 package com.project.bridgetalk
 
+import com.project.bridgetalk.model.vo.ChatItem
 import com.project.bridgetalk.model.vo.ChatMessage
 import com.project.bridgetalk.model.vo.Comment
 import com.project.bridgetalk.model.vo.LikeRequest
@@ -64,6 +65,8 @@ interface INetworkService {
         @Body request: User // 요청 본문
     ): Call<Void>
 
+    @POST("/chat/")
+    fun selectChatList(@Body user: User): Call<List<ChatItem>>
 //    @Post("/post/postMake")
 //
 //    @Get("/post/{id}")
