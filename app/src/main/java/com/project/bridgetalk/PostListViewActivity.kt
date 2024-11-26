@@ -197,16 +197,6 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
                             .addOnFailureListener {
                                 Toast.makeText(this, "내용 번역 실패", Toast.LENGTH_SHORT).show()
                             }
-
-//                        // 제목 번역
-//                        translator.translate(titleText)
-//                            .addOnSuccessListener { translatedText ->
-//                                data[index] = post.copy(title = translatedText)
-//                                binding.postView.adapter?.notifyItemChanged(index)
-//                            }
-//                            .addOnFailureListener {
-//                                Toast.makeText(this, "제목 번역 실패", Toast.LENGTH_SHORT).show()
-//                            }
                     }
                 }
             }

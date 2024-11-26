@@ -79,9 +79,10 @@ class MatchingActivity : AppCompatActivity() {
                         topicSubscription = stomp.join("/sub/matching")
                             .subscribe { message ->
                                 var result = Gson().fromJson(
-                                    message,
+                                    message ,
                                     Matching::class.java
                                 )
+                                Log.v("test", result.toString())
                                 // null 체크 및 타입 확인
                                 if (result != null && result.type == "matching") {
                                     val userId = userInfo?.userId // userInfo가 null일 경우 대비
@@ -120,6 +121,7 @@ class MatchingActivity : AppCompatActivity() {
             }
             topicSubscription?.dispose()
             stompConnection?.dispose()
+            handler.removeCallbacks(timeoutRunnable)
             finish() // 액티비티 종료로 매칭 취소
         }
     }
@@ -149,7 +151,6 @@ class MatchingActivity : AppCompatActivity() {
     fun EndMessage(user: User) {
         val gson = Gson()
         var message = Matching("cancel", user.userId, null,null)
-
         val messageJson = gson.toJson(message)
         stomp.send("/pub/matching", messageJson).subscribe { success ->
             if (success) {

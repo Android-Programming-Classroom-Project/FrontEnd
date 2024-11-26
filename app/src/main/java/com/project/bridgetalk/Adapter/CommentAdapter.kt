@@ -19,7 +19,7 @@ import retrofit2.Response
 import java.util.UUID
 
 class CommentAdapter(
-    private val comments: MutableList<Comment>
+    private val comments: MutableList<Comment>,private var originalData: MutableList<Comment>
 ) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
     inner class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -57,8 +57,13 @@ class CommentAdapter(
                         val position = adapterPosition
                         if (position != RecyclerView.NO_POSITION) {
                             comments.removeAt(position) // 리스트에서 댓글 제거
+//                            originalData.clear()
+//                            originalData.addAll(comments.map{it.copy()})
+//                            (itemView.context as PostDetailActivity).updateOriginal()
                             notifyItemRemoved(position) // RecyclerView에 변경 사항 알림
+
                             Toast.makeText(itemView.context, "댓글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+//                            (itemView.context as PostDetailActivity).updateOriginal()
                             // 댓글 수 업데이트
                             (itemView.context as PostDetailActivity).updateCommentCount()
                         }
