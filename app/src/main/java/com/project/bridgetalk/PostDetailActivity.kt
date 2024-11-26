@@ -234,6 +234,10 @@ class PostDetailActivity : AppCompatActivity() {
         }
     }
 
+    // 댓글 수 업데이트 함수
+    fun updateCommentCount() {
+        binding.commentCount.text = comments.size.toString() // 댓글 수 업데이트
+    }
 
     // 번역 수행 함수
     private fun performTranslation(binding: PostDetailBinding) {

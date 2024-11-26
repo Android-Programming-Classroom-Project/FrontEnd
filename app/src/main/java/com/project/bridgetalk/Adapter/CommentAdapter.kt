@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.project.bridgetalk.MyApplication
+import com.project.bridgetalk.PostDetailActivity
 import com.project.bridgetalk.R
 import com.project.bridgetalk.manage.UserManager
 import com.project.bridgetalk.model.vo.Comment
@@ -44,8 +45,11 @@ class CommentAdapter(
             }
         }
         private fun deleteComment(commentId: UUID, user: User) {
+            val request = user
+            request.updatedAt = null
+            request.createdAt = null
             // 댓글 삭제 API 호출
-            val call = MyApplication.networkService.deleteComment(commentId, user) // UUID를 사용하여 삭제 API 호출
+            val call = MyApplication.networkService.deleteComment(commentId, request) // UUID를 사용하여 삭제 API 호출
             call.enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {
@@ -55,6 +59,8 @@ class CommentAdapter(
                             comments.removeAt(position) // 리스트에서 댓글 제거
                             notifyItemRemoved(position) // RecyclerView에 변경 사항 알림
                             Toast.makeText(itemView.context, "댓글이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                            // 댓글 수 업데이트
+                            (itemView.context as PostDetailActivity).updateCommentCount()
                         }
                     } else {
                         // 오류 처리

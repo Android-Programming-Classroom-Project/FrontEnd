@@ -107,7 +107,6 @@
                     android:visibility="visible" />
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 <!--    &lt;!&ndash; 대댓글 RecyclerView &ndash;&gt;-->
 
 <!--    &lt;!&ndash; 대댓글 입력 레이아웃 (초기에는 숨김) &ndash;&gt;-->
