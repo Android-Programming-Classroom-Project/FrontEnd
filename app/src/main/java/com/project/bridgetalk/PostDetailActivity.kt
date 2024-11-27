@@ -58,7 +58,7 @@ class PostDetailActivity : AppCompatActivity() {
 
         // RecyclerView 설정
         binding.commentRecyclerView.layoutManager = LinearLayoutManager(this)
-        commentAdapter = CommentAdapter(comments)
+        commentAdapter = CommentAdapter(comments, originalData)
         binding.commentRecyclerView.adapter = commentAdapter
 
         // 댓글 등록 버튼 클릭 리스너
