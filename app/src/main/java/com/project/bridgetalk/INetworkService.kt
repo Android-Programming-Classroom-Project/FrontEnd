@@ -72,6 +72,10 @@ interface INetworkService {
     @POST("chat/makeChatroom")
     fun makeChat(@Body request: LikeRequest): Call<ChatRoom>
 
+    @PUT("/post/update")
+    fun editPost(
+        @Body request: Post // 요청 본문을 담는 데이터 클래스
+    ): Call<Post>
 //    @Post("/post/postMake")
 //
 //    @Get("/post/{id}")

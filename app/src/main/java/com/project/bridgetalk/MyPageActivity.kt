@@ -82,8 +82,14 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
     }
 
     override fun onEditClick(post: Post) {
-        // 수정 로직 구현
-        Toast.makeText(this, "${post.title} 수정 클릭", Toast.LENGTH_SHORT).show()
+        // PostEditActivity로 이동
+        val intent = Intent(this, PostEditActivity::class.java)
+        intent.putExtra("postId", post.postId.toString()) // Post ID를 전송
+        intent.putExtra("postTitle", post.title) // Post Title을 전송
+        intent.putExtra("postContent", post.content) // Post Content을 전송
+        intent.putExtra("postType", post.type) // Post Type을 전송
+        // 필요한 경우 다른 데이터도 추가
+        startActivity(intent)
     }
 
     override fun onDeleteClick(post: Post) {
