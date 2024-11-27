@@ -19,6 +19,7 @@ import com.project.bridgetalk.Utill.SharedPreferencesUtil
 import com.project.bridgetalk.databinding.ActivityChatListBinding
 import com.project.bridgetalk.manage.UserManager
 import com.project.bridgetalk.model.vo.ChatItem
+import com.project.bridgetalk.model.vo.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -46,15 +47,18 @@ class ChatListActivity : AppCompatActivity() {
                     startActivity(intent)
                     true
                 }
+
                 R.id.navigation_chat -> {
                     // 현재 페이지, 아무 작업도 하지 않음
                     true
                 }
+
                 R.id.navigation_my -> {
                     val intent = Intent(this, MyPageActivity::class.java)
                     startActivity(intent)
                     true
                 }
+
                 else -> false
             }
         }
@@ -70,33 +74,10 @@ class ChatListActivity : AppCompatActivity() {
             val intent = Intent(this, MatchingActivity::class.java)
             startActivity(intent)
         }
-
-//        chatList =  mutableListOf(
-//            ChatItem(
-//                roomId = UUID.fromString("97b91e56-1e01-4fd0-9113-87d137cd907f"),
-//                user = user!!,
-//                lastMessage = "테스트",
-//                school = user!!.schools,
-//                created_at ="2024-11-23 10:00"
-//            ),
-//            ChatItem(
-//                roomId = UUID.randomUUID(),
-//                lastMessage = "테스트",
-//                user = user!!,
-//                school = user!!.schools,
-//                created_at ="2024-11-23 10:00"
-//            ),
-//            ChatItem(
-//                roomId = UUID.randomUUID(),
-//                lastMessage = "테스트",
-//                user = user!!,
-//                school = user!!.schools,
-//                created_at ="2024-11-23 10:00"
-//            ),
-//        )
-        getChatList()
-
-        originalData= chatList.map { it.copy() }.toMutableList() // 서버 통신시 삭제
+        recyclerView.adapter = ChatAdapter(chatList)
+        if (user != null) {
+            chatListFind(user)
+        }
         // 번역 설정 이벤트 처리
         val settingTranslateButton = binding.settingTranslate
         settingTranslateButton.setOnClickListener {
@@ -125,35 +106,10 @@ class ChatListActivity : AppCompatActivity() {
         }
     }
 
-    // 채팅목록 가져오기
-    private fun getChatList() {
-        val user = UserManager.user?.copy()
-        if (user != null) {
-            user.createdAt = null
-            user.updatedAt = null
-            // API 호출
-            val call = MyApplication.networkService.getChatList(user) // API 호출
-            call.enqueue(object : Callback<List<ChatItem>> {
-                override fun onResponse(call: Call<List<ChatItem>>, response: Response<List<ChatItem>>) {
-                    if (response.isSuccessful) {
-                        chatList = response.body()?.toMutableList() ?: mutableListOf()
-                        binding.recyclerView.adapter = ChatAdapter(chatList)
-                    } else {
-                        // 오류 처리
-                        val errorMessage = response.errorBody()?.string() ?: "Unknown error"
-                        Toast.makeText(this@ChatListActivity, errorMessage, Toast.LENGTH_SHORT).show()
-                    }
-                }
-
-                override fun onFailure(call: Call<List<ChatItem>>, t: Throwable) {
-                    // 요청 실패 처리
-                    Toast.makeText(this@ChatListActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
-                }
-            })
-        }
-    }
     // 번역 수행 함수
     private fun performTranslation(binding: ActivityChatListBinding) {
+        originalData.clear()
+        originalData.addAll(chatList.map { it.copy() })
         val (sourceLanguage, targetLanguage) = SharedPreferencesUtil.loadTranslate(this)
         //세팅이 안되어있을 때 세팅페이지로 이동
         if (sourceLanguage.isNullOrEmpty() || targetLanguage.isNullOrEmpty()) {
@@ -173,7 +129,7 @@ class ChatListActivity : AppCompatActivity() {
         translator.downloadModelIfNeeded(conditions)
             .addOnSuccessListener {
                 chatList.forEachIndexed { index, chat ->
-                    val sourceText = chat.lastMessage
+                    val sourceText = chat.lastMessage ?: ""
 //                    val titleText = post.title
                     if (sourceText.isNotEmpty()) {
                         // 내용 번역
@@ -202,5 +158,42 @@ class ChatListActivity : AppCompatActivity() {
         chatList.forEachIndexed { index, chat ->
             binding.recyclerView.adapter?.notifyItemChanged(index)
         }
+    }
+
+    private fun chatListFind(user: User) {
+        var u = user
+        u.createdAt = null
+        u.updatedAt = null
+        val call = MyApplication.networkService.selectChatList(u)
+        call.enqueue(object : Callback<List<ChatItem>> {
+            override fun onResponse(
+                call: Call<List<ChatItem>>,
+                response: Response<List<ChatItem>>
+            ) {
+                if (response.isSuccessful) {
+                    val chats = response.body()?.toMutableList() ?: mutableListOf()
+                    Log.v("test", chats.toString())
+                    chats.let {
+                        val chatAdapter = binding.recyclerView.adapter as? ChatAdapter
+                        chatAdapter?.updateChatList(chats)
+                        chatList = chats
+                    }
+                    originalData = chatList.map { it.copy() }.toMutableList()
+
+                } else {
+                    // 오류 처리
+                    val errorMessage = response.errorBody()?.string() ?: "Unknown error"
+                    Toast.makeText(this@ChatListActivity, errorMessage, Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<List<ChatItem>>, t: Throwable) {
+                // 요청 실패 처리
+                Toast.makeText(this@ChatListActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT)
+                    .show()
+                Log.v("test", t.message.toString())
+            }
+        })
+
     }
 }
