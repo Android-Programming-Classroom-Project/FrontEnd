@@ -11,7 +11,7 @@ import com.project.bridgetalk.ChatActivity
 import com.project.bridgetalk.R
 import com.project.bridgetalk.model.vo.ChatItem
 
-class ChatAdapter(private val chatList: List<ChatItem>) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
+class ChatAdapter(private var chatList: List<ChatItem>) : RecyclerView.Adapter<ChatAdapter.ChatViewHolder>() {
 
     inner class ChatViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val userName: TextView = view.findViewById(R.id.userName)
@@ -42,4 +42,9 @@ class ChatAdapter(private val chatList: List<ChatItem>) : RecyclerView.Adapter<C
     }
 
     override fun getItemCount(): Int = chatList.size
+
+    fun updateChatList(newChatList: MutableList<ChatItem>) {
+        chatList = newChatList
+        notifyDataSetChanged()
+    }
 }

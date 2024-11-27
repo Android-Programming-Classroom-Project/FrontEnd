@@ -60,8 +60,9 @@
                 android:layout_marginEnd="8dp" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical">
 
                 <TextView
@@ -80,6 +81,16 @@
                     android:textSize="12sp"
                     android:textColor="#8A6B61" />
             </LinearLayout>
+            <!-- 삭제 버튼 -->
+            <ImageView
+                android:id="@+id/sendButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_chat_start"
+                android:contentDescription="Send"
+                android:visibility="visible" />
         </LinearLayout>
 
         <!-- 게시물 제목 -->

@@ -51,6 +51,16 @@
                     android:text="2023.10.31"
                     android:textSize="12sp"
                     android:textColor="#696868" />
+
+                <ImageView
+                    android:id="@+id/deleteButton"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginStart="16dp"
+                    android:contentDescription="Delete"
+                    android:src="@drawable/ic_delete"
+                    android:layout_gravity="end"
+                    android:visibility="visible" />
             </LinearLayout>
 
             <!-- 댓글 내용 -->
@@ -96,8 +106,10 @@
 <!--                    android:textSize="12sp"-->
 <!--                    android:textColor="#3F51B5" />-->
 <!--            </LinearLayout>-->
+                <!-- 삭제 버튼 -->
+
         </LinearLayout>
-    </LinearLayout>
+        </LinearLayout>
 <!--    &lt;!&ndash; 대댓글 RecyclerView &ndash;&gt;-->
 
 <!--    &lt;!&ndash; 대댓글 입력 레이아웃 (초기에는 숨김) &ndash;&gt;-->

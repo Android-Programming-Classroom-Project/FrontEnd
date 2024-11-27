@@ -1,5 +1,6 @@
 package com.project.bridgetalk
 
+import com.project.bridgetalk.model.vo.ChatItem
 import com.project.bridgetalk.model.vo.ChatMessage
 import com.project.bridgetalk.model.vo.Comment
 import com.project.bridgetalk.model.vo.LikeRequest
@@ -15,6 +16,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
+import retrofit2.http.HTTP
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -57,6 +59,14 @@ interface INetworkService {
     @POST("/post/addComment")
     fun addComment(@Body request: CommentRequest): Call<Comment>
 
+    @HTTP(method = "DELETE", path = "/post/deleteComment/{id}", hasBody = true)
+    fun deleteComment(
+        @Path("id") commentId: UUID,  // 댓글 ID
+        @Body request: User // 요청 본문
+    ): Call<Void>
+
+    @POST("/chat/")
+    fun selectChatList(@Body user: User): Call<List<ChatItem>>
 //    @Post("/post/postMake")
 //
 //    @Get("/post/{id}")
