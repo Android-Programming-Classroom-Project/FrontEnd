@@ -118,21 +118,22 @@ class PostMakeActivity : AppCompatActivity() {
     }
     // 게시물 작성 통신 함수
     private fun postMake(title: String, content: String, selectedCategory: String, user: User) {
-        user.updatedAt = null
-        user.createdAt = null
+        var u = user
+        u.updatedAt = null
+        u.createdAt = null
         // LikeRequest 객체 생성
         val likeRequest = LikeRequest(
             post = Post(
                 postId = UUID.randomUUID(),
-                user = user,
-                schools = user.schools,
+                user = u,
+                schools = u.schools,
                 title = title,
                 content = content,
                 like_count = 0,
                 type = selectedCategory,
                 createdAt = null,
                 updatedAt = null ),
-            user = user
+            user = u
         )
 
         // API 호출
