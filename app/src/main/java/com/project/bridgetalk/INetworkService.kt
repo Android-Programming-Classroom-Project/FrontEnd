@@ -6,6 +6,7 @@ import com.project.bridgetalk.model.vo.Comment
 import com.project.bridgetalk.model.vo.LikeRequest
 import com.project.bridgetalk.model.vo.Post
 import com.project.bridgetalk.model.vo.User
+import com.project.bridgetalk.model.vo.dto.ChatRoom
 import com.project.bridgetalk.model.vo.dto.PostCommentDTO
 import com.project.bridgetalk.model.vo.dto.request.CommentRequest
 import com.project.bridgetalk.model.vo.dto.request.JoinRequest
@@ -65,6 +66,13 @@ interface INetworkService {
         @Body request: User // 요청 본문
     ): Call<Void>
 
+    @POST("chat/makeChatroom")
+    fun makeChat(@Body request: LikeRequest): Call<ChatRoom>
+
+    @PUT("/post/update")
+    fun editPost(
+        @Body request: Post // 요청 본문을 담는 데이터 클래스
+    ): Call<Post>
     @POST("/chat/")
     fun selectChatList(@Body user: User): Call<List<ChatItem>>
 //    @Post("/post/postMake")
