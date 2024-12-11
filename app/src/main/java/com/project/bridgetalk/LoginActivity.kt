@@ -41,8 +41,8 @@ class LoginActivity : AppCompatActivity() {
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 loginUser(email, password)
-                startActivity(intent)
-                finish()
+//                startActivity(intent)
+//                finish()
             } else {
                 Toast.makeText(this, "아이디와 비밀번호를 입력하세요.", Toast.LENGTH_SHORT).show()
             }
@@ -82,7 +82,8 @@ class LoginActivity : AppCompatActivity() {
         // 비동기 요청 처리x
         call.enqueue(object : Callback<User> {
             override fun onResponse(call: Call<User>, response: Response<User>) {
-                if (response.isSuccessful) {
+                if (response.code() == 200) {
+                    Log.v("test", response.code().toString().trim())
                     val loginResponse = response.body()
                     val token = response.headers()["Authorization"].toString().trim()
                     Log.v("로그인 성공시 응답 정보", loginResponse.toString().trim())
