@@ -35,6 +35,7 @@
 
     <Spinner
         android:id="@+id/spinnerCategory"
+        android:entries="@array/type_post_make"
         android:layout_width="0dp"
         android:layout_height="48dp"
         android:background="@drawable/edit_box"

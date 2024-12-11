@@ -9,46 +9,46 @@
     <string name="native_radio_join">Korean</string>
     <string name="foreigner_radio_join">Foreigner</string>
     <string-array name="school_names_join">
-        <item>Hanshin University</item>
-        <item>Seoul National University</item>
-        <item>Yonsei University</item>
-        <item>Korea University</item>
-        <item>Sungkyunkwan University</item>
-        <item>Hanyang University</item>
-        <item>Ewha Womans University</item>
-        <item>Chung-Ang University</item>
-        <item>Kyung Hee University</item>
-        <item>Hankuk University of Foreign Studies</item>
-        <item>University of Seoul</item>
-        <item>Konkuk University</item>
-        <item>Dongguk University</item>
-        <item>Inha University</item>
-        <item>Pusan National University</item>
-        <item>University of Ulsan</item>
-        <item>Dankook University</item>
-        <item>Chonnam National University</item>
-        <item>Chonbuk National University</item>
-        <item>Jeju National University</item>
-        <item>Kangwon National University</item>
-        <item>Pohang University of Science and Technology</item>
-        <item>Kwangwoon University</item>
-        <item>Soongsil University</item>
-        <item>Sejong University</item>
-        <item>Kookmin University</item>
-        <item>The Catholic University of Korea</item>
-        <item>Hongik University</item>
-        <item>Chungnam National University</item>
-        <item>Chungbuk National University</item>
-        <item>Kyungpook National University</item>
-        <item>Daegu University</item>
-        <item>Myongji University</item>
-        <item>Sogang University</item>
-        <item>Gachon University</item>
-        <item>Donga University</item>
-        <item>Chosun University</item>
-        <item>Korea University of Technology and Education</item>
-        <item>Kangnam University</item>
-        <item>Handong Global University</item>
-        <item>Sungui Women’s College</item>
+        <item>한신대학교</item>
+        <item>서울대학교</item>
+        <item>연세대학교</item>
+        <item>고려대학교</item>
+        <item>성균관대학교</item>
+        <item>한양대학교</item>
+        <item>이화여자대학교</item>
+        <item>중앙대학교</item>
+        <item>경희대학교</item>
+        <item>한국외국어대학교</item>
+        <item>서울시립대학교</item>
+        <item>건국대학교</item>
+        <item>동국대학교</item>
+        <item>인하대학교</item>
+        <item>부산대학교</item>
+        <item>울산대학교</item>
+        <item>단국대학교</item>
+        <item>전남대학교</item>
+        <item>전북대학교</item>
+        <item>제주대학교</item>
+        <item>강원대학교</item>
+        <item>포항공과대학교</item>
+        <item>광운대학교</item>
+        <item>숭실대학교</item>
+        <item>세종대학교</item>
+        <item>국민대학교</item>
+        <item>가톨릭대학교</item>
+        <item>홍익대학교</item>
+        <item>충남대학교</item>
+        <item>충북대학교</item>
+        <item>경북대학교</item>
+        <item>대구대학교</item>
+        <item>명지대학교</item>
+        <item>서강대학교</item>
+        <item>가천대학교</item>
+        <item>동아대학교</item>
+        <item>조선대학교</item>
+        <item>한국기술교육대학교</item>
+        <item>강남대학교</item>
+        <item>한동대학교</item>
+        <item>숭의여자대학교</item>
     </string-array>
 </resources>
