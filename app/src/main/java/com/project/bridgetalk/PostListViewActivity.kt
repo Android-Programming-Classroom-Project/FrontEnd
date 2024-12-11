@@ -379,6 +379,9 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
                         if (position != -1) {
                             // 어댑터를 통해 특정 게시물 업데이트
                             postAdapter.updatePost(it, position)
+                            if(updatedPost.like_count<10){
+                                fetchData()
+                            }
                         }
                     }
                     Toast.makeText(this@PostListViewActivity, "좋아요가 취소되었습니다.", Toast.LENGTH_SHORT).show()
