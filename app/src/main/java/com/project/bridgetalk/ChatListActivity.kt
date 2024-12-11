@@ -23,12 +23,15 @@ import com.project.bridgetalk.model.vo.User
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.UUID
 
 class ChatListActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatListBinding
     var chatList = mutableListOf<ChatItem>() // 채팅목록 담는 배열
     var translateState: Boolean = false // 번역 아이콘 활성화 위한 변수
     var originalData = mutableListOf<ChatItem>()//원본 데이터로 만들기 위한 list
+    private lateinit var chatAdapter: ChatAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +77,15 @@ class ChatListActivity : AppCompatActivity() {
             val intent = Intent(this, MatchingActivity::class.java)
             startActivity(intent)
         }
-        recyclerView.adapter = ChatAdapter(chatList)
+
+        chatAdapter = ChatAdapter(chatList){ item ->
+            // 채팅 삭제 처리
+            val roomId = item.roomId
+            if (roomId != null) {
+                deleteChat(roomId)
+            }
+        }
+        recyclerView.adapter = chatAdapter
         if (user != null) {
             chatListFind(user)
         }
@@ -195,5 +206,28 @@ class ChatListActivity : AppCompatActivity() {
             }
         })
 
+    }
+
+    private fun deleteChat(roomId: UUID) {
+        // 서버에 삭제 요청을 보내는 로직
+        val call = MyApplication.networkService.deleteChat(roomId) // UUID를 사용하여 삭제 API 호출
+        call.enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful) {
+                    val position = chatList.indexOfFirst { it.roomId == roomId }
+                    if (position != -1) {
+                        chatAdapter.removeItem(position) // ChatAdapter의 removeItem 메서드 호출
+                        originalData = chatList.map { it.copy() }.toMutableList() // 깊은 복사
+                    }
+                    Toast.makeText(this@ChatListActivity, "채팅방이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this@ChatListActivity, "채팅방 삭제 실패.", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(this@ChatListActivity, "서버 요청 실패: ${t.message}", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 }

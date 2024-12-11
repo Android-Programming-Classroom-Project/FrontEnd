@@ -85,7 +85,12 @@ class PostDetailActivity : AppCompatActivity() {
             val user = UserManager.user?.copy()
             val post = recentPost
             if (user != null) {
-                makeChat(post, user)
+                if(user.userId != post.user?.userId) {
+                    makeChat(post, user)
+                }else{
+                    val errorMessage = "자신과는 채팅할 수 없습니다.ㅁ"
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                }
             } else {
                 // 사용자정보가 없을 때 처리
                 val errorMessage = "사용자 정보가 없습니다."
