@@ -88,7 +88,7 @@ class PostDetailActivity : AppCompatActivity() {
                 if(user.userId != post.user?.userId) {
                     makeChat(post, user)
                 }else{
-                    val errorMessage = "자신과는 채팅할 수 없습니다.ㅁ"
+                    val errorMessage = "자신과는 채팅할 수 없습니다."
                     Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
                 }
             } else {
