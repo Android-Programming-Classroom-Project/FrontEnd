@@ -38,7 +38,10 @@ android:paddingStart="8dp">
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Last message preview"
-        android:textSize="14sp"/>
+        android:maxWidth="200dp"
+        android:textSize="14sp"
+        android:ellipsize="end"
+        android:maxLines="1"/>
     <TextView
         android:id="@+id/chatTime"
         android:layout_width="wrap_content"
