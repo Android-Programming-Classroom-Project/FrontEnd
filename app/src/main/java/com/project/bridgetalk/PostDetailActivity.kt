@@ -65,7 +65,7 @@ class PostDetailActivity : AppCompatActivity() {
         binding.commentButton.setOnClickListener {
             val commentText = binding.commentEditText.text.toString()
             if (commentText.isNotBlank()) {
-                val user = UserManager.user
+                val user = UserManager.user?.copy()
                 val post = recentPost
                 if (user != null) {
                     // originalPostData가 null이 아닐 경우에만 addComment 호출
@@ -82,10 +82,15 @@ class PostDetailActivity : AppCompatActivity() {
 
         // 채팅시작 버튼 클릭 리스너
         binding.sendButton.setOnClickListener {
-            val user = UserManager.user
+            val user = UserManager.user?.copy()
             val post = recentPost
             if (user != null) {
-                makeChat(post, user)
+                if(user.userId != post.user?.userId) {
+                    makeChat(post, user)
+                }else{
+                    val errorMessage = "자신과는 채팅할 수 없습니다.ㅁ"
+                    Toast.makeText(this, errorMessage, Toast.LENGTH_SHORT).show()
+                }
             } else {
                 // 사용자정보가 없을 때 처리
                 val errorMessage = "사용자 정보가 없습니다."
@@ -190,9 +195,10 @@ class PostDetailActivity : AppCompatActivity() {
     // 댓글 추가 함수
     private fun addComment(post: Post, user: User, commentContent: String) {
         // 요청 객체 생성
+        var user1 = user
         val request = CommentRequest(
             post = post,
-            user = user,
+            user = user1,
             content = commentContent
         )
 
@@ -332,9 +338,10 @@ class PostDetailActivity : AppCompatActivity() {
     // 채팅 걸기 함수
     private fun makeChat(post: Post, user: User) {
         // 요청 객체 생성
+        var user1 = user
         val request = LikeRequest(
             post = post,
-            user = user
+            user = user1
         )
 
         request.post.createdAt = null

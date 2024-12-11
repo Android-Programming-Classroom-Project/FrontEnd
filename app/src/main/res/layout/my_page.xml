@@ -57,6 +57,13 @@
                 android:textColor="#777777"
                 android:textSize="14sp"/>
         </LinearLayout>
+        <ImageButton
+            android:id="@+id/logoutButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/logout_24"
+            android:background="@drawable/rounded_background"
+            android:layout_marginEnd="20dp"/>
     </LinearLayout>
 
     <!-- 학교 및 역할 정보 -->

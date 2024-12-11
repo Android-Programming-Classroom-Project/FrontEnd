@@ -118,7 +118,7 @@ class PostEditActivity : AppCompatActivity() {
     }
     // 게시물 작성 통신 함수
     private fun postEdit(postId: UUID, title: String, content: String, selectedCategory: String) {
-        val user = UserManager.user
+        val user = UserManager.user?.copy()
         if (user != null) {
             user.updatedAt = null
             user.createdAt = null

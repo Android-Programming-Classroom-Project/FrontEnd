@@ -75,6 +75,10 @@ interface INetworkService {
     ): Call<Post>
     @POST("/chat/")
     fun selectChatList(@Body user: User): Call<List<ChatItem>>
+
+    @DELETE("/chat/delete/{roomId}")
+    fun deleteChat(@Path("roomId") roomId: UUID): Call<Void> // 성공적으로 삭제되면 Void를 반환
+
 //    @Post("/post/postMake")
 //
 //    @Get("/post/{id}")

@@ -222,7 +222,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
 
     private fun fetchData() {
         // UserManager.user에서 schoolId를 안전하게 가져오기
-        val schoolId = UserManager.user?.schools?.schoolId // nullable 타입
+        val schoolId = UserManager.user?.copy()?.schools?.schoolId // nullable 타입
 
         // schoolId가 null인지 확인
         if (schoolId != null) {
@@ -238,6 +238,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
                     val filteredPosts = when (selectedCategory) {
                         "홍보", "Promotion" -> posts.filter { it.type == "홍보" || it.type == "Promotion" }.toList().toMutableList()
                         "자유", "Free" -> posts.filter { it.type == "자유" || it.type == "Free" }.toList().toMutableList()
+                        "인기", "Hot" -> posts.filter { it.like_count >= 10 }.toList().toMutableList()
                         else -> posts.toList().toMutableList() // "전체" 또는 "All"인 경우 모든 게시물
                     }
                     // 검색어가 있다면 추가적으로 필터링
@@ -296,7 +297,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     // 버튼 클릭 리스너 구현
     override fun onButtonClick(post: Post) {
         // UserManager.user에서 schoolId를 안전하게 가져오기
-        val user = UserManager.user
+        val user = UserManager.user?.copy()
 
         if (user != null) {
             addLikedPost(post, user) // userId가 null이 아닐 때만 호출
@@ -307,7 +308,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     }
 
     private fun addLikedPost(post: Post, user: User) {
-
+        var user = user
         // LikeRequest 객체 생성
         val likeRequest = LikeRequest(
             post,

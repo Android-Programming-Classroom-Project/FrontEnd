@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.bridgetalk.Adapter.PostAdapter
 import com.project.bridgetalk.databinding.MyPageBinding
 import com.project.bridgetalk.manage.UserManager
-import com.project.bridgetalk.manage.UserManager.user
 import com.project.bridgetalk.model.vo.Post
 import com.project.bridgetalk.model.vo.User
 import retrofit2.Call
@@ -36,6 +35,15 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
         if (user != null) {
             setUserData(user)
         }
+        
+        // 버튼 연결
+        binding.logoutButton.setOnClickListener {
+            // 버튼 클릭 시 수행할 작업
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        
         // RecyclerView 설정
         binding.postRecyclerView.layoutManager = LinearLayoutManager(this)
         postAdapter = PostAdapter(posts, this)
@@ -48,7 +56,8 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
 
     private fun loadPosts() {
         // UserManager.user에서 schoolId를 안전하게 가져오기
-        val schoolId = UserManager.user?.schools?.schoolId // nullable 타입
+        val user = getUserData()
+        val schoolId = user?.schools?.schoolId // nullable 타입
 
         // schoolId가 null인지 확인
         if (schoolId != null) {
@@ -129,7 +138,7 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
 
     private fun getUserData(): User? {
         // 사용자 데이터를 반환하는 함수
-        return UserManager.user
+        return UserManager.user?.copy()
     }
 
     private fun deletePost(postId: UUID) {
