@@ -1,0 +1,15 @@
+<resources>
+    <!-- Toolbar -->
+    <string name="toolbar_title_chat">Chat</string>
+
+    <!-- ImageButton Descriptions -->
+    <string name="translate_button_chat">Translate Button</string>
+    <string name="settings_button_chat">Settings Button</string>
+
+    <!-- RecyclerView -->
+    <string name="chat_recyclerview_chat">Chat List</string>
+
+    <!-- Input Layout -->
+    <string name="message_hint_chat">Enter your message</string>
+    <string name="send_button_chat">Send Message</string>
+</resources>

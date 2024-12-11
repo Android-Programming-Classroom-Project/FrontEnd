@@ -4,12 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#F55424"
-        app:title="Chat"
+        app:title="@string/toolbar_title_chat"
         app:titleTextAppearance="@style/CustomToolbarTitle"
         app:titleTextColor="@color/white"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
@@ -18,6 +19,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"/>
 
+    <!-- Translate Button -->
     <ImageButton
         android:id="@+id/translate"
         android:layout_width="wrap_content"
@@ -27,8 +29,10 @@
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toStartOf="@+id/settingTranslate"
         app:layout_constraintTop_toTopOf="@+id/toolbar"
-        app:srcCompat="@drawable/outline_g_translate_24" />
+        app:srcCompat="@drawable/outline_g_translate_24"
+        android:contentDescription="@string/translate_button_chat" />
 
+    <!-- Settings Button -->
     <ImageButton
         android:id="@+id/settingTranslate"
         android:layout_width="wrap_content"
@@ -38,8 +42,10 @@
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/outline_settings_24" />
+        app:srcCompat="@drawable/outline_settings_24"
+        android:contentDescription="@string/settings_button_chat" />
 
+    <!-- RecyclerView for Chat List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/chatRecyclerView"
         android:layout_width="0dp"
@@ -47,8 +53,10 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toTopOf="@id/messageInputLayout"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/chat_recyclerview_chat"/>
 
+    <!-- Message Input Layout -->
     <LinearLayout
         android:id="@+id/messageInputLayout"
         android:layout_width="0dp"
@@ -58,19 +66,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- EditText for Message -->
         <EditText
             android:id="@+id/messageEditText"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="메시지를 입력하세요"/>
+            android:hint="@string/message_hint_chat"/>
 
+        <!-- Send Button -->
         <ImageButton
             android:id="@+id/sendButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_send"
-            android:contentDescription="메시지 전송"/>
+            android:contentDescription="@string/send_button_chat"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,63 @@
+<resources>
+    <!-- Toolbar -->
+    <string name="toolbar_title_info_edit">Edit Profile</string>
+
+    <!-- Page Header -->
+    <string name="header_info_edit">Please enter your information</string>
+
+    <!-- Input Hints -->
+    <string name="hint_email_info_edit">Email</string>
+    <string name="hint_name_info_edit">Name</string>
+    <string name="hint_password_info_edit">Password</string>
+
+    <!-- Radio Buttons -->
+    <string name="radio_native_info_edit">Local</string>
+    <string name="radio_foreigner_info_edit">Foreigner</string>
+
+    <!-- Button -->
+    <string name="button_save_changes_info_edit">Save</string>
+    <string-array name="school_names_info_edit">
+        <item>Hanshin University</item>
+        <item>Seoul National University</item>
+        <item>Yonsei University</item>
+        <item>Korea University</item>
+        <item>Sungkyunkwan University</item>
+        <item>Hanyang University</item>
+        <item>Ewha Womans University</item>
+        <item>Chung-Ang University</item>
+        <item>Kyung Hee University</item>
+        <item>Hankuk University of Foreign Studies</item>
+        <item>University of Seoul</item>
+        <item>Konkuk University</item>
+        <item>Dongguk University</item>
+        <item>Inha University</item>
+        <item>Pusan National University</item>
+        <item>University of Ulsan</item>
+        <item>Dankook University</item>
+        <item>Chonnam National University</item>
+        <item>Chonbuk National University</item>
+        <item>Jeju National University</item>
+        <item>Kangwon National University</item>
+        <item>Pohang University of Science and Technology</item>
+        <item>Kwangwoon University</item>
+        <item>Soongsil University</item>
+        <item>Sejong University</item>
+        <item>Kookmin University</item>
+        <item>The Catholic University of Korea</item>
+        <item>Hongik University</item>
+        <item>Chungnam National University</item>
+        <item>Chungbuk National University</item>
+        <item>Kyungpook National University</item>
+        <item>Daegu University</item>
+        <item>Myongji University</item>
+        <item>Sogang University</item>
+        <item>Gachon University</item>
+        <item>Donga University</item>
+        <item>Chosun University</item>
+        <item>Korea University of Technology and Education</item>
+        <item>Kangnam University</item>
+        <item>Handong Global University</item>
+        <item>Sungui Women’s College</item>
+    </string-array>
+
+</resources>

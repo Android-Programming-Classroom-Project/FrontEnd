@@ -1,0 +1,4 @@
+<resources>
+    <string name="edit_button_my_page_item">Edit</string>
+    <string name="delete_button_my_page_item">Delete</string>
+</resources>

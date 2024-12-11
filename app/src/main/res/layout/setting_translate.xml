@@ -8,12 +8,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="소스 언어 선택"
+        android:text="@string/select_source_set_tran"
         android:textSize="18sp"
         android:layout_marginBottom="8dp" />
 
     <Spinner
         android:id="@+id/sourceLangSpinner"
+        android:entries="@array/language_array_set_tran"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp" />
@@ -21,12 +22,13 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="대상 언어 선택"
+        android:text="@string/select_target_set_tran"
         android:textSize="18sp"
         android:layout_marginBottom="8dp" />
 
     <Spinner
         android:id="@+id/targetLangSpinner"
+        android:entries="@array/language_array_set_tran"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp" />
@@ -35,7 +37,7 @@
         android:id="@+id/saveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="save"
+        android:text="@string/save_button_set_tran"
         android:backgroundTint="#F55424"
         android:layout_gravity="center_horizontal" />
 

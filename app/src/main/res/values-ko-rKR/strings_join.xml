@@ -1,0 +1,54 @@
+<resources>
+    <!-- Sign-Up Page -->
+    <string name="toolbar_title_join">회원가입</string>
+    <string name="header_join">회원 정보를 입력해주세요</string>
+    <string name="email_hint_join">이메일</string>
+    <string name="name_hint_join">이름</string>
+    <string name="password_hint_join">비밀번호</string>
+    <string name="signup_button_join">회원가입 완료</string>
+    <string name="native_radio_join">내국인</string>
+    <string name="foreigner_radio_join">한국인</string>
+    <string-array name="school_names_join">
+        <item>한신대학교</item>
+        <item>서울대학교</item>
+        <item>연세대학교</item>
+        <item>고려대학교</item>
+        <item>성균관대학교</item>
+        <item>한양대학교</item>
+        <item>이화여자대학교</item>
+        <item>중앙대학교</item>
+        <item>경희대학교</item>
+        <item>한국외국어대학교</item>
+        <item>서울시립대학교</item>
+        <item>건국대학교</item>
+        <item>동국대학교</item>
+        <item>인하대학교</item>
+        <item>부산대학교</item>
+        <item>울산대학교</item>
+        <item>단국대학교</item>
+        <item>전남대학교</item>
+        <item>전북대학교</item>
+        <item>제주대학교</item>
+        <item>강원대학교</item>
+        <item>포항공과대학교</item>
+        <item>광운대학교</item>
+        <item>숭실대학교</item>
+        <item>세종대학교</item>
+        <item>국민대학교</item>
+        <item>가톨릭대학교</item>
+        <item>홍익대학교</item>
+        <item>충남대학교</item>
+        <item>충북대학교</item>
+        <item>경북대학교</item>
+        <item>대구대학교</item>
+        <item>명지대학교</item>
+        <item>서강대학교</item>
+        <item>가천대학교</item>
+        <item>동아대학교</item>
+        <item>조선대학교</item>
+        <item>한국기술교육대학교</item>
+        <item>강남대학교</item>
+        <item>한동대학교</item>
+        <item>숭의여자대학교</item>
+    </string-array>
+</resources>

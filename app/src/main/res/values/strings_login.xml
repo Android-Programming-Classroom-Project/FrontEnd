@@ -1,0 +1,10 @@
+<resources>
+    <!-- Login Page -->
+    <string name="toolbar_title_login">BridgeTalk</string>
+    <string name="title_login">Login</string>
+    <string name="email_hint_login">abc123@hs.ac.kr</string>
+    <string name="password_hint_login">password</string>
+    <string name="password_find_login">Forgot Password?</string>
+    <string name="login_button_login">Log In</string>
+    <string name="join_button_login">Sign Up</string>
+</resources>

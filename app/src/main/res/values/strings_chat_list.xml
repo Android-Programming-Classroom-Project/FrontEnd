@@ -1,0 +1,11 @@
+<resources>
+    <!-- Toolbar -->
+    <string name="toolbar_title_chat_list">Chat List</string>
+
+    <!-- ImageButton Descriptions -->
+    <string name="translate_button_chat_list">Translate Button</string>
+    <string name="settings_button_chat_list">Settings Button</string>
+
+    <!-- Floating Action Button -->
+    <string name="fab_new_chat_chat_list">Start a New Chat</string>
+</resources>

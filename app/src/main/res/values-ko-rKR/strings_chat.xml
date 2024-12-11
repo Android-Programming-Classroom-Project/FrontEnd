@@ -1,0 +1,15 @@
+<resources>
+    <!-- Toolbar -->
+    <string name="toolbar_title_chat">채팅</string>
+
+    <!-- ImageButton Descriptions -->
+    <string name="translate_button_chat">번역 버튼</string>
+    <string name="settings_button_chat">설정 버튼</string>
+
+    <!-- RecyclerView -->
+    <string name="chat_recyclerview_chat">채팅 목록</string>
+
+    <!-- Input Layout -->
+    <string name="message_hint_chat">메시지를 입력하세요</string>
+    <string name="send_button_chat">메시지 전송</string>
+</resources>

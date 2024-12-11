@@ -1,0 +1,10 @@
+<resources>
+    <!-- 로그인 페이지 -->
+    <string name="toolbar_title_login">BridgeTalk</string>
+    <string name="title_login">계정 로그인</string>
+    <string name="email_hint_login">abc123@hs.ac.kr</string>
+    <string name="password_hint_login">password</string>
+    <string name="password_find_login">비밀번호가 기억나지 않으세요?</string>
+    <string name="login_button_login">로그인</string>
+    <string name="join_button_login">회원가입</string>
+</resources>

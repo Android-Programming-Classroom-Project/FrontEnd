@@ -74,7 +74,7 @@
             android:id="@+id/editButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="수정"
+            android:text="@string/edit_button_my_page_item"
             android:layout_marginStart="8dp"
             android:backgroundTint="#F55424"
             android:textColor="#FFFFFF" />
@@ -83,7 +83,7 @@
             android:id="@+id/deleteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="삭제"
+            android:text="@string/delete_button_my_page_item"
             android:layout_marginStart="8dp"
             android:backgroundTint="#F55424"
             android:textColor="#FFFFFF" />

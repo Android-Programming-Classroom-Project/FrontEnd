@@ -1,0 +1,6 @@
+<resources>
+    <!-- Bottom Navigation Titles -->
+    <string name="nav_home">Home</string>
+    <string name="nav_chat">Chat</string>
+    <string name="nav_my">My Page</string>
+</resources>

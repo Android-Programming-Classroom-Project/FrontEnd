@@ -1,0 +1,6 @@
+<resources>
+    <!-- Bottom Navigation Titles -->
+    <string name="nav_home">홈</string>
+    <string name="nav_chat">채팅</string>
+    <string name="nav_my">마이페이지</string>
+</resources>

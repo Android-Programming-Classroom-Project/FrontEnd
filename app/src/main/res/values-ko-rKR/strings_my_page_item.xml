@@ -1,0 +1,4 @@
+<resources>
+    <string name="edit_button_my_page_item">수정</string>
+    <string name="delete_button_my_page_item">삭제</string>
+</resources>

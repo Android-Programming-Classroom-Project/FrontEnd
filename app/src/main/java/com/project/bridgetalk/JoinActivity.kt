@@ -41,7 +41,7 @@ class JoinActivity : AppCompatActivity() {
         //스타일 적용
         val adapter = ArrayAdapter.createFromResource(
             this,
-            R.array.school_names,    // string-array 사용
+            R.array.school_names_join,    // string-array 사용
             R.layout.spinner_item    // 커스텀 레이아웃
         )
         binding.schoolSpinner.adapter = adapter

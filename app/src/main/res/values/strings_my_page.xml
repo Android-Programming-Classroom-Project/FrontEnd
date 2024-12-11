@@ -1,0 +1,7 @@
+<resources>
+    <string name="toolbar_title_my_page">My Page</string>
+    <string name="shcool_my_page">School : sample University</string>
+    <string name="role_my_page">Role : student</string>
+    <string name="createAt_my_page">Create : 2024-01-01</string>
+    <string name="updateAt_my_page">Update : 2024-01-31</string>
+</resources>

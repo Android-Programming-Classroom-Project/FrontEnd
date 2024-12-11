@@ -1,0 +1,5 @@
+<resources>
+    <string name="toolbar_title_post_detail">Post</string>
+    <string name="comment_hint_post_detail">Please enter a comment</string>
+    <string name="comment_button_post_detail">Submit</string>
+</resources>

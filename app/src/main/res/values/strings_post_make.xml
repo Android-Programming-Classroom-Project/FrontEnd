@@ -1,0 +1,6 @@
+<resources>
+    <string name="toolbar_title_post_make">Post Write</string>
+    <string name="title_hint_post_make">title</string>
+    <string name="text_hint_post_make">Please enter details</string>
+    <string name="make_button_post_make">Post</string>
+</resources>

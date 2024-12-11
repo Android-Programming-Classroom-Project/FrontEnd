@@ -8,7 +8,6 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
-
     <Button
         android:id="@+id/main_login"
         android:layout_width="match_parent"
@@ -18,7 +17,7 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="#F55424"
         android:elevation="12dp"
-        android:text="Login"
+        android:text="@string/login_button_main"
         app:cornerRadius="12dp"
         app:icon="@drawable/baseline_login_24"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,7 +35,7 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="#F55424"
         android:elevation="12dp"
-        android:text="Join"
+        android:text="@string/join_button_main"
         app:cornerRadius="12dp"
         app:icon="@drawable/baseline_join_full_24"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +56,7 @@
         android:id="@+id/main_text2"
         android:layout_width="167dp"
         android:layout_height="44dp"
-        android:text="BridgeTalk"
+        android:text="@string/app_name_main"
         android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/main_text4"
@@ -72,7 +71,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="128dp"
-        android:text="Communication for International Students"
+        android:text="@string/app_tagline_main"
         android:textStyle="bold"
         android:textColor="#696868"
         android:textSize="14dp"
@@ -84,7 +83,7 @@
         android:layout_width="100dp"
         android:layout_height="24dp"
         android:layout_marginTop="60dp"
-        android:text="Welcome!"
+        android:text="@string/welcome_message_main"
         android:textColor="#414040"
         android:textSize="16dp"
         android:textStyle="bold"
@@ -97,10 +96,11 @@
         android:id="@+id/main_text3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="with"
+        android:text="@string/with_text_main"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/main_text2"
         app:layout_constraintStart_toEndOf="@id/main_text2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

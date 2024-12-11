@@ -1,0 +1,5 @@
+<resources>
+    <string name="toolbar_title_post_detail">게시물</string>
+    <string name="comment_hint_post_detail">댓글을 입력하세요.</string>
+    <string name="comment_button_post_detail">등록</string>
+</resources>

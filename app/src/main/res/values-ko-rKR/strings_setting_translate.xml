@@ -1,0 +1,9 @@
+<resources>
+    <string name="select_source_set_tran">소스 언어 선택</string>
+    <string name="select_target_set_tran">대상 언어 선택</string>
+    <string-array name="language_array_set_tran">
+        <item>한국어</item>
+        <item>영어</item>
+    </string-array>
+    <string name="save_button_set_tran">저장</string>
+</resources>

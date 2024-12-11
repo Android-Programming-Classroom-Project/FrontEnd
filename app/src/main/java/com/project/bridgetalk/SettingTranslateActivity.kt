@@ -18,7 +18,7 @@ class SettingTranslateActivity : AppCompatActivity() {
         val saveButton = findViewById<Button>(R.id.saveButton)
 
         // 언어 목록을 ArrayAdapter를 통해 Spinner에 설정
-        val languages = resources.getStringArray(R.array.language_array)
+        val languages = resources.getStringArray(R.array.language_array_set_tran)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, languages)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         sourceLangSpinner.adapter = adapter
@@ -53,9 +53,9 @@ class SettingTranslateActivity : AppCompatActivity() {
     // 언어 이름으로 언어 코드를 반환하는 함수 (예: "한국어" -> "ko", "영어" -> "en")
     private fun getLanguageCode(languageName: String): String {
         return when (languageName) {
-            "한국어" -> "ko"
-            "영어" -> "en"
-            else -> "ko"
+            "한국어", "Korea" -> "ko" // 한국어 또는 korea
+            "영어", "English" -> "en" // 영어 또는 english
+            else -> "ko" // 기본값으로 한국어
         }
     }
 }

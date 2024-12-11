@@ -5,20 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#F55424"
-        app:title="회원 정보 수정"
+        app:title="@string/toolbar_title_info_edit"
         app:titleTextAppearance="@style/CustomToolbarTitle"
         app:titleTextColor="@color/white"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
         app:navigationIcon="@drawable/rounded_chevron_backward_24"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
-
+        app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,42 +27,46 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-
+        <!-- Page Header -->
         <TextView
             android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="회원 정보를 입력해주세요"
+            android:text="@string/header_info_edit"
             android:textSize="30sp"
             android:textStyle="bold" />
 
+        <!-- Email Input -->
         <EditText
             android:id="@+id/editTextTextEmailAddress"
             style="@style/edittext_login"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:layout_marginTop="50dp"
-            android:hint="이메일"
+            android:hint="@string/hint_email_info_edit"
             android:inputType="textEmailAddress" />
 
+        <!-- Name Input -->
         <EditText
             android:id="@+id/username"
             style="@style/edittext_login"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:layout_marginTop="20dp"
-            android:hint="이름"
+            android:hint="@string/hint_name_info_edit"
             android:inputType="text" />
 
+        <!-- Password Input -->
         <EditText
             android:id="@+id/password"
             style="@style/edittext_login"
             android:layout_width="match_parent"
             android:layout_height="58dp"
             android:layout_marginTop="20dp"
-            android:hint="비밀번호"
+            android:hint="@string/hint_password_info_edit"
             android:inputType="textPassword" />
 
+        <!-- School Spinner -->
         <Spinner
             android:id="@+id/schoolSpinner"
             android:layout_width="match_parent"
@@ -70,10 +74,10 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/spinner_style"
             android:dropDownHeight="100dp"
-            android:entries="@array/school_names"
+            android:entries="@array/school_names_info_edit"
             android:spinnerMode="dropdown" />
 
-
+        <!-- Nationality Radio Group -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,37 +88,35 @@
                 android:id="@+id/radio_group"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/radio_native"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="내국인"
+                    android:text="@string/radio_native_info_edit"
                     android:textColor="@color/white"
-                    android:background="@drawable/btn_lg"
-                />
+                    android:background="@drawable/btn_lg" />
 
                 <RadioButton
                     android:id="@+id/radio_foreigner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="외국인"
+                    android:text="@string/radio_foreigner_info_edit"
                     android:textColor="@color/white"
-                    android:background="@drawable/btn_lg"
-               />
+                    android:background="@drawable/btn_lg" />
             </RadioGroup>
         </LinearLayout>
 
+        <!-- Save Button -->
         <Button
             android:id="@+id/joinrequest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/btn_lg"
-            android:text="정보 수정 완료"
+            android:text="@string/button_save_changes_info_edit"
             android:textColor="@color/white" />
     </LinearLayout>
 

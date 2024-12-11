@@ -15,7 +15,7 @@
         android:background="#F55424"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="게시물"
+        app:title="@string/toolbar_title_post_list"
         app:titleTextAppearance="@style/CustomToolbarTitle"
         app:titleTextColor="@color/white" />
 
@@ -33,6 +33,7 @@
         <!-- 카테고리 선택 Spinner -->
         <Spinner
             android:id="@+id/categorySpinner"
+            android:entries="@array/type_post_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -72,7 +73,7 @@
                 android:id="@+id/searchEditText"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:hint="검색"
+                android:hint="@string/search_post_list"
                 android:background="@null"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Welcome Section -->
+    <string name="welcome_message_main">Welcome!</string>
+    <string name="app_name_main">BridgeTalk</string>
+    <string name="app_tagline_main">Communication for International Students</string>
+    <string name="with_text_main">with</string>
+
+    <!-- Buttons -->
+    <string name="login_button_main">Login</string>
+    <string name="join_button_main">Join</string>
+</resources>

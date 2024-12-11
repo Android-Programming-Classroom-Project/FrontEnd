@@ -1,0 +1,5 @@
+<resources>
+    <string name="toolbar_title_match">Chat List</string>
+    <string name="cancel_button_match">Cancel</string>
+    <string name="text_match">Matching in progress...</string>
+</resources>
