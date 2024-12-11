@@ -85,7 +85,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
         translateViewModel = ViewModelProvider(this).get(TranslateViewModel::class.java)
 
         // 스피너 항목 데이터 추가
-        val categories = listOf("전체", "홍보", "자유")
+        val categories = listOf("전체", "인기", "홍보", "자유")
         val adapter = ArrayAdapter(this, R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
@@ -238,6 +238,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
                     val filteredPosts = when (selectedCategory) {
                         "홍보" -> posts.filter { it.type == "홍보" }.toList().toMutableList()
                         "자유" -> posts.filter { it.type == "자유" }.toList().toMutableList()
+                        "인기" -> posts.filter { it.like_count >= 10 }.toList().toMutableList()
                         else -> posts.toList().toMutableList() // "전체"인 경우 모든 게시물
                     }
                     // 검색어가 있다면 추가적으로 필터링

@@ -35,7 +35,7 @@ class CommentAdapter(
 
             // 삭제 버튼 클릭 리스너 설정
             deleteButton.setOnClickListener {
-                val user = UserManager.user
+                val user = UserManager.user?.copy()
 
                 if (user != null) {
                     deleteComment(comment.commentId, user) // 댓글 ID와 사용자 정보를 통해 삭제
