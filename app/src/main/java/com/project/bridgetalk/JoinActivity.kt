@@ -91,6 +91,8 @@ class JoinActivity : AppCompatActivity() {
         if (email.isEmpty() || name.isEmpty() || password.isEmpty() || role.isEmpty() || schoolName.isEmpty()) {
             Toast.makeText(this@JoinActivity, "모든 정보를 입력해주세요", Toast.LENGTH_SHORT)
                 .show()
+        }else if(!isValidEmail(email)){
+            Toast.makeText(this@JoinActivity, "올바른 이메일을 입력해주세요", Toast.LENGTH_SHORT).show()
         } else {
             // 네트워크 요청 보내기
             val call = MyApplication.networkService.join(joinRequest)
@@ -139,5 +141,11 @@ class JoinActivity : AppCompatActivity() {
             }
             .setCancelable(false)
             .show()
+    }
+
+    // 이메일 형식 검증 함수
+    private fun isValidEmail(email: String): Boolean {
+        val emailPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$"
+        return email.matches(emailPattern.toRegex())
     }
 }
