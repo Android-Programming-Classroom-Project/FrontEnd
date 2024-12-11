@@ -222,7 +222,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
 
     private fun fetchData() {
         // UserManager.user에서 schoolId를 안전하게 가져오기
-        val schoolId = UserManager.user?.schools?.schoolId // nullable 타입
+        val schoolId = UserManager.user?.copy()?.schools?.schoolId // nullable 타입
 
         // schoolId가 null인지 확인
         if (schoolId != null) {
@@ -296,7 +296,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     // 버튼 클릭 리스너 구현
     override fun onButtonClick(post: Post) {
         // UserManager.user에서 schoolId를 안전하게 가져오기
-        val user = UserManager.user
+        val user = UserManager.user?.copy()
 
         if (user != null) {
             addLikedPost(post, user) // userId가 null이 아닐 때만 호출
@@ -307,7 +307,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     }
 
     private fun addLikedPost(post: Post, user: User) {
-
+        var user = user
         // LikeRequest 객체 생성
         val likeRequest = LikeRequest(
             post,

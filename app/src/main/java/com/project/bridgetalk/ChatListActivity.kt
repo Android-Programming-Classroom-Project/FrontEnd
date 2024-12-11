@@ -34,7 +34,7 @@ class ChatListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityChatListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val user = UserManager.user
+        val user = UserManager.user?.copy()
 
         // BottomNavigationView 초기화 및 현재 페이지 설정
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)

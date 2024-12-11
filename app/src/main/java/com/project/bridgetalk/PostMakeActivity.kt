@@ -76,7 +76,7 @@ class PostMakeActivity : AppCompatActivity() {
                 // 게시물이 작성되었습니다 알림창 표시
                 showAlertDialogWithCancel("게시물을 작성하시겠습니까?") {
                     // 게시물 작성처리 후 뷰 이동
-                    val user = UserManager.user
+                    val user = UserManager.user?.copy()
 
                     if (user != null) {
                         postMake(title, content, selectedCategory, user) // userId가 null이 아닐 때만 호출
