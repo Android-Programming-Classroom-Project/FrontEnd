@@ -205,7 +205,6 @@ class ChatListActivity : AppCompatActivity() {
                 Log.v("test", t.message.toString())
             }
         })
-
     }
 
     private fun deleteChat(roomId: UUID) {

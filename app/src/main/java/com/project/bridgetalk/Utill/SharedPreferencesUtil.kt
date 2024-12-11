@@ -40,4 +40,5 @@ object SharedPreferencesUtil {
         val sharedPref = context.getSharedPreferences("access", Context.MODE_PRIVATE)
         return sharedPref.getString("token", null)
     }
+
 }

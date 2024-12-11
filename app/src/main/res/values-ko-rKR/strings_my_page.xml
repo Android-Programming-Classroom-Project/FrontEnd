@@ -1,7 +1,7 @@
 <resources>
     <string name="toolbar_title_my_page">My Page</string>
-    <string name="shcool_my_page">학교 : 한신대학교</string>
-    <string name="role_my_page">역할 : 학생</string>
-    <string name="createAt_my_page">생성일 : 2024-01-01</string>
-    <string name="updateAt_my_page">업데이트일 : 2024-01-31</string>
+    <string name="shcool_my_page">학교     :</string>
+    <string name="role_my_page">역할     :</string>
+    <string name="createAt_my_page">생성일  :</string>
+    <string name="updateAt_my_page">수정일  :</string>
 </resources>

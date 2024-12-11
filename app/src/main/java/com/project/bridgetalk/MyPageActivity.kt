@@ -127,10 +127,10 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
         // TextView에 사용자 데이터 설정
         binding.usernameTextView.text = user.username
         binding.emailTextView.text = user.email
-        binding.schoolsTextView.text = "학교: ${user.schools.schoolName}" // schools의 프로퍼티에 맞게 수정
-        binding.roleTextView.text = "역할: ${user.role}"
-        binding.createdAtTextView.text = "생성일: ${user.createdAt}"
-        binding.updatedAtTextView.text = "업데이트일: ${user.updatedAt}"
+        binding.schoolsTextView.text = "${user.schools.schoolName}" // schools의 프로퍼티에 맞게 수정
+        binding.roleTextView.text = "${user.role}"
+        binding.createdAtTextView.text = "${user.createdAt}"
+        binding.updatedAtTextView.text = "${user.updatedAt}"
 
         // 이미지 설정 (예시)
         binding.userImageView.setImageResource(R.drawable.rounded_account_circle_24) // 실제 사용자 이미지로 대체

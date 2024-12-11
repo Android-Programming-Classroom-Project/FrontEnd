@@ -3,4 +3,8 @@
     <string name="title_hint_post_make">title</string>
     <string name="text_hint_post_make">Please enter details</string>
     <string name="make_button_post_make">Post</string>
+    <string-array name="type_post_make">
+        <item>Promotion</item>
+        <item>Free</item>
+    </string-array>
 </resources>

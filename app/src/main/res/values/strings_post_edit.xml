@@ -3,4 +3,8 @@
     <string name="title_hint_post_edit">title</string>
     <string name="text_hint_post_edit">Please enter details</string>
     <string name="edit_button_post_edit">Edit</string>
+    <string-array name="type_post_edit">
+        <item>Promotion</item>
+        <item>Free</item>
+    </string-array>
 </resources>

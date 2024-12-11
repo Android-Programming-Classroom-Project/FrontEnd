@@ -3,4 +3,8 @@
     <string name="title_hint_post_edit">제목</string>
     <string name="text_hint_post_edit">내용을 입력하세요.</string>
     <string name="edit_button_post_edit">수정</string>
+    <string-array name="type_post_edit">
+        <item>홍보</item>
+        <item>자유</item>
+    </string-array>
 </resources>

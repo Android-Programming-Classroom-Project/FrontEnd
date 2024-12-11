@@ -40,7 +40,7 @@ class PostEditActivity : AppCompatActivity() {
         spinnerCategory = findViewById(R.id.spinnerCategory)
 
         // Spinner에 카테고리 설정
-        val categories = arrayOf("홍보", "자유")
+        val categories = resources.getStringArray(com.project.bridgetalk.R.array.type_post_edit)
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categories)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinnerCategory.adapter = adapter
