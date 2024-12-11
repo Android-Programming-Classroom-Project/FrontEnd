@@ -45,17 +45,33 @@ class MessageAdapter(private val messages: List<ChatMessage>) : RecyclerView.Ada
 
     inner class SentMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val messageTextView: TextView = itemView.findViewById(R.id.sentMessageText)
+        private val timeTextView: TextView = itemView.findViewById(R.id.chatTime)
 
         fun bind(message: ChatMessage) {
             messageTextView.text = message.content
+
+            val createdAtString = message.createdAt.toString()
+            if (createdAtString.length >= 16) {
+                // "T"를 기준으로 날짜와 시간을 분리하고, 시간 부분만 추출하여 시, 분 포맷으로 변환
+                val formattedTime = createdAtString.substring(11, 16) // HH:MM
+                timeTextView.text = formattedTime
+            }
         }
     }
 
     inner class ReceivedMessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val messageTextView: TextView = itemView.findViewById(R.id.receivedMessageText)
+        private val timeTextView: TextView = itemView.findViewById(R.id.chatTime)
 
         fun bind(message: ChatMessage) {
             messageTextView.text = message.content
+
+            val createdAtString = message.createdAt.toString()
+            if (createdAtString.length >= 16) {
+                // "T"를 기준으로 날짜와 시간을 분리하고, 시간 부분만 추출하여 시, 분 포맷으로 변환
+                val formattedTime = createdAtString.substring(11, 16) // HH:MM
+                timeTextView.text = formattedTime
+            }
         }
     }
 }

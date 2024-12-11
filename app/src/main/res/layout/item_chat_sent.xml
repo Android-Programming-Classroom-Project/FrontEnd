@@ -5,15 +5,23 @@
     android:orientation="horizontal"
     android:gravity="end"
     android:padding="8dp">
-
+    <TextView
+        android:id="@+id/chatTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="chatTime"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="12sp"
+        android:layout_marginEnd="2dp" />
     <TextView
         android:id="@+id/sentMessageText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="2dp"
         android:layout_marginEnd="10dp"
         android:background="@drawable/bg_message_sent"
         android:padding="10dp"
+        android:maxWidth="250dp"
         android:textColor="@android:color/white" />
 
     <ImageView
