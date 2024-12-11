@@ -82,17 +82,29 @@ class MatchingActivity : AppCompatActivity() {
                                     message ,
                                     Matching::class.java
                                 )
-                                Log.v("test", result.toString())
+                                Log.v("matingSuccess", result.toString())
                                 // null 체크 및 타입 확인
                                 if (result != null && result.type == "matching") {
                                     val userId = userInfo?.userId // userInfo가 null일 경우 대비
-                                    if (userId != null && result.users?.contains(userId) == true) {
+                                    Log.v("matingSuccess", userId?: "없음")
+                                    Log.v("matingSuccess", result.users.toString())
+                                    if (userId != null && result.users?.contains(userId) == true && result.chatRoom != null) {
+                                        Log.v("matingSuccess","이동직전")
                                         // ChatActivity 페이지 이동
-                                         startActivity(Intent(this, ChatActivity::class.java)) // 액티비티 이동
-                                        intent.putExtra("roomId", result.chatRoom)
-                                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                        startActivity(intent)
-                                    }
+
+                                        if (userInfo != null) {
+                                            EndMessage(userInfo)
+                                        }
+                                        topicSubscription?.dispose()
+                                        stompConnection?.dispose()
+                                        handler.removeCallbacks(timeoutRunnable)
+                                        finish() // 액티비티 종료로 매칭 취소
+
+                                        val chatIntent = Intent(this, ChatActivity::class.java) // 액티비티 이동
+                                        chatIntent.putExtra("roomId", result.chatRoom.toString())
+//                                        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                        startActivity(chatIntent)
+                                    }   
                                 }
 
                             }
