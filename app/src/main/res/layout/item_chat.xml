@@ -33,12 +33,18 @@ android:paddingStart="8dp">
         android:textSize="18sp"
         android:textStyle="bold" />
 
-<TextView
-    android:id="@+id/lastMessage"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Last message preview"
-    android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/lastMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Last message preview"
+        android:textSize="14sp"/>
+    <TextView
+        android:id="@+id/chatTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="chatTime"
+        android:textSize="12sp"/>
 </LinearLayout>
     <ImageButton
         android:id="@+id/chatOutButton"

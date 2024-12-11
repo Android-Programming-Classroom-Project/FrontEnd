@@ -20,6 +20,9 @@ class ChatAdapter(private var chatList: MutableList<ChatItem>, private val onCha
         val lastMessage: TextView = view.findViewById(R.id.lastMessage)
         val profileImage: ImageView = view.findViewById(R.id.profileImage)
         val chatOutButton: ImageButton = itemView.findViewById(R.id.chatOutButton)
+        val chatTime: TextView = view.findViewById(R.id.chatTime)
+
+
 
         //채팅방 접속
         init {
@@ -39,8 +42,13 @@ class ChatAdapter(private var chatList: MutableList<ChatItem>, private val onCha
 
     override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
         val chatItem = chatList[position]
+        val createdAtString = chatItem.createdAt.toString()
+        val formattedTime = createdAtString.substring(0, 16).replace("T", " ")
+
+
 //        holder.userName.text = chatItem.user.username
         holder.lastMessage.text = chatItem.lastMessage
+        holder.chatTime.text = formattedTime
 //        holder.profileImage.setImageResource(chatItem.profileImage)
         // 버튼 클릭 이벤트 설정
         holder.chatOutButton.setOnClickListener {

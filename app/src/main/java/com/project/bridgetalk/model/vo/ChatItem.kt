@@ -8,19 +8,19 @@ data class ChatItem(
     var lastMessage: String?,
     val user: User?,
     val school: Schools?,
-    val created_at: String?
+    val createdAt: String?
 ) {
     constructor(roomId: UUID) : this(
         roomId = roomId,
         lastMessage = "",
         user = null,
         school = null,
-        created_at = ""
+        createdAt = ""
     )
 
     constructor() : this(  roomId = null,
         lastMessage = "",
         user = null,
         school = null,
-        created_at = "")
+        createdAt = "")
 }
