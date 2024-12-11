@@ -35,6 +35,15 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
         if (user != null) {
             setUserData(user)
         }
+        
+        // 버튼 연결
+        binding.logoutButton.setOnClickListener {
+            // 버튼 클릭 시 수행할 작업
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        
         // RecyclerView 설정
         binding.postRecyclerView.layoutManager = LinearLayoutManager(this)
         postAdapter = PostAdapter(posts, this)
