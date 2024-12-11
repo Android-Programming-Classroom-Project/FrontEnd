@@ -3,6 +3,7 @@
     <string name="search_post_list">search</string>
     <string-array name="type_post_list">
         <item>All</item>
+        <item>Hot</item>
         <item>Promotion</item>
         <item>Free</item>
     </string-array>

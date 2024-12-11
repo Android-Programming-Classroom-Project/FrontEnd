@@ -3,6 +3,7 @@
     <string name="search_post_list">검색</string>
     <string-array name="type_post_list">
         <item>전체</item>
+        <item>인기</item>
         <item>홍보</item>
         <item>자유</item>
     </string-array>
