@@ -128,6 +128,49 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
     }
 
     private fun setUserData(user: User) {
+        val universities = listOf(
+            "한신대학교" to "Hanshin University",
+            "서울대학교" to "Seoul National University",
+            "연세대학교" to "Yonsei University",
+            "고려대학교" to "Korea University",
+            "성균관대학교" to "Sungkyunkwan University",
+            "한양대학교" to "Hanyang University",
+            "이화여자대학교" to "Ewha Womans University",
+            "중앙대학교" to "Chung-Ang University",
+            "경희대학교" to "Kyung Hee University",
+            "한국외국어대학교" to "Hankuk University of Foreign Studies",
+            "서울시립대학교" to "University of Seoul",
+            "건국대학교" to "Konkuk University",
+            "동국대학교" to "Dongguk University",
+            "인하대학교" to "Inha University",
+            "부산대학교" to "Pusan National University",
+            "울산대학교" to "University of Ulsan",
+            "단국대학교" to "Dankook University",
+            "전남대학교" to "Chonnam National University",
+            "전북대학교" to "Chonbuk National University",
+            "제주대학교" to "Jeju National University",
+            "강원대학교" to "Kangwon National University",
+            "포항공과대학교" to "Pohang University of Science and Technology",
+            "광운대학교" to "Kwangwoon University",
+            "숭실대학교" to "Soongsil University",
+            "세종대학교" to "Sejong University",
+            "국민대학교" to "Kookmin University",
+            "가톨릭대학교" to "The Catholic University of Korea",
+            "홍익대학교" to "Hongik University",
+            "충남대학교" to "Chungnam National University",
+            "충북대학교" to "Chungbuk National University",
+            "경북대학교" to "Kyungpook National University",
+            "대구대학교" to "Daegu University",
+            "명지대학교" to "Myongji University",
+            "서강대학교" to "Sogang University",
+            "가천대학교" to "Gachon University",
+            "동아대학교" to "Donga University",
+            "조선대학교" to "Chosun University",
+            "한국기술교육대학교" to "Korea University of Technology and Education",
+            "강남대학교" to "Kangnam University",
+            "한동대학교" to "Handong Global University",
+            "숭의여자대학교" to "Sungui Women’s College"
+        )
         // TextView에 사용자 데이터 설정
         binding.usernameTextView.text = user.username
         binding.emailTextView.text = user.email
@@ -135,7 +178,10 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
         binding.roleTextView.text = "${user.role}"
         binding.createdAtTextView.text = "${user.createdAt}"
         binding.updatedAtTextView.text = "${user.updatedAt}"
-
+        if(user.role == "Foreigner"){
+            val englishName = universities.find { it.first == user.schools.schoolName }?.second
+            binding.schoolsTextView.text = englishName
+        }
         // 이미지 설정 (예시)
         binding.userImageView.setImageResource(R.drawable.rounded_account_circle_24) // 실제 사용자 이미지로 대체
     }

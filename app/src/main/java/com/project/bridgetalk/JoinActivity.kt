@@ -50,7 +50,52 @@ class JoinActivity : AppCompatActivity() {
             val email: String = binding.editTextTextEmailAddress.text.toString().trim()
             val username: String = binding.username.text.toString().trim()
             val password: String = binding.password.text.toString().trim()
-            val schoolName: String = binding.schoolSpinner.selectedItem.toString().trim()
+            val myschoolName: String = binding.schoolSpinner.selectedItem.toString().trim()
+            val universities = listOf(
+                "Hanshin University" to "한신대학교",
+                "Seoul National University" to "서울대학교",
+                "Yonsei University" to "연세대학교",
+                "Korea University" to "고려대학교",
+                "Sungkyunkwan University" to "성균관대학교",
+                "Hanyang University" to "한양대학교",
+                "Ewha Womans University" to "이화여자대학교",
+                "Chung-Ang University" to "중앙대학교",
+                "Kyung Hee University" to "경희대학교",
+                "Hankuk University of Foreign Studies" to "한국외국어대학교",
+                "University of Seoul" to "서울시립대학교",
+                "Konkuk University" to "건국대학교",
+                "Dongguk University" to "동국대학교",
+                "Inha University" to "인하대학교",
+                "Pusan National University" to "부산대학교",
+                "University of Ulsan" to "울산대학교",
+                "Dankook University" to "단국대학교",
+                "Chonnam National University" to "전남대학교",
+                "Chonbuk National University" to "전북대학교",
+                "Jeju National University" to "제주대학교",
+                "Kangwon National University" to "강원대학교",
+                "Pohang University of Science and Technology" to "포항공과대학교",
+                "Kwangwoon University" to "광운대학교",
+                "Soongsil University" to "숭실대학교",
+                "Sejong University" to "세종대학교",
+                "Kookmin University" to "국민대학교",
+                "The Catholic University of Korea" to "가톨릭대학교",
+                "Hongik University" to "홍익대학교",
+                "Chungnam National University" to "충남대학교",
+                "Chungbuk National University" to "충북대학교",
+                "Kyungpook National University" to "경북대학교",
+                "Daegu University" to "대구대학교",
+                "Myongji University" to "명지대학교",
+                "Sogang University" to "서강대학교",
+                "Gachon University" to "가천대학교",
+                "Donga University" to "동아대학교",
+                "Chosun University" to "조선대학교",
+                "Korea University of Technology and Education" to "한국기술교육대학교",
+                "Kangnam University" to "강남대학교",
+                "Handong Global University" to "한동대학교",
+                "Sungui Women’s College" to "숭의여자대학교"
+            )
+            val schoolName = universities.find { it.first == myschoolName }?.second
+
             // 선택된 RadioButton의 텍스트 가져오기
             val selectedRadioButtonId = binding.radioGroup.checkedRadioButtonId
             val role: String = if (selectedRadioButtonId != -1) {
@@ -61,7 +106,9 @@ class JoinActivity : AppCompatActivity() {
                 // 선택된 RadioButton이 없을 경우 처리 (예: 빈 값 또는 기본 값)
                 ""
             }
-            joinUser(email, username, password, role, schoolName)
+            if (schoolName != null) {
+                joinUser(email, username, password, role, schoolName)
+            }
         }
     }
 
