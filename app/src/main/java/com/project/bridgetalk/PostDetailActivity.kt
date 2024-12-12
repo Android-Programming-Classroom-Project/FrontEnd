@@ -353,7 +353,7 @@ class PostDetailActivity : AppCompatActivity() {
         request.user.updatedAt = null
 
         // API 호출
-        val call = MyApplication.networkService.makeChat(request)
+        val call = MyApplication.networkService.makeChat(token.toString(), request)
         call.enqueue(object : Callback<ChatRoom> {
             override fun onResponse(call: Call<ChatRoom>, response: Response<ChatRoom>) {
                 if (response.isSuccessful) {

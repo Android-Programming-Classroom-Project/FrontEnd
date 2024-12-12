@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.project.bridgetalk.Utill.SharedPreferencesUtil
 import com.project.bridgetalk.manage.UserManager
 import com.project.bridgetalk.model.vo.Post
 import retrofit2.Call
@@ -26,11 +27,12 @@ class PostEditActivity : AppCompatActivity() {
     private lateinit var button: Button
     private lateinit var toolbar: Toolbar
     private lateinit var spinnerCategory: Spinner
-
+    private var token : String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_edit_page)
 
+        token = SharedPreferencesUtil.getToken(this).toString()
         // UI 요소 초기화
         editTitle = findViewById(R.id.editTitle)
         editText = findViewById(R.id.editText)
@@ -136,7 +138,7 @@ class PostEditActivity : AppCompatActivity() {
             updatedAt = null )
 
         // API 호출
-        val call = MyApplication.networkService.editPost(post) // API 호출
+        val call = MyApplication.networkService.editPost(token.toString(),post) // API 호출
         call.enqueue(object : Callback<Post> {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 if (response.isSuccessful) {
