@@ -19,7 +19,7 @@ import retrofit2.Response
 import java.util.UUID
 
 class CommentAdapter(
-    private val comments: MutableList<Comment>,private var originalData: MutableList<Comment>
+    private val comments: MutableList<Comment>,private var originalData: MutableList<Comment>, private var token: String?
 ) : RecyclerView.Adapter<CommentAdapter.CommentViewHolder>() {
 
     inner class CommentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -49,7 +49,7 @@ class CommentAdapter(
             request.updatedAt = null
             request.createdAt = null
             // 댓글 삭제 API 호출
-            val call = MyApplication.networkService.deleteComment(commentId, request) // UUID를 사용하여 삭제 API 호출
+            val call = MyApplication.networkService.deleteComment(commentId,token.toString(),request) // UUID를 사용하여 삭제 API 호출
             call.enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful) {

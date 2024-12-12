@@ -31,14 +31,14 @@ class ChatListActivity : AppCompatActivity() {
     var translateState: Boolean = false // 번역 아이콘 활성화 위한 변수
     var originalData = mutableListOf<ChatItem>()//원본 데이터로 만들기 위한 list
     private lateinit var chatAdapter: ChatAdapter
-
+    private var token: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val user = UserManager.user?.copy()
-
+        token = SharedPreferencesUtil.getToken(this).toString()
         // BottomNavigationView 초기화 및 현재 페이지 설정
         val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottom_navigation)
         bottomNavigationView.selectedItemId = R.id.navigation_chat
@@ -175,7 +175,7 @@ class ChatListActivity : AppCompatActivity() {
         var u = user
         u.createdAt = null
         u.updatedAt = null
-        val call = MyApplication.networkService.selectChatList(u)
+        val call = MyApplication.networkService.selectChatList(token.toString(),u)
         call.enqueue(object : Callback<List<ChatItem>> {
             override fun onResponse(
                 call: Call<List<ChatItem>>,

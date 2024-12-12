@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import com.project.bridgetalk.Utill.SharedPreferencesUtil
 import com.project.bridgetalk.manage.UserManager
 import com.project.bridgetalk.model.vo.LikeRequest
 import com.project.bridgetalk.model.vo.Post
@@ -28,11 +29,13 @@ class PostMakeActivity : AppCompatActivity() {
     private lateinit var button: Button
     private lateinit var toolbar: Toolbar
     private lateinit var spinnerCategory: Spinner
+    private var token : String? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_make_page)
+        token = SharedPreferencesUtil.getToken(this).toString()
 
         // UI 요소 초기화
         editTitle = findViewById(R.id.editTitle)
@@ -137,7 +140,7 @@ class PostMakeActivity : AppCompatActivity() {
         )
 
         // API 호출
-        val call = MyApplication.networkService.makePost(likeRequest) // API 호출
+        val call = MyApplication.networkService.makePost(token.toString(), likeRequest) // API 호출
         call.enqueue(object : Callback<Post> {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 if (response.isSuccessful) {

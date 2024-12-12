@@ -1,6 +1,7 @@
 package com.project.bridgetalk.Utill
 
 import android.content.Context
+
 //
 
 object SharedPreferencesUtil {
@@ -38,7 +39,8 @@ object SharedPreferencesUtil {
     //토큰 불러오기
     fun getToken(context: Context): String? {
         val sharedPref = context.getSharedPreferences("access", Context.MODE_PRIVATE)
-        return sharedPref.getString("token", null)
+        return sharedPref.getString("token", null).toString()
+
     }
 
 }
