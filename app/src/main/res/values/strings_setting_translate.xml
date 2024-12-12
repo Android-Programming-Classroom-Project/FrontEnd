@@ -1,4 +1,5 @@
 <resources>
+    <string name="toolbar_title_translate">Translate</string>
     <string name="select_source_set_tran">Select source language</string>
     <string name="select_target_set_tran">Select target language</string>
     <string-array name="language_array_set_tran">
