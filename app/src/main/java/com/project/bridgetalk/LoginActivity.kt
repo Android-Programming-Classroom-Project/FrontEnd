@@ -95,6 +95,8 @@ class LoginActivity : AppCompatActivity() {
                     UserManager.user = loginResponse
 
                     val intent = Intent(this@LoginActivity, PostListViewActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
                     startActivity(intent)
                     finish()
                 } else {

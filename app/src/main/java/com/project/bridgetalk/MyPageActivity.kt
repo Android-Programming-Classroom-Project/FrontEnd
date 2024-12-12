@@ -172,12 +172,14 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
                     // 게시물 리스트 페이지로 이동
                     val intent = Intent(this, PostListViewActivity::class.java)
                     startActivity(intent)
+                    finish()
                     true
                 }
                 R.id.navigation_chat -> {
                     // 채팅 리스트 페이지로 이동
                     val intent = Intent(this, ChatListActivity::class.java)
                     startActivity(intent)
+                    finish()
                     true
                 }
                 R.id.navigation_my -> {
