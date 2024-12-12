@@ -48,6 +48,7 @@ class ChatListActivity : AppCompatActivity() {
                 R.id.navigation_home -> {
                     val intent = Intent(this, PostListViewActivity::class.java)
                     startActivity(intent)
+                    finish()
                     true
                 }
 
@@ -59,6 +60,7 @@ class ChatListActivity : AppCompatActivity() {
                 R.id.navigation_my -> {
                     val intent = Intent(this, MyPageActivity::class.java)
                     startActivity(intent)
+                    finish()
                     true
                 }
 

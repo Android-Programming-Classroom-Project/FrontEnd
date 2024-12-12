@@ -60,11 +60,13 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
                 com.project.bridgetalk.R.id.navigation_chat -> {
                     val intent = Intent(this, ChatListActivity::class.java)
                     startActivity(intent)
+                    finish()
                     true
                 }
                 com.project.bridgetalk.R.id.navigation_my -> {
                     val intent = Intent(this, MyPageActivity::class.java)
                     startActivity(intent)
+                    finish()
                     true
                 }
                 else -> false

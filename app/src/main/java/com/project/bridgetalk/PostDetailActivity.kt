@@ -368,6 +368,7 @@ class PostDetailActivity : AppCompatActivity() {
                         val intent = Intent(this@PostDetailActivity, ChatActivity::class.java)
                         intent.putExtra("roomId", chatRoom.roomId.toString()) // roomId 전달
                         startActivity(intent) // 채팅 페이지로 이동
+                        finish()
                     } else {
                         Toast.makeText(this@PostDetailActivity, "채팅방 생성 실패", Toast.LENGTH_SHORT).show()
                     }

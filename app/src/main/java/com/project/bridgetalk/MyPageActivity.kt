@@ -40,6 +40,7 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
         binding.logoutButton.setOnClickListener {
             // 버튼 클릭 시 수행할 작업
             val intent = Intent(this, MainActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(intent)
             finish()
         }
