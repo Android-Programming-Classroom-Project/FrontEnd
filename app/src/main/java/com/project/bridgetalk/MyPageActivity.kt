@@ -7,6 +7,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.project.bridgetalk.Adapter.PostAdapter
+import com.project.bridgetalk.Utill.SharedPreferencesUtil
 import com.project.bridgetalk.databinding.MyPageBinding
 import com.project.bridgetalk.manage.UserManager
 import com.project.bridgetalk.model.vo.Post
@@ -21,12 +22,12 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
     private lateinit var binding: MyPageBinding // ViewBinding 사용
     private lateinit var postAdapter: PostAdapter
     private val posts = mutableListOf<Post>() // 게시물 리스트
-
+    private var token: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = MyPageBinding.inflate(layoutInflater) // ViewBinding 초기화
         setContentView(binding.root) // ViewBinding의 루트를 사용하여 세팅
-
+        token = SharedPreferencesUtil.getToken(this).toString()
         // 현재 페이지를 BottomNavigationView에서 선택 상태로 설정
         binding.bottomNavigation.selectedItemId = R.id.navigation_my
 
@@ -63,7 +64,9 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
         // schoolId가 null인지 확인
         if (schoolId != null) {
             // API 호출
-            val call = MyApplication.networkService.getAllPosts(schoolId) // API 호출
+            val call = MyApplication.networkService.getAllPosts(schoolId,
+                SharedPreferencesUtil.getToken(this).toString()
+            ) // API 호출
             call.enqueue(object : Callback<List<Post>> {
                 override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
                     if (response.isSuccessful) {
@@ -107,7 +110,7 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
         AlertDialog.Builder(context)
             .setMessage("해당 게시물을 삭제하시겠습니까?")
             .setPositiveButton("확인") { dialog, _ ->
-                deletePost(post.postId) // 삭제 로직 호출
+                deletePost(post.postId, token.toString()) // 삭제 로직 호출
                 dialog.dismiss() // 다이얼로그 닫기
             }
             .setNegativeButton("취소") { dialog, _ ->
@@ -142,9 +145,9 @@ class MyPageActivity : AppCompatActivity(), PostAdapter.OnPostClickListener {
         return UserManager.user?.copy()
     }
 
-    private fun deletePost(postId: UUID) {
+    private fun deletePost(postId: UUID,token:String) {
         // 서버에 삭제 요청을 보내는 로직
-        val call = MyApplication.networkService.deletePost(postId) // UUID를 사용하여 삭제 API 호출
+        val call = MyApplication.networkService.deletePost(postId, token) // UUID를 사용하여 삭제 API 호출
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {

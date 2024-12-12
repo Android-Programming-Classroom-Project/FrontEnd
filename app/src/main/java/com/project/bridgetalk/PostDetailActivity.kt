@@ -39,12 +39,12 @@ class PostDetailActivity : AppCompatActivity() {
     var translateState: Boolean = false // 번역 아이콘 활성화 위한 변수
     var originalData = mutableListOf<Comment>()//원본 데이터로 만들기 위한 list
     var originalPostData: Post? = null
-
+    private var token: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = PostDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+        token = SharedPreferencesUtil.getToken(this).toString()
         // 툴바 설정
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -58,7 +58,7 @@ class PostDetailActivity : AppCompatActivity() {
 
         // RecyclerView 설정
         binding.commentRecyclerView.layoutManager = LinearLayoutManager(this)
-        commentAdapter = CommentAdapter(comments, originalData)
+        commentAdapter = CommentAdapter(comments, originalData,token)
         binding.commentRecyclerView.adapter = commentAdapter
 
         // 댓글 등록 버튼 클릭 리스너
@@ -102,7 +102,9 @@ class PostDetailActivity : AppCompatActivity() {
         postId = UUID.fromString(intent.getStringExtra("POST_ID"))
 
         // 게시물 상세 정보 로드
-        loadPostDetails(postId)
+        if(token != null){
+            loadPostDetails(postId)
+        }
 
         // 번역 설정 이벤트 처리
         val settingTranslateButton = binding.settingTranslate
@@ -134,7 +136,7 @@ class PostDetailActivity : AppCompatActivity() {
 
     private fun loadPostDetails(postId: UUID) {
         // API 호출을 통해 해당 게시물의 상세 정보를 가져오는 로직을 추가
-        val call = MyApplication.networkService.getPost(postId)
+        val call = MyApplication.networkService.getPost(postId, token.toString())
         call.enqueue(object : Callback<PostCommentDTO> {
             override fun onResponse(
                 call: Call<PostCommentDTO>,
@@ -209,7 +211,7 @@ class PostDetailActivity : AppCompatActivity() {
         request.user.updatedAt = null
 
         // API 호출
-        val call = MyApplication.networkService.addComment(request)
+        val call = MyApplication.networkService.addComment(token.toString(), request)
         call.enqueue(object : Callback<Comment> {
             override fun onResponse(call: Call<Comment>, response: Response<Comment>) {
                 if (response.isSuccessful) {

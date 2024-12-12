@@ -18,6 +18,7 @@ import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.HTTP
+import retrofit2.http.Header
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
@@ -32,37 +33,43 @@ interface INetworkService {
 
     @GET("post/schoolPost/{schoolId}")
     fun getAllPosts(
-        @Path("schoolId") schoolId: String
+        @Path("schoolId") schoolId: String, @Header("Authorization") authorization : String
     ): Call<List<Post>>
 
     @PUT("post/addLiked")
     fun addLikedPost(
+        @Header("Authorization") authorization : String,
         @Body request: LikeRequest // 요청 본문을 담는 데이터 클래스
     ): Call<Post>
 
     @PUT("/post/deleteLiked")
     fun deleteLikedPost(
+        @Header("Authorization") authorization : String,
         @Body request: LikeRequest // 요청 본문을 담는 데이터 클래스
     ): Call<Post>
 
     @GET("post/{id}")
-    fun getPost(@Path("id") postId: UUID): Call<PostCommentDTO>
+    fun getPost(@Path("id") postId: UUID,@Header("Authorization") authorization : String,): Call<PostCommentDTO>
 
     @DELETE("/post/delete/{id}")
-    fun deletePost(@Path("id") postId: UUID): Call<Void> // 성공적으로 삭제되면 Void를 반환
-
-    @POST("/chat/message")
-    fun getChatMessage(@Body request: UserChatroomRequest): Call<List<ChatMessage>>
+    fun deletePost(@Path("id") postId: UUID,@Header("Authorization") authorization : String): Call<Void> // 성공적으로 삭제되면 Void를 반환
 
     @POST("/post/postMake")
-    fun makePost(@Body request: LikeRequest): Call<Post>
+    fun makePost(@Header("Authorization") authorization : String, @Body request: LikeRequest): Call<Post>
+
+    @POST("/chat/")
+    fun selectChatList(@Header("Authorization") authorization : String,@Body user: User): Call<List<ChatItem>>
+
+    @POST("/chat/message")
+    fun getChatMessage(@Header("Authorization") authorization : String, @Body request: UserChatroomRequest): Call<List<ChatMessage>>
 
     @POST("/post/addComment")
-    fun addComment(@Body request: CommentRequest): Call<Comment>
+    fun addComment(@Header("Authorization") authorization : String, @Body request: CommentRequest): Call<Comment>
 
     @HTTP(method = "DELETE", path = "/post/deleteComment/{id}", hasBody = true)
     fun deleteComment(
         @Path("id") commentId: UUID,  // 댓글 ID
+        @Header("Authorization") authorization : String,
         @Body request: User // 요청 본문
     ): Call<Void>
 
@@ -73,8 +80,6 @@ interface INetworkService {
     fun editPost(
         @Body request: Post // 요청 본문을 담는 데이터 클래스
     ): Call<Post>
-    @POST("/chat/")
-    fun selectChatList(@Body user: User): Call<List<ChatItem>>
 
     @DELETE("/chat/delete/{roomId}")
     fun deleteChat(@Path("roomId") roomId: UUID): Call<Void> // 성공적으로 삭제되면 Void를 반환

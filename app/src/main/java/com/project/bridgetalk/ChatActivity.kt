@@ -1,5 +1,6 @@
 package com.project.bridgetalk
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -58,15 +59,16 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var messageAdapter: MessageAdapter
     private var chatMessages = mutableListOf<ChatMessage>()
     var originalData = mutableListOf<ChatMessage>()//원본 데이터로 만들기 위한 list
-
     lateinit var chatItem: ChatItem
+    private var token : String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-
+        token = SharedPreferencesUtil.getToken(this).toString()
         val user = UserManager.user?.copy()
         //특정 채팅방 정보 불러오기
         val roomId = UUID.fromString(intent.getStringExtra("roomId"))
@@ -136,7 +138,7 @@ class ChatActivity : AppCompatActivity() {
         }
         //채팅목록 과거 내역 불러오기
         if (user != null) {
-            getPastMessage(user, roomId)
+            getPastMessage(user, roomId, this)
             chatRecyclerView.scrollToPosition(chatMessages.size - 1)
         }
 
@@ -258,7 +260,7 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    private fun getPastMessage(user: User, roomId: UUID){
+    private fun getPastMessage(user: User, roomId: UUID, context: Context){
         var u = user
         if(user == null){
             return
@@ -266,8 +268,7 @@ class ChatActivity : AppCompatActivity() {
         u.updatedAt = null
         u.createdAt = null
         val chatRoom = ChatItem(roomId = roomId)
-
-        val call = MyApplication.networkService.getChatMessage(UserChatroomRequest(u, chatRoom))
+        val call = MyApplication.networkService.getChatMessage(token.toString(),UserChatroomRequest(u, chatRoom))
 
         call.enqueue(object : Callback<List<ChatMessage>> {
             override fun onResponse(call: Call<List<ChatMessage>>, response: Response<List<ChatMessage>>) {

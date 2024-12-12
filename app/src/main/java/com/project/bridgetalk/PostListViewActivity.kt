@@ -41,11 +41,12 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
     var posts = mutableListOf<Post>() // 게시물 list
     private var selectedCategory: String? = null // 스피너의 선택된 카테고리 값을 저장할 변수
     private var searchQuery: String = "" // 검색어를 저장할 변수
-
+    private var token: String? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = PostRecyclerviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        token = SharedPreferencesUtil.getToken(this)
 
         // BottomNavigationView 설정
         val bottomNavigationView = findViewById<BottomNavigationView>(com.project.bridgetalk.R.id.bottom_navigation)
@@ -110,7 +111,7 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
                 }
             }
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
                 // 아무것도 선택되지 않았을 때의 처리
                 selectedCategory = categories[0] // 기본값으로 설정
                 fetchData()
@@ -229,7 +230,9 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
         // schoolId가 null인지 확인
         if (schoolId != null) {
         // API 호출
-        val call = MyApplication.networkService.getAllPosts(schoolId) // API 호출
+        val call = MyApplication.networkService.getAllPosts(schoolId,
+            SharedPreferencesUtil.getToken(this).toString()
+        ) // API 호출
         call.enqueue(object : Callback<List<Post>> {
             override fun onResponse(call: Call<List<Post>>, response: Response<List<Post>>) {
                 if (response.isSuccessful) {
@@ -322,8 +325,8 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
         likeRequest.post.updatedAt = null
         likeRequest.user.createdAt = null
         likeRequest.user.updatedAt = null
-
-        val call = MyApplication.networkService.addLikedPost(likeRequest) // POST API 호출
+        SharedPreferencesUtil.getToken(this)
+        val call = MyApplication.networkService.addLikedPost(SharedPreferencesUtil.getToken(this).toString(),likeRequest) // POST API 호출
         call.enqueue(object : Callback<Post> {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 if (response.isSuccessful) {
@@ -346,7 +349,9 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
                     val errorMessage = response.errorBody()?.string() ?: "Unknown error"
                     if (errorMessage.contains("이미 좋아요 누름")) {
                         // 이미 좋아요가 눌려있는 경우 좋아요 취소 API 호출
-                        deleteLikedPost(post, user)
+                        if (token != null) {
+                            deleteLikedPost(post, user, token!!)
+                        }
                     } else {
                         Toast.makeText(this@PostListViewActivity, errorMessage, Toast.LENGTH_SHORT).show()
                     }
@@ -361,12 +366,11 @@ class PostListViewActivity : AppCompatActivity(), PostViewAdapter.OnItemClickLis
         })
     }
 
-    private fun deleteLikedPost(post: Post, user: User) {
+    private fun deleteLikedPost(post: Post, user: User, token: String) {
         // LikeRequest 객체 생성
         val likeRequest = LikeRequest(post, user)
-
         // 좋아요 취소 API 호출
-        val deleteCall = MyApplication.networkService.deleteLikedPost(likeRequest) // DELETE API 호출
+        val deleteCall = MyApplication.networkService.deleteLikedPost(token,likeRequest) // DELETE API 호출
         deleteCall.enqueue(object : Callback<Post> {
             override fun onResponse(call: Call<Post>, response: Response<Post>) {
                 if (response.isSuccessful) {
