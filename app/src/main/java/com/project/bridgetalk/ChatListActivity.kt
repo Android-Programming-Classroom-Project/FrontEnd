@@ -209,7 +209,7 @@ class ChatListActivity : AppCompatActivity() {
 
     private fun deleteChat(roomId: UUID) {
         // 서버에 삭제 요청을 보내는 로직
-        val call = MyApplication.networkService.deleteChat(roomId) // UUID를 사용하여 삭제 API 호출
+        val call = MyApplication.networkService.deleteChat(roomId,token.toString()) // UUID를 사용하여 삭제 API 호출
         call.enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {

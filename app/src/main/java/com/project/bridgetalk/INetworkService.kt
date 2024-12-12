@@ -74,15 +74,16 @@ interface INetworkService {
     ): Call<Void>
 
     @POST("chat/makeChatroom")
-    fun makeChat(@Body request: LikeRequest): Call<ChatRoom>
+    fun makeChat( @Header("Authorization") authorization : String,@Body request: LikeRequest): Call<ChatRoom>
 
     @PUT("/post/update")
     fun editPost(
+        @Header("Authorization") authorization : String,
         @Body request: Post // 요청 본문을 담는 데이터 클래스
     ): Call<Post>
 
     @DELETE("/chat/delete/{roomId}")
-    fun deleteChat(@Path("roomId") roomId: UUID): Call<Void> // 성공적으로 삭제되면 Void를 반환
+    fun deleteChat(@Path("roomId") roomId: UUID,@Header("Authorization") authorization : String,): Call<Void> // 성공적으로 삭제되면 Void를 반환
 
 //    @Post("/post/postMake")
 //
